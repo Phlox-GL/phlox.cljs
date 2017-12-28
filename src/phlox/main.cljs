@@ -6,7 +6,9 @@
             [phlox.schema :as schema]
             [reel.util :refer [id!]]
             [reel.core :refer [reel-updater refresh-reel listen-devtools!]]
-            [reel.schema :as reel-schema]))
+            [reel.schema :as reel-schema]
+            ["pixi.js" :as [Pixi]]
+            [verbosely.core :refer [log!]]))
 
 (defonce *reel
   (atom (-> reel-schema/reel (assoc :base schema/store) (assoc :store schema/store))))
@@ -27,7 +29,8 @@
   (render-app! render!)
   (add-watch *reel :changes (fn [] (render-app! render!)))
   (listen-devtools! "a" dispatch!)
-  (println "App started."))
+  (println "App started.")
+  (log! Pixi))
 
 (defn reload! []
   (clear-cache!)

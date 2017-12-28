@@ -27,5 +27,8 @@
   "devDependencies": {
     "http-server": "^0.10.0",
     "shadow-cljs": "^2.0.123"
+  },
+  "dependencies": {
+    "pixi.js": "^4.6.2"
   }
 }

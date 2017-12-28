@@ -520,6 +520,36 @@
           "v" {:type :leaf, :author "root", :time 1507399757678, :text "reel-schema", :id "Hk-NL_q8n-"}
          }
         }
+        "yx" {
+         :type :expr, :by "root", :at 1514441655410, :id "S1Zk6sbf7M"
+         :data {
+          "T" {:type :leaf, :by "root", :at 1514441655723, :text "[]", :id "S1Zk6sbf7Mleaf"}
+          "j" {:type :leaf, :by "root", :at 1514441658174, :text "|pixi.js", :id "H1-gao-fmG"}
+          "r" {:type :leaf, :by "root", :at 1514441901122, :text ":as", :id "H1MzToWfmf"}
+          "v" {
+           :type :expr, :by "root", :at 1514441901644, :id "SkLhnZMQf"
+           :data {
+            "T" {:type :leaf, :by "root", :at 1514441902086, :text "[]", :id "S1Gr23bMQM"}
+            "j" {:type :leaf, :by "root", :at 1514441903300, :text "Pixi", :id "HJfLhnbfmM"}
+           }
+          }
+         }
+        }
+        "yy" {
+         :type :expr, :by "root", :at 1514441678897, :id "BJgPRjWGQf"
+         :data {
+          "T" {:type :leaf, :by "root", :at 1514441679853, :text "[]", :id "BJgPRjWGQfleaf"}
+          "j" {:type :leaf, :by "root", :at 1514441683940, :text "verbosely.core", :id "BkgdAjZGQf"}
+          "r" {:type :leaf, :by "root", :at 1514441685528, :text ":refer", :id "Bkz2AoWMmz"}
+          "v" {
+           :type :expr, :by "root", :at 1514441685735, :id "SJWRRiWzQf"
+           :data {
+            "T" {:type :leaf, :by "root", :at 1514441685980, :text "[]", :id "HkeCAobGmG"}
+            "j" {:type :leaf, :by "root", :at 1514441687202, :text "log!", :id "HJV0RjZMmM"}
+           }
+          }
+         }
+        }
        }
       }
      }
@@ -691,6 +721,13 @@
         :data {
          "T" {:type :leaf, :author "root", :time 1499755354983, :text "println", :id "H1dAiOtqpBZ"}
          "j" {:type :leaf, :author "root", :time 1499755354983, :text "|App started.", :id "Byt0idYcaHW"}
+        }
+       }
+       "yj" {
+        :type :expr, :by "root", :at 1514441667979, :id "Hyl3Ti-fXz"
+        :data {
+         "T" {:type :leaf, :by "root", :at 1514441676560, :text "log!", :id "Hyl3Ti-fXzleaf"}
+         "j" {:type :leaf, :by "root", :at 1514441896742, :text "Pixi", :id "H1fpaoZMQz"}
         }
        }
       }
