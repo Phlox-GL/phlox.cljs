@@ -1,33 +1,29 @@
 {
   "name": "phlox",
   "version": "0.1.0",
-  "description": "Animation library",
+  "description": "a PIXI DSL in ClojureScript",
   "main": "index.js",
   "scripts": {
-    "cdn": "rsync -avr --progress dist/* tiye.me:cdn/phlox",
-    "tiye": "rsync -avr --progress dist/{index.html,manifest.json} tiye.me:repo/Quamolit/phlox/",
-    "upload": "yarn cdn && yarn tiye",
-    "release": "shadow-cljs release browser",
-    "watch": "shadow-cljs watch browser",
-    "html-dev": "&& cp entry/manifest.json target/",
-    "html": "cp entry/manifest.json dist/",
-    "index.html": "&& yarn html-dev",
-    "del": "rm -rf dist/*",
+    "watch": "shadow-cljs watch client",
     "serve": "http-server dist -s",
-    "build": "yarn del && yarn release && yarn compile-ssr && yarn html",
-    "build2": "shadow-cljs clj-run build.release/-main"
+    "build-cdn": "shadow-cljs clj-run build.main/build-cdn",
+    "build": "shadow-cljs clj-run build.main/build",
+    "upload": "node target/upload.js",
+    "up": "yarn build-cdn && yarn upload",
+    "page": "shadow-cljs clj-run build.main/page",
+    "ln": "cd target && rm -f entry && ln -s ../entry"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Quamolit/phlox.git"
+    "url": "git@github.com:mvc-works/calcit-workflow.git"
   },
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "http-server": "^0.10.0",
-    "shadow-cljs": "^2.0.128"
+    "http-server": "^0.11.1",
+    "shadow-cljs": "^2.7.17"
   },
   "dependencies": {
-    "pixi.js": "^4.6.2"
+    "shortid": "^2.2.14"
   }
 }
