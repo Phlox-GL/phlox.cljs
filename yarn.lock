@@ -565,10 +565,10 @@ pixi-gl-core@^1.1.4:
   resolved "https://registry.yarnpkg.com/pixi-gl-core/-/pixi-gl-core-1.1.4.tgz#8b4b5c433b31e419bc379dc565ce1b835a91b372"
   integrity sha1-i0tcQzsx5Bm8N53FZc4bg1qRs3I=
 
-pixi.js@^4.8.5:
-  version "4.8.5"
-  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-4.8.5.tgz#33eef7d1440f38b0057908121c28f93ea7c5b405"
-  integrity sha512-eYGvuzIOAOepoFDHu3GmvRqM2tJ/IBwHnfxB6BxGxDOQOaNfWMT9LA5IlUY9K3YEnEd3YtD0Nsx5aRxCyzYQeQ==
+pixi.js@^4.8.7:
+  version "4.8.7"
+  resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-4.8.7.tgz#a45c59cdb4dda71f471ecc588301f5ba0f4b77ab"
+  integrity sha512-mx7YbHPkkWoj8FT3qBMkieAjBuuJ4yZWU7rq9NnCSUGpNrVlocrW179xrJQPVR2Q7JZ73ZGTwH7NOUZ9wgh7wA==
   dependencies:
     bit-twiddle "^1.0.2"
     earcut "^2.1.4"
@@ -717,10 +717,10 @@ shadow-cljs-jar@1.3.0:
   resolved "https://registry.yarnpkg.com/shadow-cljs-jar/-/shadow-cljs-jar-1.3.0.tgz#e25c4fa57c0b405096250884b164c112654a06a3"
   integrity sha512-KReNVgFVM2ZPPGCP8rsCPqtlee/+SwXyoeEqbAXBO7jlpoNnNee2x4fiRg/Pr/vXGEkV/Ez5l4qdNSU1Na+1Jg==
 
-shadow-cljs@^2.7.17:
-  version "2.7.17"
-  resolved "https://registry.yarnpkg.com/shadow-cljs/-/shadow-cljs-2.7.17.tgz#62f6287b5277968f37fb9abc52fc8780dd73df9b"
-  integrity sha512-oSFCoea/U6he2nc4nN5MfYjZEqjyzp9BEtcGaw3+TwwzBmNQL1KfIya//WkxWfO2nvE+0fRNFDKIc0HFcnsBFw==
+shadow-cljs@^2.8.31:
+  version "2.8.31"
+  resolved "https://registry.yarnpkg.com/shadow-cljs/-/shadow-cljs-2.8.31.tgz#f3b7f4a1de49fa73355e85bdf7605307a9e0e6f0"
+  integrity sha512-3a25hF1CXFHIZQzo2rCIDWwMC2Hy9LGt/T75pW0vAw8JsahsnaL5O5Vg1+axJCM7deJoC0vwDByr/EsEcDkacQ==
   dependencies:
     mkdirp "^0.5.1"
     node-libs-browser "^2.0.0"
