@@ -207,6 +207,52 @@
      :data {}
     }
    }
+   "phlox.core" {
+    :ns {
+     :type :expr, :by "rJG4IHzWf", :at 1573320460236, :id "FnKCNIhrpH"
+     :data {
+      "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320460236, :text "ns", :id "pPylz8UT-A"}
+      "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320460236, :text "phlox.core", :id "nwlBVGZBOH"}
+     }
+    }
+    :defs {
+     "create-comp" {
+      :type :expr, :by "rJG4IHzWf", :at 1573320556435, :id "zMKXC7i-RC"
+      :data {
+       "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320556435, :text "defn", :id "G9vDfJN3pA"}
+       "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320556435, :text "create-comp", :id "X6t9N9mNGw"}
+       "r" {
+        :type :expr, :by "rJG4IHzWf", :at 1573320556435, :id "75cgpnRGtQ"
+        :data {
+         "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320608140, :text "props", :id "MKNqz1G5H"}
+         "b" {:type :leaf, :by "rJG4IHzWf", :at 1573320610097, :text "&", :id "p0CJRotuz"}
+         "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320609151, :text "children", :id "dO7bdinsvt"}
+        }
+       }
+      }
+     }
+     "create-element" {
+      :type :expr, :by "rJG4IHzWf", :at 1573320595146, :id "EhHGYZpphF"
+      :data {
+       "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320595146, :text "defn", :id "PywGAGWXU8"}
+       "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320595146, :text "create-element", :id "cZaW1mH7hd"}
+       "r" {
+        :type :expr, :by "rJG4IHzWf", :at 1573320595146, :id "3wxvNVKeq5"
+        :data {
+         "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320600956, :text "tag", :id "KgmdYMeMi7"}
+         "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320601460, :text "props", :id "hcR1bUmQVT"}
+         "r" {:type :leaf, :by "rJG4IHzWf", :at 1573320603481, :text "&", :id "QUKzX8WSY"}
+         "v" {:type :leaf, :by "rJG4IHzWf", :at 1573320604463, :text "children", :id "yp9Ue84AR"}
+        }
+       }
+      }
+     }
+    }
+    :proc {
+     :type :expr, :by "rJG4IHzWf", :at 1573320460236, :id "-i3bb3QehB"
+     :data {}
+    }
+   }
    "phlox.main" {
     :ns {
      :type :expr, :by "rJG4IHzWf", :at 1548266580449, :id "D4DqluvTAk"
