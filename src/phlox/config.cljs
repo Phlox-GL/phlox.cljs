@@ -1,5 +1,5 @@
 
-(ns app.config )
+(ns phlox.config )
 
 (def cdn?
   (cond

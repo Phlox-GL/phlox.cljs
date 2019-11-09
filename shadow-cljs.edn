@@ -13,13 +13,13 @@
  :builds {:client {:target :browser
                    :output-dir "target/"
                    :asset-path "./"
-                   :modules {:client {:init-fn app.main/main!}}
-                   :devtools {:after-load app.main/reload!}
+                   :modules {:client {:init-fn phlox.main/main!}}
+                   :devtools {:after-load phlox.main/reload!}
                    :compiler-options {:infer-externs :auto}
                    :release {:output-dir "dist/"
                              :module-hash-names 8
                              :build-options {:manifest-name "assets.edn"}}}
           :page {:target :node-script
                  :output-to "target/page.js"
-                 :main app.page/main!
-                 :devtools {:after-load app.page/main!}}}}
+                 :main phlox.page/main!
+                 :devtools {:after-load phlox.page/main!}}}}

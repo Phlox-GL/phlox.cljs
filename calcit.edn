@@ -4,14 +4,14 @@
   "root" {:id "root", :name "root", :nickname "root", :password "d41d8cd98f00b204e9800998ecf8427e", :avatar nil, :theme :star-trail}
  }
  :ir {
-  :package "app"
+  :package "phlox"
   :files {
-   "app.config" {
+   "phlox.config" {
     :ns {
      :type :expr, :by "root", :at 1527788237503, :id "BJlrAf2TyX"
      :data {
       "T" {:type :leaf, :by "root", :at 1527788237503, :text "ns", :id "SkZHRz3TJ7"}
-      "j" {:type :leaf, :by "root", :at 1527788237503, :text "app.config", :id "HJzrRGhp1X"}
+      "j" {:type :leaf, :by "root", :at 1527788237503, :text "phlox.config", :id "HJzrRGhp1X"}
      }
     }
     :defs {
@@ -207,12 +207,12 @@
      :data {}
     }
    }
-   "app.main" {
+   "phlox.main" {
     :ns {
      :type :expr, :by "rJG4IHzWf", :at 1548266580449, :id "D4DqluvTAk"
      :data {
       "T" {:type :leaf, :by "rJG4IHzWf", :at 1548266580449, :text "ns", :id "fwtKgxrifd"}
-      "j" {:type :leaf, :by "rJG4IHzWf", :at 1548266580449, :text "app.main", :id "aclVzW2ZMa"}
+      "j" {:type :leaf, :by "rJG4IHzWf", :at 1548266580449, :text "phlox.main", :id "aclVzW2ZMa"}
       "r" {
        :type :expr, :by "rJG4IHzWf", :at 1548267234269, :id "U5qFU2tKe5"
        :data {
@@ -409,12 +409,12 @@
      :data {}
     }
    }
-   "app.page" {
+   "phlox.page" {
     :ns {
      :type :expr, :time 1499755354983, :id "Hyvlej_Y5arb"
      :data {
       "T" {:type :leaf, :author "root", :time 1499755354983, :text "ns", :id "SkOeljdK5pHW"}
-      "j" {:type :leaf, :author "root", :time 1499755354983, :text "app.page", :id "rkFgls_FqTBW"}
+      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.page", :id "rkFgls_FqTBW"}
       "r" {
        :type :expr, :time 1499755354983, :id "By9lliuY5prb"
        :data {
@@ -455,7 +455,7 @@
          :type :expr, :time 1499755354983, :id "BJQMxo_FqTBb"
          :data {
           "T" {:type :leaf, :author "root", :time 1499755354983, :text "[]", :id "rJVzlj_K56rW"}
-          "j" {:type :leaf, :author "root", :time 1499755354983, :text "app.schema", :id "B1HzlsOtqTB-"}
+          "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.schema", :id "B1HzlsOtqTB-"}
           "r" {:type :leaf, :author "root", :time 1499755354983, :text ":as", :id "SJUMxo_t9prW"}
           "v" {:type :leaf, :author "root", :time 1499755354983, :text "schema", :id "Skwfej_tqTrb"}
          }
@@ -479,7 +479,7 @@
          :type :expr, :by "root", :at 1527788265374, :id "Hkx-eX3pkm"
          :data {
           "T" {:type :leaf, :by "root", :at 1527788265660, :text "[]", :id "Hkx-eX3pkmleaf"}
-          "j" {:type :leaf, :by "root", :at 1527788267102, :text "app.config", :id "Sk-MeQ3akm"}
+          "j" {:type :leaf, :by "root", :at 1527788267102, :text "phlox.config", :id "Sk-MeQ3akm"}
           "r" {:type :leaf, :by "root", :at 1527788267664, :text ":as", :id "HkHQl72Tym"}
           "v" {:type :leaf, :by "root", :at 1527788268746, :text "config", :id "r1-NxXnaJ7"}
          }
@@ -896,12 +896,12 @@
      :data {}
     }
    }
-   "app.schema" {
+   "phlox.schema" {
     :ns {
      :type :expr, :time 1499755354983, :id "rJxieodtqarW"
      :data {
       "T" {:type :leaf, :author "root", :time 1499755354983, :text "ns", :id "HyWslouK56HZ"}
-      "j" {:type :leaf, :author "root", :time 1499755354983, :text "app.schema", :id "SkGsgsOtcTBb"}
+      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.schema", :id "SkGsgsOtcTBb"}
      }
     }
     :defs {
@@ -943,12 +943,12 @@
      :data {}
     }
    }
-   "app.updater" {
+   "phlox.updater" {
     :ns {
      :type :expr, :time 1499755354983, :id "B1Z1gjdFqaBZ"
      :data {
       "T" {:type :leaf, :author "root", :time 1499755354983, :text "ns", :id "SkG1lo_t9pHZ"}
-      "j" {:type :leaf, :author "root", :time 1499755354983, :text "app.updater", :id "B17kxjdFq6r-"}
+      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.updater", :id "B17kxjdFq6r-"}
       "r" {
        :type :expr, :author "root", :time 1507399862664, :id "rykTu9L2Z"
        :data {

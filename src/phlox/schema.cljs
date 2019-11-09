@@ -1,4 +1,4 @@
 
-(ns app.schema )
+(ns phlox.schema )
 
 (def store {:states {}, :content ""})
