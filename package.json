@@ -21,10 +21,10 @@
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.11.1",
-    "shadow-cljs": "^2.8.31"
+    "shadow-cljs": "^2.8.69"
   },
   "dependencies": {
-    "pixi.js": "^4.8.7",
-    "shortid": "^2.2.14"
+    "pixi.js": "^5.2.0",
+    "shortid": "^2.2.15"
   }
 }
