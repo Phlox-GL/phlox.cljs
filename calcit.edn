@@ -6,12 +6,26 @@
  :ir {
   :package "phlox"
   :files {
-   "phlox.config" {
+   "phlox.app" {
+    :ns {
+     :type :expr, :by "rJG4IHzWf", :at 1573355886142, :id "6Pt0Mw68VT"
+     :data {
+      "T" {:type :leaf, :by "rJG4IHzWf", :at 1573355886142, :text "ns", :id "udlY2rAJP6"}
+      "j" {:type :leaf, :by "rJG4IHzWf", :at 1573355886142, :text "phlox.app", :id "uKrZ1r32xq"}
+     }
+    }
+    :defs {}
+    :proc {
+     :type :expr, :by "rJG4IHzWf", :at 1573355886142, :id "vijXgDGsXL"
+     :data {}
+    }
+   }
+   "phlox.app.config" {
     :ns {
      :type :expr, :by "root", :at 1527788237503, :id "BJlrAf2TyX"
      :data {
       "T" {:type :leaf, :by "root", :at 1527788237503, :text "ns", :id "SkZHRz3TJ7"}
-      "j" {:type :leaf, :by "root", :at 1527788237503, :text "phlox.config", :id "HJzrRGhp1X"}
+      "j" {:type :leaf, :by "root", :at 1527788237503, :text "phlox.app.config", :id "HJzrRGhp1X"}
      }
     }
     :defs {
@@ -207,58 +221,12 @@
      :data {}
     }
    }
-   "phlox.core" {
-    :ns {
-     :type :expr, :by "rJG4IHzWf", :at 1573320460236, :id "FnKCNIhrpH"
-     :data {
-      "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320460236, :text "ns", :id "pPylz8UT-A"}
-      "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320460236, :text "phlox.core", :id "nwlBVGZBOH"}
-     }
-    }
-    :defs {
-     "create-comp" {
-      :type :expr, :by "rJG4IHzWf", :at 1573320556435, :id "zMKXC7i-RC"
-      :data {
-       "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320556435, :text "defn", :id "G9vDfJN3pA"}
-       "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320556435, :text "create-comp", :id "X6t9N9mNGw"}
-       "r" {
-        :type :expr, :by "rJG4IHzWf", :at 1573320556435, :id "75cgpnRGtQ"
-        :data {
-         "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320608140, :text "props", :id "MKNqz1G5H"}
-         "b" {:type :leaf, :by "rJG4IHzWf", :at 1573320610097, :text "&", :id "p0CJRotuz"}
-         "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320609151, :text "children", :id "dO7bdinsvt"}
-        }
-       }
-      }
-     }
-     "create-element" {
-      :type :expr, :by "rJG4IHzWf", :at 1573320595146, :id "EhHGYZpphF"
-      :data {
-       "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320595146, :text "defn", :id "PywGAGWXU8"}
-       "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320595146, :text "create-element", :id "cZaW1mH7hd"}
-       "r" {
-        :type :expr, :by "rJG4IHzWf", :at 1573320595146, :id "3wxvNVKeq5"
-        :data {
-         "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320600956, :text "tag", :id "KgmdYMeMi7"}
-         "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320601460, :text "props", :id "hcR1bUmQVT"}
-         "r" {:type :leaf, :by "rJG4IHzWf", :at 1573320603481, :text "&", :id "QUKzX8WSY"}
-         "v" {:type :leaf, :by "rJG4IHzWf", :at 1573320604463, :text "children", :id "yp9Ue84AR"}
-        }
-       }
-      }
-     }
-    }
-    :proc {
-     :type :expr, :by "rJG4IHzWf", :at 1573320460236, :id "-i3bb3QehB"
-     :data {}
-    }
-   }
-   "phlox.main" {
+   "phlox.app.main" {
     :ns {
      :type :expr, :by "rJG4IHzWf", :at 1548266580449, :id "D4DqluvTAk"
      :data {
       "T" {:type :leaf, :by "rJG4IHzWf", :at 1548266580449, :text "ns", :id "fwtKgxrifd"}
-      "j" {:type :leaf, :by "rJG4IHzWf", :at 1548266580449, :text "phlox.main", :id "aclVzW2ZMa"}
+      "j" {:type :leaf, :by "rJG4IHzWf", :at 1548266580449, :text "phlox.app.main", :id "aclVzW2ZMa"}
       "r" {
        :type :expr, :by "rJG4IHzWf", :at 1548267234269, :id "U5qFU2tKe5"
        :data {
@@ -455,12 +423,12 @@
      :data {}
     }
    }
-   "phlox.page" {
+   "phlox.app.page" {
     :ns {
      :type :expr, :time 1499755354983, :id "Hyvlej_Y5arb"
      :data {
       "T" {:type :leaf, :author "root", :time 1499755354983, :text "ns", :id "SkOeljdK5pHW"}
-      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.page", :id "rkFgls_FqTBW"}
+      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.app.page", :id "rkFgls_FqTBW"}
       "r" {
        :type :expr, :time 1499755354983, :id "By9lliuY5prb"
        :data {
@@ -501,7 +469,7 @@
          :type :expr, :time 1499755354983, :id "BJQMxo_FqTBb"
          :data {
           "T" {:type :leaf, :author "root", :time 1499755354983, :text "[]", :id "rJVzlj_K56rW"}
-          "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.schema", :id "B1HzlsOtqTB-"}
+          "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.app.schema", :id "B1HzlsOtqTB-", :at 1573355947763, :by "rJG4IHzWf"}
           "r" {:type :leaf, :author "root", :time 1499755354983, :text ":as", :id "SJUMxo_t9prW"}
           "v" {:type :leaf, :author "root", :time 1499755354983, :text "schema", :id "Skwfej_tqTrb"}
          }
@@ -525,7 +493,7 @@
          :type :expr, :by "root", :at 1527788265374, :id "Hkx-eX3pkm"
          :data {
           "T" {:type :leaf, :by "root", :at 1527788265660, :text "[]", :id "Hkx-eX3pkmleaf"}
-          "j" {:type :leaf, :by "root", :at 1527788267102, :text "phlox.config", :id "Sk-MeQ3akm"}
+          "j" {:type :leaf, :by "rJG4IHzWf", :at 1573355950254, :text "phlox.app.config", :id "Sk-MeQ3akm"}
           "r" {:type :leaf, :by "root", :at 1527788267664, :text ":as", :id "HkHQl72Tym"}
           "v" {:type :leaf, :by "root", :at 1527788268746, :text "config", :id "r1-NxXnaJ7"}
          }
@@ -942,12 +910,12 @@
      :data {}
     }
    }
-   "phlox.schema" {
+   "phlox.app.schema" {
     :ns {
      :type :expr, :time 1499755354983, :id "rJxieodtqarW"
      :data {
       "T" {:type :leaf, :author "root", :time 1499755354983, :text "ns", :id "HyWslouK56HZ"}
-      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.schema", :id "SkGsgsOtcTBb"}
+      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.app.schema", :id "SkGsgsOtcTBb"}
      }
     }
     :defs {
@@ -989,12 +957,12 @@
      :data {}
     }
    }
-   "phlox.updater" {
+   "phlox.app.updater" {
     :ns {
      :type :expr, :time 1499755354983, :id "B1Z1gjdFqaBZ"
      :data {
       "T" {:type :leaf, :author "root", :time 1499755354983, :text "ns", :id "SkG1lo_t9pHZ"}
-      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.updater", :id "B17kxjdFq6r-"}
+      "j" {:type :leaf, :author "root", :time 1499755354983, :text "phlox.app.updater", :id "B17kxjdFq6r-"}
       "r" {
        :type :expr, :author "root", :time 1507399862664, :id "rykTu9L2Z"
        :data {
@@ -1090,6 +1058,37 @@
     }
     :proc {
      :type :expr, :time 1499755354983, :id "HJ41lsuY5pSZ"
+     :data {}
+    }
+   }
+   "phlox.core" {
+    :ns {
+     :type :expr, :by "rJG4IHzWf", :at 1573320460236, :id "FnKCNIhrpH"
+     :data {
+      "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320460236, :text "ns", :id "pPylz8UT-A"}
+      "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320460236, :text "phlox.core", :id "nwlBVGZBOH"}
+     }
+    }
+    :defs {
+     "create-element" {
+      :type :expr, :by "rJG4IHzWf", :at 1573320595146, :id "EhHGYZpphF"
+      :data {
+       "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320595146, :text "defn", :id "PywGAGWXU8"}
+       "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320595146, :text "create-element", :id "cZaW1mH7hd"}
+       "r" {
+        :type :expr, :by "rJG4IHzWf", :at 1573320595146, :id "3wxvNVKeq5"
+        :data {
+         "T" {:type :leaf, :by "rJG4IHzWf", :at 1573320600956, :text "tag", :id "KgmdYMeMi7"}
+         "j" {:type :leaf, :by "rJG4IHzWf", :at 1573320601460, :text "props", :id "hcR1bUmQVT"}
+         "r" {:type :leaf, :by "rJG4IHzWf", :at 1573320603481, :text "&", :id "QUKzX8WSY"}
+         "v" {:type :leaf, :by "rJG4IHzWf", :at 1573320604463, :text "children", :id "yp9Ue84AR"}
+        }
+       }
+      }
+     }
+    }
+    :proc {
+     :type :expr, :by "rJG4IHzWf", :at 1573320460236, :id "-i3bb3QehB"
      :data {}
     }
    }

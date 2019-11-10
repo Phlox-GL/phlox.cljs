@@ -1,5 +1,5 @@
 
-(ns phlox.main (:require ["pixi.js" :as PIXI]))
+(ns phlox.app.main (:require ["pixi.js" :as PIXI]))
 
 (defn main! []
   (println "App Started")
