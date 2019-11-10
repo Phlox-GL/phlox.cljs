@@ -5,6 +5,24 @@
 
 (declare render-container)
 
+(defn refresh-element [element old-element]
+  (js/console.log "refresh" element old-element)
+  (cond
+    (or (nil? element) (nil? element)) (js/console.warn "Not supposed to be empty")
+    (and (= :component (:phlox-node element))
+         (= :component (:phlox-node old-element))
+         (= (:name element) (:name old-element)))
+      (if (= (:args element) (:args old-element))
+        (do "Same changes")
+        (recur (:tree element) (:tree old-element)))
+    (and (= :element (:phlox-node element))
+         (= :element (:phlox-node old-element))
+         (= (:name element) (:name old-element))
+         (do
+          (println "handle element change" element old-element)
+          (println "hanle children")))
+      :else))
+
 (defn render-circle [element]
   (let [circle (new (.-Graphics PIXI))
         props (:props element)
@@ -65,7 +83,7 @@
 (defn render-element [element]
   (case (:phlox-node element)
     :element
-      (case (:tag element)
+      (case (:name element)
         nil (do (js/console.log "nil element" element) nil)
         :container (render-container element)
         :graphics (let [g (new (.-Graphics PIXI))] g)

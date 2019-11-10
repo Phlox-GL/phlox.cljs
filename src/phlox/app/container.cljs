@@ -3,7 +3,8 @@
   (:require [phlox.core :refer [render-tag]] [phlox.util :refer [hslx]]))
 
 (defn comp-container []
-  {:phlox-node :component,
+  {:name :container,
+   :phlox-node :component,
    :args [],
    :tree (render-tag
           :container

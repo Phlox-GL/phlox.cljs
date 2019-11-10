@@ -9,7 +9,4 @@
   (render! (comp-container))
   (println "App Started"))
 
-(defn reload! []
-  (println "Code updated")
-  (comment render! (comp-container))
-  (js/location.reload))
+(defn reload! [] (println "Code updated") (render! (comp-container)))

@@ -1,7 +1,7 @@
 
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
-            [phlox.render :refer [render-element]]
+            [phlox.render :refer [render-element refresh-element]]
             [phlox.util :refer [hslx]]))
 
 (defonce *app (atom nil))
@@ -18,7 +18,9 @@
     (.addChild (.-stage @*app) element-tree)
     (js/console.log "got tree" element-tree)))
 
-(defn rerender-app! [app] (js/console.log "rerender tree" app))
+(defn rerender-app! [app]
+  (js/console.log "rerender tree" app)
+  (refresh-element app @*tree-element))
 
 (defn render! [app]
   (when (nil? @*app)
@@ -35,4 +37,4 @@
   (reset! *tree-element app))
 
 (defn render-tag [tag props & children]
-  {:tag tag, :phlox-node :element, :props props, :children children})
+  {:name tag, :phlox-node :element, :props props, :children children})
