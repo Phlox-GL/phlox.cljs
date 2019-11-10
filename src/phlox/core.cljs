@@ -34,4 +34,5 @@
   (if (nil? @*tree-element) (mount-app! app) (rerender-app! app))
   (reset! *tree-element app))
 
-(defn render-tag [tag props & children] {:tag tag, :props props, :children children})
+(defn render-tag [tag props & children]
+  {:tag tag, :phlox-node :element, :props props, :children children})

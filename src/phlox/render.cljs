@@ -63,13 +63,17 @@
     rect))
 
 (defn render-element [element]
-  (case (:tag element)
-    nil (do (js/console.log "nil element" element) nil)
-    :container (render-container element)
-    :graphics (let [g (new (.-Graphics PIXI))] g)
-    :circle (render-circle element)
-    :rect (render-rect element)
-    (do (println "unknown tag:" (:tag element)) {})))
+  (case (:phlox-node element)
+    :element
+      (case (:tag element)
+        nil (do (js/console.log "nil element" element) nil)
+        :container (render-container element)
+        :graphics (let [g (new (.-Graphics PIXI))] g)
+        :circle (render-circle element)
+        :rect (render-rect element)
+        (do (println "unknown tag:" (:tag element)) {}))
+    :component (render-element (:tree element))
+    (do (js/console.log "Unknown element:" element))))
 
 (defn render-container [element]
   (let [container (new (.-Container PIXI)), options (:options (:props element))]
