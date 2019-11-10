@@ -10,6 +10,17 @@ WIP
 
 ### Spec
 
+Add a container:
+
+```edn
+{
+  :options {
+    :x 1
+    :y 1
+  }
+}
+```
+
 Draw a circle:
 
 ```edn

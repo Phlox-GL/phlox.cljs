@@ -5,7 +5,7 @@
 (defn comp-container []
   (render-tag
    :container
-   {}
+   {:options {:x 100, :y 0}}
    (render-tag
     :circle
     {:options {:x 100, :y 100, :radius 40},

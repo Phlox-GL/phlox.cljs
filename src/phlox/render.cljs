@@ -1,6 +1,10 @@
 
 (ns phlox.render (:require ["pixi.js" :as PIXI] [phlox.util :refer [use-number]]))
 
+(declare render-element)
+
+(declare render-container)
+
 (defn render-circle [element]
   (let [circle (new (.-Graphics PIXI))
         props (:props element)
@@ -49,14 +53,19 @@
 (defn render-element [element]
   (case (:tag element)
     nil (do (js/console.log "nil element" element) nil)
-    :container
-      (let [container (new (.-Container PIXI))]
-        (doseq [child (:children element)]
-          (if (some? child)
-            (.addChild container (render-element child))
-            (js/console.log "nil child:" child)))
-        container)
+    :container (render-container element)
     :graphics (let [g (new (.-Graphics PIXI))] g)
     :circle (render-circle element)
     :rect (render-rect element)
     (do (println "unknown tag:" (:tag element)) {})))
+
+(defn render-container [element]
+  (let [container (new (.-Container PIXI)), options (:options (:props element))]
+    (doseq [child (:children element)]
+      (if (some? child)
+        (.addChild container (render-element child))
+        (js/console.log "nil child:" child)))
+    (when (some? options)
+      (set! (.-x container) (:x options))
+      (set! (.-y container) (:y options)))
+    container))
