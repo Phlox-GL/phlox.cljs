@@ -8,8 +8,7 @@
     "serve": "http-server dist -s",
     "build-cdn": "shadow-cljs clj-run build.main/build-cdn",
     "build": "shadow-cljs clj-run build.main/build",
-    "upload": "node target/upload.js",
-    "up": "yarn build-cdn && yarn upload",
+    "up": "yarn build-cdn && tiye-up",
     "page": "shadow-cljs clj-run build.main/page",
     "ln": "cd target && rm -f entry && ln -s ../entry"
   },
