@@ -14,7 +14,8 @@
                    :output-dir "target/"
                    :asset-path "./"
                    :modules {:client {:init-fn phlox.app.main/main!}}
-                   :devtools {:after-load phlox.app.main/reload!}
+                   :devtools {:after-load phlox.app.main/reload!
+                              :loader-mode :script}
                    :compiler-options {:infer-externs :auto}
                    :release {:output-dir "dist/"
                              :module-hash-names 8
