@@ -1,10 +1,10 @@
 
-(ns app.page
+(ns phlox.app.page
   (:require [respo.render.html :refer [make-string]]
             [shell-page.core :refer [make-page spit slurp]]
-            [app.schema :as schema]
+            [phlox.app.schema :as schema]
             [cljs.reader :refer [read-string]]
-            [app.config :as config]
+            [phlox.app.config :as config]
             [cumulo-util.build :refer [get-ip!]])
   (:require-macros [clojure.core.strint :refer [<<]]))
 

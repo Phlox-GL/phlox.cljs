@@ -1,0 +1,6 @@
+
+{:host "tiye.me"
+ :uploads [{:from "dist/*"
+            :to "cdn/phlox/"}
+           {:from "dist/{index.html,manifest.json}"
+            :to "repo/Quamolit/phlox/"}]}

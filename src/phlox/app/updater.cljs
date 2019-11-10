@@ -1,5 +1,5 @@
 
-(ns app.updater (:require [respo.cursor :refer [mutate]]))
+(ns phlox.app.updater (:require [respo.cursor :refer [mutate]]))
 
 (defn updater [store op op-data op-id op-time]
   (case op
