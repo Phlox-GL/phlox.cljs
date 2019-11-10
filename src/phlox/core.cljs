@@ -1,5 +1,8 @@
 
-(ns phlox.core (:require ["pixi.js" :as PIXI] [phlox.render :refer [render-element]]))
+(ns phlox.core
+  (:require ["pixi.js" :as PIXI]
+            [phlox.render :refer [render-element]]
+            [phlox.util :refer [hslx]]))
 
 (defonce *app (atom nil))
 
@@ -19,7 +22,13 @@
 
 (defn render! [app]
   (when (nil? @*app)
-    (let [pixi-app (PIXI/Application. 800 400 (clj->js {:background-color 0x000000}))]
+    (let [pixi-app (PIXI/Application.
+                    (clj->js
+                     {:background-color (hslx 0 0 30),
+                      :antialias true,
+                      :width js/window.innerWidth,
+                      :height js/window.innerHeight,
+                      :interactive true}))]
       (reset! *app pixi-app)
       (-> js/document .-body (.appendChild (.-view pixi-app)))))
   (if (nil? @*tree-element) (mount-app! app) (rerender-app! app))

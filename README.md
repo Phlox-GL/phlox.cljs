@@ -18,6 +18,9 @@ Add a container:
     :x 1
     :y 1
   }
+  :on {
+    :pointerdown (fn [])
+  }
 }
 ```
 
@@ -36,6 +39,9 @@ Draw a circle:
     :alpha 1
   }
   :fill 0x000001
+  :on {
+    :pointerdown (fn [])
+  }
 }
 ```
 
@@ -55,6 +61,9 @@ Draw a rectangle:
     :alpha 1
   }
   :fill 0x000001
+  :on {
+    :pointerdown (fn [])
+  }
 }
 ```
 

@@ -10,11 +10,14 @@
     :circle
     {:options {:x 100, :y 100, :radius 40},
      :line-style {:width 2, :color (hslx 0 80 50), :alpha 1},
-     :fill 0x4444ff})
+     :fill (hslx 160 80 70),
+     :on {:mousedown (fn [] (println "circle click"))}})
    (render-tag
     :rect
     {:options {:x 200, :y 100, :width 50, :height 50},
-     :line-style {:width 2, :color (hslx 200 80 80), :alpha 1}})
+     :line-style {:width 2, :color (hslx 200 80 80), :alpha 1},
+     :fill (hslx 200 80 80),
+     :on {:mousedown (fn [] (println "click rect"))}})
    (comment render-tag :container {})
    (comment render-tag :graphics {})
    (comment render-tag :graphics {})))

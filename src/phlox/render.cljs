@@ -9,7 +9,8 @@
   (let [circle (new (.-Graphics PIXI))
         props (:props element)
         line-style (:line-style props)
-        options (:options props)]
+        options (:options props)
+        events (:on props)]
     (if (some? (:fill props)) (.beginFill circle (:fill props)))
     (when (some? line-style)
       (.lineStyle
@@ -25,13 +26,20 @@
        (use-number (:radius options)))
       (js/console.warn "Unknown options" options))
     (if (some? (:fill props)) (.endFill circle))
+    (when (some? events)
+      (set! (.-interactive circle) true)
+      (set! (.-buttonMode circle) true)
+      (doseq [[k listener] events]
+        (println "binding" (name k) listener)
+        (.on circle (name k) listener)))
     circle))
 
 (defn render-rect [element]
   (let [rect (new (.-Graphics PIXI))
         props (:props element)
         line-style (:line-style props)
-        options (:options props)]
+        options (:options props)
+        events (:on props)]
     (if (some? (:fill props)) (.beginFill rect (:fill props)))
     (when (some? line-style)
       (.lineStyle
@@ -48,6 +56,10 @@
        (use-number (:height options)))
       (js/console.warn "Unknown options" options))
     (if (some? (:fill props)) (.endFill rect))
+    (when (some? events)
+      (set! (.-interactive rect) true)
+      (set! (.-buttonMode rect) true)
+      (doseq [[k listener] events] (.on rect (name k) listener)))
     rect))
 
 (defn render-element [element]
