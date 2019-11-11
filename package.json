@@ -4,7 +4,7 @@
   "description": "a PIXI DSL in ClojureScript",
   "main": "index.js",
   "scripts": {
-    "watch": "shadow-cljs watch client",
+    "watch": "shadow-cljs watch client test",
     "serve": "http-server dist -s",
     "build-cdn": "shadow-cljs clj-run build.main/build-cdn",
     "build": "shadow-cljs clj-run build.main/build",

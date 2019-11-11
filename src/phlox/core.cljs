@@ -1,7 +1,7 @@
 
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
-            [phlox.render :refer [render-element refresh-element]]
+            [phlox.render :refer [render-element update-element update-children]]
             [phlox.util :refer [hslx]]))
 
 (defonce *app (atom nil))
@@ -20,7 +20,7 @@
 
 (defn rerender-app! [app]
   (js/console.log "rerender tree" app)
-  (refresh-element app @*tree-element))
+  (update-children (list [0 app]) (list [0 @*tree-element]) (.-stage @*app)))
 
 (defn render! [app]
   (when (nil? @*app)
