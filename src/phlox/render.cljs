@@ -1,27 +1,12 @@
 
-(ns phlox.render (:require ["pixi.js" :as PIXI] [phlox.util :refer [use-number]]))
-
-(declare render-element)
+(ns phlox.render
+  (:require ["pixi.js" :as PIXI]
+            [phlox.util :refer [use-number component? element?]]
+            [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]))
 
 (declare render-container)
 
-(defn refresh-element [element old-element]
-  (js/console.log "refresh" element old-element)
-  (cond
-    (or (nil? element) (nil? element)) (js/console.warn "Not supposed to be empty")
-    (and (= :component (:phlox-node element))
-         (= :component (:phlox-node old-element))
-         (= (:name element) (:name old-element)))
-      (if (= (:args element) (:args old-element))
-        (do "Same changes")
-        (recur (:tree element) (:tree old-element)))
-    (and (= :element (:phlox-node element))
-         (= :element (:phlox-node old-element))
-         (= (:name element) (:name old-element))
-         (do
-          (println "handle element change" element old-element)
-          (println "hanle children")))
-      :else))
+(declare render-element)
 
 (defn render-circle [element]
   (let [circle (new (.-Graphics PIXI))
@@ -103,3 +88,29 @@
       (set! (.-x container) (:x options))
       (set! (.-y container) (:y options)))
     container))
+
+(defn update-children [children-dict old-children-dict parent-container]
+  (let [list-ops (:acc
+                  (find-minimal-ops
+                   lcs-state-0
+                   (map first children-dict)
+                   (map first old-children-dict)))]
+    (println "changes to children" list-ops)))
+
+(defn update-element [element old-element]
+  (js/console.log "refresh" element old-element)
+  (cond
+    (or (nil? element) (nil? element)) (js/console.warn "Not supposed to be empty")
+    (and (component? element)
+         (component? old-element)
+         (= (:name element) (:name old-element)))
+      (if (= (:args element) (:args old-element))
+        (do "Same changes")
+        (recur (:tree element) (:tree old-element)))
+    (and (element? element)
+         (element? old-element)
+         (= (:name element) (:name old-element))
+         (do
+          (println "handle element change" element old-element)
+          (println "hanle children")))
+      :else))
