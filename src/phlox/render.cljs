@@ -1,12 +1,18 @@
 
 (ns phlox.render
   (:require ["pixi.js" :as PIXI]
-            [phlox.util :refer [use-number component? element?]]
+            [phlox.util
+             :refer
+             [use-number component? element? remove-nil-values index-items]]
             [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]))
 
 (declare render-container)
 
 (declare render-element)
+
+(declare update-children)
+
+(declare update-element)
 
 (defn render-circle [element]
   (let [circle (new (.-Graphics PIXI))
@@ -89,28 +95,53 @@
       (set! (.-y container) (:y options)))
     container))
 
-(defn update-children [children-dict old-children-dict parent-container]
-  (let [list-ops (:acc
-                  (find-minimal-ops
-                   lcs-state-0
-                   (map first children-dict)
-                   (map first old-children-dict)))]
-    (println "changes to children" list-ops)))
-
-(defn update-element [element old-element]
+(defn update-element [element old-element parent-element idx]
   (js/console.log "refresh" element old-element)
   (cond
-    (or (nil? element) (nil? element)) (js/console.warn "Not supposed to be empty")
+    (or (nil? element) (nil? element)) (js/console.error "Not supposed to be empty")
     (and (component? element)
          (component? old-element)
          (= (:name element) (:name old-element)))
       (if (= (:args element) (:args old-element))
-        (do "Same changes")
-        (recur (:tree element) (:tree old-element)))
+        (do (println "Same, no changes"))
+        (recur (:tree element) (:tree old-element) parent-element idx))
     (and (element? element)
          (element? old-element)
          (= (:name element) (:name old-element))
          (do
           (println "handle element change" element old-element)
-          (println "hanle children")))
+          (update-children
+           (remove-nil-values (index-items (:children element)))
+           (remove-nil-values (index-items (:children old-element)))
+           (.getChildAt parent-element idx))))
       :else))
+
+(defn update-children [children-dict old-children-dict parent-container]
+  (assert
+   (and (every? some? (map last children-dict)) (every? some? (map last old-children-dict)))
+   "children should not contain nil element")
+  (let [list-ops (:acc
+                  (find-minimal-ops
+                   lcs-state-0
+                   (map first children-dict)
+                   (map first old-children-dict)))]
+    (loop [idx 0, ops list-ops, xs children-dict, ys old-children-dict]
+      (when-not (empty? ops)
+        (let [op (first ops)]
+          (case (first op)
+            :remains
+              (do
+               (assert (= (last op) (first (first xs)) (first (first ys))) "check key")
+               (update-element (last (first xs)) (last (first ys)) parent-container idx)
+               (recur (inc idx) (rest ops) (rest xs) (rest ys)))
+            :add
+              (do
+               (assert (= (:value op) (first (first ys))) "check key")
+               (println "add element" (last (first ys)))
+               (recur (inc idx) (rest ops) xs (rest ys)))
+            :remove
+              (do
+               (assert (= (:value op) (first (first xs))) "check key")
+               (println "remove" idx)
+               (recur idx (rest ops) (rest xs) ys))
+            (do (println "Unknown op:" op))))))))
