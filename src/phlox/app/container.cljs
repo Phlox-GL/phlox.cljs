@@ -15,15 +15,13 @@
            {:options {:x (+ 80 (:x store)), :y 100, :radius 40},
             :line-style {:width 2, :color (hslx 0 80 50), :alpha 1},
             :fill (hslx 160 80 70),
-            :on {:mousedown (fn [event dispatch!]
-                   (js/console.log "circle click" event)
-                   (dispatch! :add-x "a"))}})
+            :on {:mousedown (fn [event dispatch!] (dispatch! :add-x "a"))}})
           (render-tag
            :rect
-           {:options {:x 200, :y 100, :width 50, :height 50},
+           {:options {:x 200, :y (+ 50 (:x store)), :width 50, :height 50},
             :line-style {:width 2, :color (hslx 200 80 80), :alpha 1},
             :fill (hslx 200 80 80),
-            :on {:mousedown (fn [] (println "click rect"))}})
+            :on {:mousedown (fn [e dispatch!] (dispatch! :add-x "b"))}})
           (comment render-tag :container {})
           (comment render-tag :graphics {})
           (comment render-tag :graphics {}))})

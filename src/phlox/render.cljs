@@ -20,7 +20,7 @@
         line-style (:line-style props)
         options (:options props)
         events (:on props)]
-    (if (some? (:fill props)) (.beginFill circle (:fill props)))
+    (when (some? (:fill props)) (.beginFill circle (:fill props)))
     (when (some? line-style)
       (.lineStyle
        circle
@@ -34,16 +34,15 @@
        (use-number (:y options))
        (use-number (:radius options)))
       (js/console.warn "Unknown options" options))
-    (if (some? (:fill props)) (.endFill circle))
+    (when (some? (:fill props)) (.endFill circle))
     (when (some? events)
       (set! (.-interactive circle) true)
       (set! (.-buttonMode circle) true)
       (doseq [[k listener] events]
-        (println "binding" (name k) listener)
         (.on circle (name k) (fn [event] (listener event dispatch!)))))
     circle))
 
-(defn render-rect [element]
+(defn render-rect [element dispatch!]
   (let [rect (new (.-Graphics PIXI))
         props (:props element)
         line-style (:line-style props)
@@ -68,7 +67,8 @@
     (when (some? events)
       (set! (.-interactive rect) true)
       (set! (.-buttonMode rect) true)
-      (doseq [[k listener] events] (.on rect (name k) listener)))
+      (doseq [[k listener] events]
+        (.on rect (name k) (fn [event] (listener event dispatch!)))))
     rect))
 
 (defn render-element [element dispatch!]
@@ -79,7 +79,7 @@
         :container (render-container element dispatch!)
         :graphics (let [g (new (.-Graphics PIXI))] g)
         :circle (render-circle element dispatch!)
-        :rect (render-rect element)
+        :rect (render-rect element dispatch!)
         (do (println "unknown tag:" (:tag element)) {}))
     :component (render-element (:tree element) dispatch!)
     (do (js/console.log "Unknown element:" element))))
@@ -95,17 +95,61 @@
       (set! (.-y container) (:y options)))
     container))
 
-(defn update-circle [element old-element target dispath!]
-  (let [options (:options (:props element)), old-options (:options (:props old-element))]
-    (js/console.log (:x options) (:y options) (.-x target) (.-y target) target)
-    (when (not= options old-options)
-      (set! (.-x target) (:x options))
-      (set! (.-y target) (:y options))))
-  (println "update circle"))
+(defn update-circle [element old-element circle dispath!]
+  (let [props (:props element)
+        props' (:props old-element)
+        options (:options props)
+        options' (:options props')
+        line-style (:line-style props)
+        line-style' (:line-style props')]
+    (when (or (not= options options')
+              (not= line-style line-style')
+              (not= (:fill props) (:fill props')))
+      (.clear circle)
+      (when (some? (:fill props)) (.beginFill circle (:fill props)))
+      (when (some? line-style)
+        (.lineStyle
+         circle
+         (use-number (:width line-style))
+         (use-number (:color line-style))
+         (:alpha line-style)))
+      (if (map? options)
+        (.drawCircle
+         circle
+         (use-number (:x options))
+         (use-number (:y options))
+         (use-number (:radius options)))
+        (js/console.warn "Unknown options" options))
+      (when (some? (:fill props)) (.endFill circle)))))
 
 (defn update-container [element old-element target] (println "update container"))
 
-(defn update-rect [element old-element target] (println "update rect"))
+(defn update-rect [element old-element rect]
+  (let [props (:props element)
+        props' (:props old-element)
+        options (:options props)
+        options' (:options props')
+        line-style (:line-style props)
+        line-style' (:line-style props')]
+    (when (or (not= options options')
+              (not= line-style line-style')
+              (not= (:fill props) (:fill props')))
+      (if (some? (:fill props)) (.beginFill rect (:fill props)))
+      (when (some? line-style)
+        (.lineStyle
+         rect
+         (use-number (:width line-style))
+         (use-number (:color line-style))
+         (:alpha line-style)))
+      (if (map? options)
+        (.drawRect
+         rect
+         (use-number (:x options))
+         (use-number (:y options))
+         (use-number (:width options))
+         (use-number (:height options)))
+        (js/console.warn "Unknown options" options))
+      (if (some? (:fill props)) (.endFill rect)))))
 
 (defn update-element [element old-element parent-element idx dispath!]
   (js/console.log "refresh" element old-element)
