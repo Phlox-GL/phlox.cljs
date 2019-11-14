@@ -6,15 +6,15 @@
              [use-number component? element? remove-nil-values index-items]]
             [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]))
 
-(declare render-container)
-
 (declare render-element)
 
-(declare update-children)
+(declare render-container)
 
 (declare update-element)
 
-(defn render-circle [element]
+(declare update-children)
+
+(defn render-circle [element dispatch!]
   (let [circle (new (.-Graphics PIXI))
         props (:props element)
         line-style (:line-style props)
@@ -40,7 +40,7 @@
       (set! (.-buttonMode circle) true)
       (doseq [[k listener] events]
         (println "binding" (name k) listener)
-        (.on circle (name k) listener)))
+        (.on circle (name k) (fn [event] (listener event dispatch!)))))
     circle))
 
 (defn render-rect [element]
@@ -71,31 +71,43 @@
       (doseq [[k listener] events] (.on rect (name k) listener)))
     rect))
 
-(defn render-element [element]
+(defn render-element [element dispatch!]
   (case (:phlox-node element)
     :element
       (case (:name element)
         nil (do (js/console.log "nil element" element) nil)
-        :container (render-container element)
+        :container (render-container element dispatch!)
         :graphics (let [g (new (.-Graphics PIXI))] g)
-        :circle (render-circle element)
+        :circle (render-circle element dispatch!)
         :rect (render-rect element)
         (do (println "unknown tag:" (:tag element)) {}))
-    :component (render-element (:tree element))
+    :component (render-element (:tree element) dispatch!)
     (do (js/console.log "Unknown element:" element))))
 
-(defn render-container [element]
+(defn render-container [element dispath!]
   (let [container (new (.-Container PIXI)), options (:options (:props element))]
     (doseq [child (:children element)]
       (if (some? child)
-        (.addChild container (render-element child))
+        (.addChild container (render-element child dispath!))
         (js/console.log "nil child:" child)))
     (when (some? options)
       (set! (.-x container) (:x options))
       (set! (.-y container) (:y options)))
     container))
 
-(defn update-element [element old-element parent-element idx]
+(defn update-circle [element old-element target dispath!]
+  (let [options (:options (:props element)), old-options (:options (:props old-element))]
+    (js/console.log (:x options) (:y options) (.-x target) (.-y target) target)
+    (when (not= options old-options)
+      (set! (.-x target) (:x options))
+      (set! (.-y target) (:y options))))
+  (println "update circle"))
+
+(defn update-container [element old-element target] (println "update container"))
+
+(defn update-rect [element old-element target] (println "update rect"))
+
+(defn update-element [element old-element parent-element idx dispath!]
   (js/console.log "refresh" element old-element)
   (cond
     (or (nil? element) (nil? element)) (js/console.error "Not supposed to be empty")
@@ -104,19 +116,25 @@
          (= (:name element) (:name old-element)))
       (if (= (:args element) (:args old-element))
         (do (println "Same, no changes"))
-        (recur (:tree element) (:tree old-element) parent-element idx))
+        (recur (:tree element) (:tree old-element) parent-element idx dispath!))
     (and (element? element)
          (element? old-element)
          (= (:name element) (:name old-element))
          (do
-          (println "handle element change" element old-element)
+          (let [target (.getChildAt parent-element idx)]
+            (case (:name element)
+              :container (update-container element old-element target)
+              :circle (update-circle element old-element target dispath!)
+              :rect (update-rect element old-element target)
+              (do (println "not implement yet for updating:" (:name element)))))
           (update-children
            (remove-nil-values (index-items (:children element)))
            (remove-nil-values (index-items (:children old-element)))
-           (.getChildAt parent-element idx))))
+           (.getChildAt parent-element idx)
+           dispath!)))
       :else))
 
-(defn update-children [children-dict old-children-dict parent-container]
+(defn update-children [children-dict old-children-dict parent-container dispath!]
   (assert
    (and (every? some? (map last children-dict)) (every? some? (map last old-children-dict)))
    "children should not contain nil element")
@@ -132,7 +150,12 @@
             :remains
               (do
                (assert (= (last op) (first (first xs)) (first (first ys))) "check key")
-               (update-element (last (first xs)) (last (first ys)) parent-container idx)
+               (update-element
+                (last (first xs))
+                (last (first ys))
+                parent-container
+                idx
+                dispath!)
                (recur (inc idx) (rest ops) (rest xs) (rest ys)))
             :add
               (do
