@@ -71,6 +71,20 @@
         (.on rect (name k) (fn [event] (listener event dispatch!)))))
     rect))
 
+(defn render-text [element]
+  (js/console.log element)
+  (let [style (:style (:props element))
+        text-style (new
+                    (.-TextStyle PIXI)
+                    (clj->js
+                     {:fontFamily (:font-family style),
+                      :fontSize (:font-size style),
+                      :fill (:fill style),
+                      :align (:align style),
+                      :stroke (:stroke style)}))
+        text (new (.-Text PIXI) (:text (:props element)) text-style)]
+    text))
+
 (defn render-element [element dispatch!]
   (case (:phlox-node element)
     :element
@@ -80,6 +94,7 @@
         :graphics (let [g (new (.-Graphics PIXI))] g)
         :circle (render-circle element dispatch!)
         :rect (render-rect element dispatch!)
+        :text (render-text element)
         (do (println "unknown tag:" (:tag element)) {}))
     :component (render-element (:tree element) dispatch!)
     (do (js/console.log "Unknown element:" element))))
@@ -151,6 +166,23 @@
         (js/console.warn "Unknown options" options))
       (if (some? (:fill props)) (.endFill rect)))))
 
+(defn update-text [element old-element target]
+  (let [props (:props element)
+        props' (:props old-element)
+        text-style (:style props)
+        text-style' (:style props')]
+    (when (not= (:text props) (:text props')) (set! (.-text target) (:text props)))
+    (when (not= text-style text-style')
+      (let [new-style (new
+                       (.-TextStyle PIXI)
+                       (clj->js
+                        {:fontFamily (:font-family text-style),
+                         :fontSize (:font-size text-style),
+                         :fill (:fill text-style),
+                         :align (:align text-style),
+                         :stroke (:stroke text-style)}))]
+        (set! (.-style target) new-style)))))
+
 (defn update-element [element old-element parent-element idx dispath!]
   (js/console.log "refresh" element old-element)
   (cond
@@ -170,6 +202,7 @@
               :container (update-container element old-element target)
               :circle (update-circle element old-element target dispath!)
               :rect (update-rect element old-element target)
+              :text (update-text element old-element target)
               (do (println "not implement yet for updating:" (:name element)))))
           (update-children
            (remove-nil-values (index-items (:children element)))

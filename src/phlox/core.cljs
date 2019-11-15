@@ -26,7 +26,7 @@
   (when (nil? @*app)
     (let [pixi-app (PIXI/Application.
                     (clj->js
-                     {:background-color (hslx 0 0 30),
+                     {:backgroundColor (hslx 0 0 30),
                       :antialias true,
                       :width js/window.innerWidth,
                       :height js/window.innerHeight,
