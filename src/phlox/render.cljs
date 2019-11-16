@@ -3,7 +3,7 @@
   (:require ["pixi.js" :as PIXI]
             [phlox.util
              :refer
-             [use-number component? element? remove-nil-values index-items]]
+             [use-number component? element? remove-nil-values index-items map-to-object]]
             [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]))
 
 (declare render-element)
@@ -74,14 +74,7 @@
 (defn render-text [element]
   (js/console.log element)
   (let [style (:style (:props element))
-        text-style (new
-                    (.-TextStyle PIXI)
-                    (clj->js
-                     {:fontFamily (:font-family style),
-                      :fontSize (:font-size style),
-                      :fill (:fill style),
-                      :align (:align style),
-                      :stroke (:stroke style)}))
+        text-style (new (.-TextStyle PIXI) (map-to-object style))
         text (new (.-Text PIXI) (:text (:props element)) text-style)]
     text))
 
@@ -173,26 +166,19 @@
         text-style' (:style props')]
     (when (not= (:text props) (:text props')) (set! (.-text target) (:text props)))
     (when (not= text-style text-style')
-      (let [new-style (new
-                       (.-TextStyle PIXI)
-                       (clj->js
-                        {:fontFamily (:font-family text-style),
-                         :fontSize (:font-size text-style),
-                         :fill (:fill text-style),
-                         :align (:align text-style),
-                         :stroke (:stroke text-style)}))]
+      (let [new-style (new (.-TextStyle PIXI) (map-to-object text-style))]
         (set! (.-style target) new-style)))))
 
-(defn update-element [element old-element parent-element idx dispath!]
+(defn update-element [element old-element parent-element idx dispath! options]
   (js/console.log "refresh" element old-element)
   (cond
     (or (nil? element) (nil? element)) (js/console.error "Not supposed to be empty")
     (and (component? element)
          (component? old-element)
          (= (:name element) (:name old-element)))
-      (if (= (:args element) (:args old-element))
-        (do (println "Same, no changes"))
-        (recur (:tree element) (:tree old-element) parent-element idx dispath!))
+      (if (and (= (:args element) (:args old-element)) (not (:swap? options)))
+        (do (println "Same, no changes") (js/console.log (:args element) (:args old-element)))
+        (recur (:tree element) (:tree old-element) parent-element idx dispath! options))
     (and (element? element)
          (element? old-element)
          (= (:name element) (:name old-element))
@@ -208,10 +194,11 @@
            (remove-nil-values (index-items (:children element)))
            (remove-nil-values (index-items (:children old-element)))
            (.getChildAt parent-element idx)
-           dispath!)))
+           dispath!
+           options)))
       :else))
 
-(defn update-children [children-dict old-children-dict parent-container dispath!]
+(defn update-children [children-dict old-children-dict parent-container dispath! options]
   (assert
    (and (every? some? (map last children-dict)) (every? some? (map last old-children-dict)))
    "children should not contain nil element")
@@ -232,7 +219,8 @@
                 (last (first ys))
                 parent-container
                 idx
-                dispath!)
+                dispath!
+                options)
                (recur (inc idx) (rest ops) (rest xs) (rest ys)))
             :add
               (do

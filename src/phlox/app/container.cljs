@@ -24,7 +24,7 @@
             :on {:mousedown (fn [e dispatch!] (dispatch! :add-x "b"))}})
           (render-tag
            :text
-           {:text (str "Text demo" (:x store)),
+           {:text (str "Text demo:" (:x store)),
             :style {:font-family "Menlo",
                     :font-size 16,
                     :fill (hslx 200 80 (* 100 (js/Math.random))),
