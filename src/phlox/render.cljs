@@ -89,7 +89,9 @@
         :rect (render-rect element dispatch!)
         :text (render-text element)
         (do (println "unknown tag:" (:tag element)) {}))
-    :component (render-element (:tree element) dispatch!)
+    :component
+      (let [renderer (:render element), tree (apply renderer (:args element))]
+        (render-element tree dispatch!))
     (do (js/console.log "Unknown element:" element))))
 
 (defn render-container [element dispath!]
@@ -178,7 +180,13 @@
          (= (:name element) (:name old-element)))
       (if (and (= (:args element) (:args old-element)) (not (:swap? options)))
         (do (println "Same, no changes") (js/console.log (:args element) (:args old-element)))
-        (recur (:tree element) (:tree old-element) parent-element idx dispath! options))
+        (recur
+         (apply (:render element) (:args element))
+         (apply (:render old-element) (:args old-element))
+         parent-element
+         idx
+         dispath!
+         options))
     (and (element? element)
          (element? old-element)
          (= (:name element) (:name old-element))

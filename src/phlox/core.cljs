@@ -2,7 +2,8 @@
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
             [phlox.render :refer [render-element update-element update-children]]
-            [phlox.util :refer [hslx]]))
+            [phlox.util :refer [hslx]])
+  (:require-macros [phlox.core]))
 
 (defonce *app (atom nil))
 
