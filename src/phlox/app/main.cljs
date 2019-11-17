@@ -16,8 +16,10 @@
 
 (defn main! []
   (comment js/console.log PIXI)
-  (render! (comp-container @*store) dispatch!)
-  (add-watch *store :change (fn [] (render! (comp-container @*store) dispatch!)))
+  (render! (comp-container @*store) dispatch! {})
+  (add-watch *store :change (fn [] (render! (comp-container @*store) dispatch! {})))
   (println "App Started"))
 
-(defn reload! [] (println "Code updated") (render! (comp-container @*store) dispatch!))
+(defn reload! []
+  (println "Code updated")
+  (render! (comp-container @*store) dispatch! {:swap? true}))

@@ -2,7 +2,8 @@
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
             [phlox.render :refer [render-element update-element update-children]]
-            [phlox.util :refer [hslx]]))
+            [phlox.util :refer [hslx]])
+  (:require-macros [phlox.core]))
 
 (defonce *app (atom nil))
 
@@ -18,15 +19,20 @@
     (.addChild (.-stage @*app) element-tree)
     (js/console.log "got tree" element-tree)))
 
-(defn rerender-app! [app dispath!]
+(defn rerender-app! [app dispath! options]
   (js/console.log "rerender tree" app)
-  (update-children (list [0 app]) (list [0 @*tree-element]) (.-stage @*app) dispath!))
+  (update-children
+   (list [0 app])
+   (list [0 @*tree-element])
+   (.-stage @*app)
+   dispath!
+   options))
 
-(defn render! [app dispatch!]
+(defn render! [app dispatch! options]
   (when (nil? @*app)
     (let [pixi-app (PIXI/Application.
                     (clj->js
-                     {:backgroundColor (hslx 0 0 30),
+                     {:backgroundColor (hslx 0 0 0),
                       :antialias true,
                       :width js/window.innerWidth,
                       :height js/window.innerHeight,
@@ -34,7 +40,9 @@
       (reset! *app pixi-app)
       (-> js/document .-body (.appendChild (.-view pixi-app))))
     (set! js/window._phloxTree @*app))
-  (if (nil? @*tree-element) (mount-app! app dispatch!) (rerender-app! app dispatch!))
+  (if (nil? @*tree-element)
+    (mount-app! app dispatch!)
+    (rerender-app! app dispatch! options))
   (reset! *tree-element app))
 
 (defn render-tag [tag props & children]
