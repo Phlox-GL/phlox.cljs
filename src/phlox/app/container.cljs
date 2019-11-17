@@ -1,6 +1,6 @@
 
 (ns phlox.app.container
-  (:require [phlox.core :refer [defcomp rect circle text container]]
+  (:require [phlox.core :refer [defcomp rect circle text container create-list]]
             [phlox.util :refer [hslx]]))
 
 (defcomp
@@ -34,4 +34,19 @@
     :style {:font-family "Menlo",
             :font-size 12,
             :fill (hslx 200 80 (+ 80 (* 20 (js/Math.random)))),
-            :align "center"}})))
+            :align "center"}})
+  (create-list
+   :container
+   {}
+   (->> (range 20)
+        (map
+         (fn [idx]
+           [idx
+            (text
+             {:text (str idx),
+              :style {:font-family "Helvetica Neue",
+                      :font-weight 300,
+                      :font-size 14,
+                      :fill (hslx 200 10 (+ 40 (* 4 idx)))},
+              :position {:x (+ 200 (* idx 20)), :y (+ 140 (* idx 10))},
+              :rotation (* 0.1 (+ idx (:x store)))})]))))))

@@ -69,6 +69,15 @@ Draw a rectangle:
 }
 ```
 
+Draw text:
+
+```edn
+{
+  :text "demo"
+  :positiion {:x 1, :y 1}
+}
+```
+
 ### Workflow
 
 Workflow https://github.com/mvc-works/calcit-workflow

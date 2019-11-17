@@ -19,10 +19,17 @@
 (declare update-children)
 
 (defn render-text [element]
-  (js/console.log element)
   (let [style (:style (:props element))
         text-style (new (.-TextStyle PIXI) (map-to-object style))
-        text (new (.-Text PIXI) (:text (:props element)) text-style)]
+        text (new (.-Text PIXI) (:text (:props element)) text-style)
+        props (:props element)]
+    (when (some? (:position props))
+      (set! (-> text .-position .-x) (-> props :position :x))
+      (set! (-> text .-position .-y) (-> props :position :y)))
+    (when (some? (:pivot props))
+      (set! (-> text .-pivot .-x) (-> props :pivot :x))
+      (set! (-> text .-pivot .-y) (-> props :pivot :y)))
+    (when (some? (:rotation props)) (set! (.-rotation text) (:rotation props)))
     text))
 
 (defn render-rect [element dispatch!]
@@ -55,22 +62,22 @@
       (set! (-> rect .-pivot .-y) (-> props :pivot :y)))
     (when (some? (:rotation props)) (set! (.-rotation rect) (:rotation props)))
     (when (some? events)
-      (println (:pivot props))
       (set! (.-interactive rect) true)
       (set! (.-buttonMode rect) true)
       (doseq [[k listener] events]
         (.on rect (name k) (fn [event] (listener event dispatch!)))))
-    (doseq [child (:children element)]
-      (if (some? child)
-        (.addChild rect (render-element child dispatch!))
-        (js/console.log "nil child:" child)))
+    (doseq [child-pair (:children element)]
+      (if (some? child-pair)
+        (.addChild rect (render-element (last child-pair) dispatch!))
+        (js/console.log "nil child:" child-pair)))
     rect))
 
 (defn render-element [element dispatch!]
+  (js/console.log "render-element" element)
   (case (:phlox-node element)
     :element
       (case (:name element)
-        nil (do (js/console.log "nil element" element) nil)
+        nil nil
         :container (render-container element dispatch!)
         :graphics (let [g (new (.-Graphics PIXI))] g)
         :circle (render-circle element dispatch!)
@@ -84,10 +91,10 @@
 
 (defn render-container [element dispatch!]
   (let [container (new (.-Container PIXI)), props (:props element), options (:options props)]
-    (doseq [child (:children element)]
-      (if (some? child)
-        (.addChild container (render-element child dispatch!))
-        (js/console.log "nil child:" child)))
+    (doseq [child-pair (:children element)]
+      (if (some? child-pair)
+        (.addChild container (render-element (last child-pair) dispatch!))
+        (js/console.log "nil child:" child-pair)))
     (when (some? options)
       (set! (.-x container) (:x options))
       (set! (.-y container) (:y options)))
@@ -123,10 +130,10 @@
       (set! (.-buttonMode circle) true)
       (doseq [[k listener] events]
         (.on circle (name k) (fn [event] (listener event dispatch!)))))
-    (doseq [child (:children element)]
-      (if (some? child)
-        (.addChild circle (render-element child dispatch!))
-        (js/console.log "nil child:" child)))
+    (doseq [child-pair (:children element)]
+      (if (some? child-pair)
+        (.addChild circle (render-element (last child-pair) dispatch!))
+        (js/console.log "nil child:" child-pair)))
     circle))
 
 (defn update-circle [element old-element circle dispath!]
@@ -179,9 +186,7 @@
         line-style' (:line-style props')]
     (when (or (not= options options')
               (not= line-style line-style')
-              (not= (:fill props) (:fill props'))
-              (not= (:pivot props) (:pivor props'))
-              (not= (:rotation props) (:rotation props')))
+              (not= (:fill props) (:fill props')))
       (.clear rect)
       (if (some? (:fill props)) (.beginFill rect (:fill props)))
       (when (some? line-style)
@@ -198,15 +203,15 @@
          (use-number (:width options))
          (use-number (:height options)))
         (js/console.warn "Unknown options" options))
-      (if (some? (:fill props)) (.endFill rect))
-      (when (some? (:position props))
-        (set! (-> rect .-position .-x) (-> props :position :x))
-        (set! (-> rect .-position .-y) (-> props :position :y)))
-      (when (some? (:pivot props))
-        (println (:pivot props))
-        (set! (-> rect .-pivot .-x) (-> props :pivot :x))
-        (set! (-> rect .-pivot .-y) (-> props :pivot :y)))
-      (when (some? (:rotation props)) (set! (.-rotation rect) (:rotation props))))))
+      (if (some? (:fill props)) (.endFill rect)))
+    (when (not= (:position props) (:position props'))
+      (set! (-> rect .-position .-x) (-> props :position :x))
+      (set! (-> rect .-position .-y) (-> props :position :y)))
+    (when (not= (:rotation props) (:rotation props'))
+      (set! (.-rotation rect) (:rotation props)))
+    (when (not= (:pivot props) (:pivot props'))
+      (set! (-> rect .-pivot .-x) (-> props :pivot :x))
+      (set! (-> rect .-pivot .-y) (-> props :pivot :y)))))
 
 (defn update-text [element old-element target]
   (let [props (:props element)
@@ -216,7 +221,15 @@
     (when (not= (:text props) (:text props')) (set! (.-text target) (:text props)))
     (when (not= text-style text-style')
       (let [new-style (new (.-TextStyle PIXI) (map-to-object text-style))]
-        (set! (.-style target) new-style)))))
+        (set! (.-style target) new-style)))
+    (when (not= (:position props) (:position props'))
+      (set! (-> target .-position .-x) (-> props :position :x))
+      (set! (-> target .-position .-y) (-> props :position :y)))
+    (when (not= (:rotation props) (:rotation props'))
+      (set! (.-rotation target) (:rotation props)))
+    (when (not= (:pivot props) (:pivot props'))
+      (set! (-> target .-pivot .-x) (-> props :pivot :x))
+      (set! (-> target .-pivot .-y) (-> props :pivot :y)))))
 
 (defn update-element [element old-element parent-element idx dispath! options]
   (cond
@@ -243,8 +256,8 @@
            :text (update-text element old-element target)
            (do (println "not implement yet for updating:" (:name element)))))
        (update-children
-        (remove-nil-values (index-items (:children element)))
-        (remove-nil-values (index-items (:children old-element)))
+        (:children element)
+        (:children old-element)
         (.getChildAt parent-element idx)
         dispath!
         options))

@@ -2,7 +2,7 @@
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
             [phlox.render :refer [render-element update-element update-children]]
-            [phlox.util :refer [hslx]])
+            [phlox.util :refer [hslx index-items remove-nil-values]])
   (:require-macros [phlox.core]))
 
 (defonce *app (atom nil))
@@ -14,7 +14,13 @@
 (defonce *tree-element (atom nil))
 
 (defn create-element [tag props children]
-  {:name tag, :phlox-node :element, :props props, :children children})
+  {:name tag,
+   :phlox-node :element,
+   :props props,
+   :children (remove-nil-values (index-items children))})
+
+(defn create-list [tag props children]
+  {:name tag, :phlox-node :element, :props props, :children (remove-nil-values children)})
 
 (defn mount-app! [app dispatch!]
   (js/console.log "mount" app)
