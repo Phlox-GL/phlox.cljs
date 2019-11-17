@@ -21,56 +21,56 @@
 (defn render-text [element]
   (let [style (:style (:props element))
         text-style (new (.-TextStyle PIXI) (map-to-object style))
-        text (new (.-Text PIXI) (:text (:props element)) text-style)
+        target (new (.-Text PIXI) (:text (:props element)) text-style)
         props (:props element)]
     (when (some? (:position props))
-      (set! (-> text .-position .-x) (-> props :position :x))
-      (set! (-> text .-position .-y) (-> props :position :y)))
+      (set! (-> target .-position .-x) (-> props :position :x))
+      (set! (-> target .-position .-y) (-> props :position :y)))
     (when (some? (:pivot props))
-      (set! (-> text .-pivot .-x) (-> props :pivot :x))
-      (set! (-> text .-pivot .-y) (-> props :pivot :y)))
-    (when (some? (:rotation props)) (set! (.-rotation text) (:rotation props)))
-    text))
+      (set! (-> target .-pivot .-x) (-> props :pivot :x))
+      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
+    (when (some? (:rotation props)) (set! (.-rotation target) (:rotation props)))
+    target))
 
 (defn render-rect [element dispatch!]
-  (let [rect (new (.-Graphics PIXI))
+  (let [target (new (.-Graphics PIXI))
         props (:props element)
         line-style (:line-style props)
         options (:options props)
         events (:on props)]
-    (if (some? (:fill props)) (.beginFill rect (:fill props)))
+    (if (some? (:fill props)) (.beginFill target (:fill props)))
     (when (some? line-style)
       (.lineStyle
-       rect
+       target
        (use-number (:width line-style))
        (use-number (:color line-style))
        (:alpha line-style)))
     (if (map? options)
       (.drawRect
-       rect
+       target
        (use-number (:x options))
        (use-number (:y options))
        (use-number (:width options))
        (use-number (:height options)))
       (js/console.warn "Unknown options" options))
-    (if (some? (:fill props)) (.endFill rect))
+    (if (some? (:fill props)) (.endFill target))
     (when (some? (:position props))
-      (set! (-> rect .-position .-x) (-> props :position :x))
-      (set! (-> rect .-position .-y) (-> props :position :y)))
+      (set! (-> target .-position .-x) (-> props :position :x))
+      (set! (-> target .-position .-y) (-> props :position :y)))
     (when (some? (:pivot props))
-      (set! (-> rect .-pivot .-x) (-> props :pivot :x))
-      (set! (-> rect .-pivot .-y) (-> props :pivot :y)))
-    (when (some? (:rotation props)) (set! (.-rotation rect) (:rotation props)))
+      (set! (-> target .-pivot .-x) (-> props :pivot :x))
+      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
+    (when (some? (:rotation props)) (set! (.-rotation target) (:rotation props)))
     (when (some? events)
-      (set! (.-interactive rect) true)
-      (set! (.-buttonMode rect) true)
+      (set! (.-interactive target) true)
+      (set! (.-buttonMode target) true)
       (doseq [[k listener] events]
-        (.on rect (name k) (fn [event] (listener event dispatch!)))))
+        (.on target (name k) (fn [event] (listener event dispatch!)))))
     (doseq [child-pair (:children element)]
       (if (some? child-pair)
-        (.addChild rect (render-element (last child-pair) dispatch!))
+        (.addChild target (render-element (last child-pair) dispatch!))
         (js/console.log "nil child:" child-pair)))
-    rect))
+    target))
 
 (defn render-element [element dispatch!]
   (js/console.log "render-element" element)
@@ -90,53 +90,51 @@
     (do (js/console.error "Unknown element:" element))))
 
 (defn render-container [element dispatch!]
-  (let [container (new (.-Container PIXI)), props (:props element), options (:options props)]
+  (let [target (new (.-Container PIXI)), props (:props element), options (:options props)]
     (doseq [child-pair (:children element)]
       (if (some? child-pair)
-        (.addChild container (render-element (last child-pair) dispatch!))
+        (.addChild target (render-element (last child-pair) dispatch!))
         (js/console.log "nil child:" child-pair)))
-    (when (some? options)
-      (set! (.-x container) (:x options))
-      (set! (.-y container) (:y options)))
+    (when (some? options) (set! (.-x target) (:x options)) (set! (.-y target) (:y options)))
     (when (some? (:pivot props))
-      (set! (-> container .-pivot .-x) (-> props :pivot :x))
-      (set! (-> container .-pivot .-y) (-> props :pivot :y)))
-    (when (some? (:rotation props)) (set! (.-rotation container) (:rotation props)))
-    container))
+      (set! (-> target .-pivot .-x) (-> props :pivot :x))
+      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
+    (when (some? (:rotation props)) (set! (.-rotation target) (:rotation props)))
+    target))
 
 (defn render-circle [element dispatch!]
-  (let [circle (new (.-Graphics PIXI))
+  (let [target (new (.-Graphics PIXI))
         props (:props element)
         line-style (:line-style props)
         options (:options props)
         events (:on props)]
-    (when (some? (:fill props)) (.beginFill circle (:fill props)))
+    (when (some? (:fill props)) (.beginFill target (:fill props)))
     (when (some? line-style)
       (.lineStyle
-       circle
+       target
        (use-number (:width line-style))
        (use-number (:color line-style))
        (:alpha line-style)))
     (if (map? options)
       (.drawCircle
-       circle
+       target
        (use-number (:x options))
        (use-number (:y options))
        (use-number (:radius options)))
       (js/console.warn "Unknown options" options))
-    (when (some? (:fill props)) (.endFill circle))
+    (when (some? (:fill props)) (.endFill target))
     (when (some? events)
-      (set! (.-interactive circle) true)
-      (set! (.-buttonMode circle) true)
+      (set! (.-interactive target) true)
+      (set! (.-buttonMode target) true)
       (doseq [[k listener] events]
-        (.on circle (name k) (fn [event] (listener event dispatch!)))))
+        (.on target (name k) (fn [event] (listener event dispatch!)))))
     (doseq [child-pair (:children element)]
       (if (some? child-pair)
-        (.addChild circle (render-element (last child-pair) dispatch!))
+        (.addChild target (render-element (last child-pair) dispatch!))
         (js/console.log "nil child:" child-pair)))
-    circle))
+    target))
 
-(defn update-circle [element old-element circle dispath!]
+(defn update-circle [element old-element target dispath!]
   (let [props (:props element)
         props' (:props old-element)
         options (:options props)
@@ -146,38 +144,38 @@
     (when (or (not= options options')
               (not= line-style line-style')
               (not= (:fill props) (:fill props')))
-      (.clear circle)
-      (when (some? (:fill props)) (.beginFill circle (:fill props)))
+      (.clear target)
+      (when (some? (:fill props)) (.beginFill target (:fill props)))
       (when (some? line-style)
         (.lineStyle
-         circle
+         target
          (use-number (:width line-style))
          (use-number (:color line-style))
          (:alpha line-style)))
       (if (map? options)
         (.drawCircle
-         circle
+         target
          (use-number (:x options))
          (use-number (:y options))
          (use-number (:radius options)))
         (js/console.warn "Unknown options" options))
-      (when (some? (:fill props)) (.endFill circle)))))
+      (when (some? (:fill props)) (.endFill target)))))
 
-(defn update-container [element old-element container]
+(defn update-container [element old-element target]
   (let [props (:props element)
         props' (:props old-element)
         options (:options props)
         options' (:options props')]
     (when (not= options options')
-      (set! (.-x container) (:x options))
-      (set! (.-y container) (:y options)))
+      (set! (.-x target) (:x options))
+      (set! (.-y target) (:y options)))
     (when (not= (:pivot props) (:pivot props'))
-      (set! (-> container .-pivot .-x) (-> props :pivot :x))
-      (set! (-> container .-pivot .-y) (-> props :pivot :y)))
+      (set! (-> target .-pivot .-x) (-> props :pivot :x))
+      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
     (when (not= (:rotation props) (:rotation props'))
-      (set! (.-rotation container) (:rotation props)))))
+      (set! (.-rotation target) (:rotation props)))))
 
-(defn update-rect [element old-element rect]
+(defn update-rect [element old-element target]
   (let [props (:props element)
         props' (:props old-element)
         options (:options props)
@@ -187,31 +185,31 @@
     (when (or (not= options options')
               (not= line-style line-style')
               (not= (:fill props) (:fill props')))
-      (.clear rect)
-      (if (some? (:fill props)) (.beginFill rect (:fill props)))
+      (.clear target)
+      (if (some? (:fill props)) (.beginFill target (:fill props)))
       (when (some? line-style)
         (.lineStyle
-         rect
+         target
          (use-number (:width line-style))
          (use-number (:color line-style))
          (:alpha line-style)))
       (if (map? options)
         (.drawRect
-         rect
+         target
          (use-number (:x options))
          (use-number (:y options))
          (use-number (:width options))
          (use-number (:height options)))
         (js/console.warn "Unknown options" options))
-      (if (some? (:fill props)) (.endFill rect)))
+      (if (some? (:fill props)) (.endFill target)))
     (when (not= (:position props) (:position props'))
-      (set! (-> rect .-position .-x) (-> props :position :x))
-      (set! (-> rect .-position .-y) (-> props :position :y)))
+      (set! (-> target .-position .-x) (-> props :position :x))
+      (set! (-> target .-position .-y) (-> props :position :y)))
     (when (not= (:rotation props) (:rotation props'))
-      (set! (.-rotation rect) (:rotation props)))
+      (set! (.-rotation target) (:rotation props)))
     (when (not= (:pivot props) (:pivot props'))
-      (set! (-> rect .-pivot .-x) (-> props :pivot :x))
-      (set! (-> rect .-pivot .-y) (-> props :pivot :y)))))
+      (set! (-> target .-pivot .-x) (-> props :pivot :x))
+      (set! (-> target .-pivot .-y) (-> props :pivot :y)))))
 
 (defn update-text [element old-element target]
   (let [props (:props element)
