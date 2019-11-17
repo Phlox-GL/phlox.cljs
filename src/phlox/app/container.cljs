@@ -7,7 +7,7 @@
  comp-container
  (store)
  (container
-  {:options {:x 0, :y 0}}
+  {:options {:x 0, :y 0}, :rotation 0}
   (circle
    {:options {:x 200, :y 100, :radius 40},
     :line-style {:width 2, :color (hslx 0 80 50), :alpha 1},

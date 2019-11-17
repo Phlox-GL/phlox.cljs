@@ -83,7 +83,7 @@
     (do (js/console.log "Unknown element:" element))))
 
 (defn render-container [element dispatch!]
-  (let [container (new (.-Container PIXI)), options (:options (:props element))]
+  (let [container (new (.-Container PIXI)), props (:props element), options (:options props)]
     (doseq [child (:children element)]
       (if (some? child)
         (.addChild container (render-element child dispatch!))
@@ -91,6 +91,10 @@
     (when (some? options)
       (set! (.-x container) (:x options))
       (set! (.-y container) (:y options)))
+    (when (some? (:pivot props))
+      (set! (-> container .-pivot .-x) (-> props :pivot :x))
+      (set! (-> container .-pivot .-y) (-> props :pivot :y)))
+    (when (some? (:rotation props)) (set! (.-rotation container) (:rotation props)))
     container))
 
 (defn render-circle [element dispatch!]
@@ -159,7 +163,12 @@
         options' (:options props')]
     (when (not= options options')
       (set! (.-x container) (:x options))
-      (set! (.-y container) (:y options)))))
+      (set! (.-y container) (:y options)))
+    (when (not= (:pivot props) (:pivot props'))
+      (set! (-> container .-pivot .-x) (-> props :pivot :x))
+      (set! (-> container .-pivot .-y) (-> props :pivot :y)))
+    (when (not= (:rotation props) (:rotation props'))
+      (set! (.-rotation container) (:rotation props)))))
 
 (defn update-rect [element old-element rect]
   (let [props (:props element)
