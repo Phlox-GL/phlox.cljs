@@ -7,23 +7,31 @@
  comp-container
  (store)
  (container
-  {:options {:x 100, :y 0}}
+  {:options {:x 0, :y 0}}
   (circle
-   {:options {:x (+ 80 (:x store)), :y 100, :radius 40},
+   {:options {:x 200, :y 100, :radius 40},
     :line-style {:width 2, :color (hslx 0 80 50), :alpha 1},
     :fill (hslx 160 80 70),
     :on {:mousedown (fn [event dispatch!] (dispatch! :add-x "a"))}})
   (rect
-   {:options {:x 200, :y (+ 50 (:x store)), :width 50, :height 50},
+   {:options {:x 0, :y 0, :width 50, :height 50},
     :line-style {:width 2, :color (hslx 200 80 80), :alpha 1},
     :fill (hslx 200 80 80),
-    :on {:mousedown (fn [e dispatch!] (dispatch! :add-x "b"))}})
+    :on {:mousedown (fn [e dispatch!] (dispatch! :add-x "b"))},
+    :rotation (+ 1 (* 0.1 (:x store))),
+    :pivot {:x 0, :y 0},
+    :position {:x 100, :y 100}}
+   (text
+    {:text (str
+            "Text demo:"
+            (+ 1 (* 0.1 (:x store)))
+            "\n"
+            "pivot"
+            (pr-str {:x 100, :y 100})),
+     :style {:font-family "Menlo", :font-size 12, :fill (hslx 200 80 90), :align "center"}}))
   (text
    {:text (str "Text demo:" (:x store)),
     :style {:font-family "Menlo",
-            :font-size 16,
+            :font-size 12,
             :fill (hslx 200 80 (* 100 (js/Math.random))),
-            :align "center"}})
-  (comment container {})
-  (comment graphics {})
-  (comment graphics {})))
+            :align "center"}})))

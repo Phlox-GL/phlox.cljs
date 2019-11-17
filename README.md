@@ -64,6 +64,8 @@ Draw a rectangle:
   :on {
     :pointerdown (fn [])
   }
+  :rotation 1
+  :pivot {:x 1, :y 2}
 }
 ```
 

@@ -23,7 +23,7 @@
     (js/console.log "got tree" element-tree)))
 
 (defn rerender-app! [app dispath! options]
-  (js/console.log "rerender tree" app)
+  (comment js/console.log "rerender tree" app @*tree-element)
   (update-children
    (list [0 app])
    (list [0 @*tree-element])
