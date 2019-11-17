@@ -33,5 +33,5 @@
    {:text (str "Text demo:" (:x store)),
     :style {:font-family "Menlo",
             :font-size 12,
-            :fill (hslx 200 80 (* 100 (js/Math.random))),
+            :fill (hslx 200 80 (+ 80 (* 20 (js/Math.random)))),
             :align "center"}})))

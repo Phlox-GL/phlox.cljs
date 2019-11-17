@@ -80,7 +80,7 @@
     :component
       (let [renderer (:render element), tree (apply renderer (:args element))]
         (render-element tree dispatch!))
-    (do (js/console.log "Unknown element:" element))))
+    (do (js/console.error "Unknown element:" element))))
 
 (defn render-container [element dispatch!]
   (let [container (new (.-Container PIXI)), props (:props element), options (:options props)]
@@ -250,7 +250,7 @@
         options))
     :else (js/console.log "replace element")))
 
-(defn update-children [children-dict old-children-dict parent-container dispath! options]
+(defn update-children [children-dict old-children-dict parent-container dispatch! options]
   (assert
    (and (every? some? (map last children-dict)) (every? some? (map last old-children-dict)))
    "children should not contain nil element")
@@ -271,17 +271,20 @@
                 (last (first ys))
                 parent-container
                 idx
-                dispath!
+                dispatch!
                 options)
                (recur (inc idx) (rest ops) (rest xs) (rest ys)))
             :add
               (do
-               (assert (= (:value op) (first (first ys))) "check key")
-               (println "add element" (last (first ys)))
-               (recur (inc idx) (rest ops) xs (rest ys)))
+               (assert (= (last op) (first (first xs))) "check key")
+               (.addChildAt
+                parent-container
+                (render-element (last (first xs)) dispatch!)
+                idx)
+               (recur (inc idx) (rest ops) (rest xs) ys))
             :remove
               (do
-               (assert (= (:value op) (first (first xs))) "check key")
-               (println "remove" idx)
-               (recur idx (rest ops) (rest xs) ys))
+               (assert (= (last op) (first (first ys))) "check key")
+               (.removeChildAt parent-container idx)
+               (recur idx (rest ops) xs (rest ys)))
             (do (println "Unknown op:" op))))))))
