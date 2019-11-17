@@ -13,6 +13,9 @@
 
 (defonce *tree-element (atom nil))
 
+(defn create-element [tag props children]
+  {:name tag, :phlox-node :element, :props props, :children children})
+
 (defn mount-app! [app dispatch!]
   (js/console.log "mount" app)
   (let [element-tree (render-element app dispatch!)]
@@ -44,6 +47,3 @@
     (mount-app! app dispatch!)
     (rerender-app! app dispatch! options))
   (reset! *tree-element app))
-
-(defn render-tag [tag props & children]
-  {:name tag, :phlox-node :element, :props props, :children children})
