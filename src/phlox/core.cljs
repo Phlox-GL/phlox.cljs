@@ -47,7 +47,11 @@
                       :height js/window.innerHeight,
                       :interactive true}))]
       (reset! *app pixi-app)
-      (-> js/document .-body (.appendChild (.-view pixi-app))))
+      (-> js/document .-body (.appendChild (.-view pixi-app)))
+      (.addEventListener
+       js/window
+       "resize"
+       (fn [] (-> pixi-app .-renderer (.resize js/window.innerWidth js/window.innerHeight)))))
     (set! js/window._phloxTree @*app))
   (if (nil? @*tree-element)
     (mount-app! app dispatch!)
