@@ -8,7 +8,7 @@
 (defonce *store (atom schema/store))
 
 (defn updater [store op op-data]
-  (case op :add-x (update store :x (fn [x] (+ x 10))) (do (println "unknown op" op) store)))
+  (case op :add-x (update store :x (fn [x] (+ x 1))) (do (println "unknown op" op) store)))
 
 (defn dispatch! [op op-data]
   (println "dispatch!" op op-data)

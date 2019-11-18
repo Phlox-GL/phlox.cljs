@@ -64,6 +64,17 @@ Draw a rectangle:
   :on {
     :pointerdown (fn [])
   }
+  :rotation 1
+  :pivot {:x 1, :y 2}
+}
+```
+
+Draw text:
+
+```edn
+{
+  :text "demo"
+  :positiion {:x 1, :y 1}
 }
 ```
 
