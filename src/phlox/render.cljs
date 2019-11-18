@@ -18,6 +18,21 @@
 
 (declare update-children)
 
+(defn render-graphics [element]
+  (let [target (new (.-Graphics PIXI)), props (:props element), ops (:ops props)]
+    (doseq [[op data] ops]
+      (case op
+        :move-to (.moveTo target (:x data) (:y data))
+        :line-to (.lineTo target (:x data) (:y data))
+        :line-style (println "TODO")
+        :begin-fill (.beginFill target (:color data))
+        :end-fill (.endFill target)
+        :close-path (.closePath target)
+        :arc (println "TODO")
+        :arc-to (println "TODO")
+        (println "not supported:" op)))
+    target))
+
 (defn render-text [element]
   (let [style (:style (:props element))
         text-style (new (.-TextStyle PIXI) (map-to-object style))
@@ -79,7 +94,7 @@
       (case (:name element)
         nil nil
         :container (render-container element dispatch!)
-        :graphics (let [g (new (.-Graphics PIXI))] g)
+        :graphics (render-graphics element)
         :circle (render-circle element dispatch!)
         :rect (render-rect element dispatch!)
         :text (render-text element)
@@ -175,6 +190,10 @@
     (when (not= (:rotation props) (:rotation props'))
       (set! (.-rotation target) (:rotation props)))))
 
+(defn update-graphics [element old-element target]
+  (.clear target)
+  (println "update graphics" element))
+
 (defn update-rect [element old-element target]
   (let [props (:props element)
         props' (:props old-element)
@@ -252,6 +271,7 @@
            :circle (update-circle element old-element target dispath!)
            :rect (update-rect element old-element target)
            :text (update-text element old-element target)
+           :graphics (update-graphics element old-element target)
            (do (println "not implement yet for updating:" (:name element)))))
        (update-children
         (:children element)
