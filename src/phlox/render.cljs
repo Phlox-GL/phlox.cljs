@@ -4,7 +4,10 @@
             [phlox.util
              :refer
              [use-number component? element? remove-nil-values index-items map-to-object]]
-            [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]))
+            [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]
+            [phlox.render.draw
+             :refer
+             [call-graphics-ops set-position set-pivot set-rotation]]))
 
 (declare render-element)
 
@@ -20,17 +23,10 @@
 
 (defn render-graphics [element]
   (let [target (new (.-Graphics PIXI)), props (:props element), ops (:ops props)]
-    (doseq [[op data] ops]
-      (case op
-        :move-to (.moveTo target (:x data) (:y data))
-        :line-to (.lineTo target (:x data) (:y data))
-        :line-style (println "TODO")
-        :begin-fill (.beginFill target (:color data))
-        :end-fill (.endFill target)
-        :close-path (.closePath target)
-        :arc (println "TODO")
-        :arc-to (println "TODO")
-        (println "not supported:" op)))
+    (call-graphics-ops target ops)
+    (when (some? (:rotation props)) (set-rotation target (:rotation props)))
+    (when (some? (:pivot props)) (set-pivot target (:pivot props)))
+    (when (some? (:position props)) (set-position target (:position props)))
     target))
 
 (defn render-text [element]
@@ -69,13 +65,9 @@
        (use-number (:height options)))
       (js/console.warn "Unknown options" options))
     (if (some? (:fill props)) (.endFill target))
-    (when (some? (:position props))
-      (set! (-> target .-position .-x) (-> props :position :x))
-      (set! (-> target .-position .-y) (-> props :position :y)))
-    (when (some? (:pivot props))
-      (set! (-> target .-pivot .-x) (-> props :pivot :x))
-      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
-    (when (some? (:rotation props)) (set! (.-rotation target) (:rotation props)))
+    (when (some? (:position props)) (set-position target (:position props)))
+    (when (some? (:pivot props)) (set-pivot target (:pivot props)))
+    (when (some? (:rotation props)) (set-rotation target (:rotation props)))
     (when (some? events)
       (set! (.-interactive target) true)
       (set! (.-buttonMode target) true)
@@ -191,8 +183,16 @@
       (set! (.-rotation target) (:rotation props)))))
 
 (defn update-graphics [element old-element target]
-  (.clear target)
-  (println "update graphics" element))
+  (let [props (:props element)
+        props' (:props old-element)
+        ops (:ops props)
+        ops' (:ops props')]
+    (when (not= ops ops') (.clear target) (call-graphics-ops target ops))
+    (when (not= (:position props) (:position props'))
+      (set-position target (:position props)))
+    (when (not= (:rotation props) (:rotation props'))
+      (set-rotation target (:rotation props)))
+    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))))
 
 (defn update-rect [element old-element target]
   (let [props (:props element)
@@ -222,13 +222,10 @@
         (js/console.warn "Unknown options" options))
       (if (some? (:fill props)) (.endFill target)))
     (when (not= (:position props) (:position props'))
-      (set! (-> target .-position .-x) (-> props :position :x))
-      (set! (-> target .-position .-y) (-> props :position :y)))
+      (set-position target (:position props)))
     (when (not= (:rotation props) (:rotation props'))
-      (set! (.-rotation target) (:rotation props)))
-    (when (not= (:pivot props) (:pivot props'))
-      (set! (-> target .-pivot .-x) (-> props :pivot :x))
-      (set! (-> target .-pivot .-y) (-> props :pivot :y)))))
+      (set-rotation target (:rotation props)))
+    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))))
 
 (defn update-text [element old-element target]
   (let [props (:props element)
