@@ -78,6 +78,32 @@ Draw text:
 }
 ```
 
+Draw graphics:
+
+```edn
+{
+  :ops [
+    [:move-to {:x 1, :y 1}]
+    [:line-to {:x 1, :y 1}]
+    [:line-style {}]
+    [:begin-fill {:color "red"}]
+    [:circle {:x 1, :y 1, :r 2}]
+    [:end-fill]
+    [:close-path]
+    [:arc-to TODO]
+    [:arc TODO]
+  ]
+  :position {:x 1, :y 1}
+  :pivot {:x 1, :y 2}
+}
+```
+
+Draw star:
+
+```edn
+; TODO
+```
+
 ### Workflow
 
 Workflow https://github.com/mvc-works/calcit-workflow
