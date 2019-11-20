@@ -34,7 +34,8 @@
     :style {:font-family "Menlo",
             :font-size 12,
             :fill (hslx 200 80 (+ 80 (* 20 (js/Math.random)))),
-            :align "center"}})
+            :align "center"},
+    :alpha 1})
   (create-list
    :container
    {}
@@ -58,4 +59,5 @@
           [:line-to {:x 500, :y 300}]
           [:close-path]],
     :rotation 0.1,
-    :pivot {:x 0, :y 100}})))
+    :pivot {:x 0, :y 100},
+    :alpha 0.5})))

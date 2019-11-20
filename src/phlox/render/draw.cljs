@@ -20,13 +20,16 @@
       :arc-to (println "TODO")
       (println "not supported:" op))))
 
+(defn set-alpha [target alpha] (when (some? alpha) (set! (-> target .-alpha) alpha)))
+
 (defn set-pivot [target pivot]
   (when-not (nil? pivot)
     (set! (-> target .-pivot .-x) (-> pivot :x))
     (set! (-> target .-pivot .-y) (-> pivot :y))))
 
 (defn set-position [target options]
-  (set! (-> target .-position .-x) (-> options :x))
-  (set! (-> target .-position .-y) (-> options :y)))
+  (when (some? options)
+    (set! (-> target .-position .-x) (-> options :x))
+    (set! (-> target .-position .-y) (-> options :y))))
 
-(defn set-rotation [target v] (set! (.-rotation target) v))
+(defn set-rotation [target v] (when (some? v) (set! (.-rotation target) v)))

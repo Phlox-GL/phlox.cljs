@@ -7,7 +7,7 @@
             [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]
             [phlox.render.draw
              :refer
-             [call-graphics-ops set-position set-pivot set-rotation]]))
+             [call-graphics-ops set-position set-pivot set-rotation set-alpha]]))
 
 (declare render-element)
 
@@ -24,9 +24,10 @@
 (defn render-graphics [element]
   (let [target (new (.-Graphics PIXI)), props (:props element), ops (:ops props)]
     (call-graphics-ops target ops)
-    (when (some? (:rotation props)) (set-rotation target (:rotation props)))
-    (when (some? (:pivot props)) (set-pivot target (:pivot props)))
-    (when (some? (:position props)) (set-position target (:position props)))
+    (set-rotation target (:rotation props))
+    (set-pivot target (:pivot props))
+    (set-position target (:position props))
+    (set-alpha target (:alpha props))
     target))
 
 (defn render-text [element]
@@ -34,13 +35,10 @@
         text-style (new (.-TextStyle PIXI) (map-to-object style))
         target (new (.-Text PIXI) (:text (:props element)) text-style)
         props (:props element)]
-    (when (some? (:position props))
-      (set! (-> target .-position .-x) (-> props :position :x))
-      (set! (-> target .-position .-y) (-> props :position :y)))
-    (when (some? (:pivot props))
-      (set! (-> target .-pivot .-x) (-> props :pivot :x))
-      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
-    (when (some? (:rotation props)) (set! (.-rotation target) (:rotation props)))
+    (set-position target (:position props))
+    (set-pivot target (:pivot props))
+    (set-rotation target (:rotation props))
+    (set-alpha target (:alpha props))
     target))
 
 (defn render-rect [element dispatch!]
@@ -65,9 +63,10 @@
        (use-number (:height options)))
       (js/console.warn "Unknown options" options))
     (if (some? (:fill props)) (.endFill target))
-    (when (some? (:position props)) (set-position target (:position props)))
-    (when (some? (:pivot props)) (set-pivot target (:pivot props)))
-    (when (some? (:rotation props)) (set-rotation target (:rotation props)))
+    (set-position target (:position props))
+    (set-pivot target (:pivot props))
+    (set-rotation target (:rotation props))
+    (set-alpha target (:alpha props))
     (when (some? events)
       (set! (.-interactive target) true)
       (set! (.-buttonMode target) true)
@@ -97,16 +96,15 @@
     (do (js/console.error "Unknown element:" element))))
 
 (defn render-container [element dispatch!]
-  (let [target (new (.-Container PIXI)), props (:props element), options (:options props)]
+  (let [target (new (.-Container PIXI)), props (:props element)]
     (doseq [child-pair (:children element)]
       (if (some? child-pair)
         (.addChild target (render-element (last child-pair) dispatch!))
         (js/console.log "nil child:" child-pair)))
-    (when (some? options) (set! (.-x target) (:x options)) (set! (.-y target) (:y options)))
-    (when (some? (:pivot props))
-      (set! (-> target .-pivot .-x) (-> props :pivot :x))
-      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
-    (when (some? (:rotation props)) (set! (.-rotation target) (:rotation props)))
+    (set-position target (:position props))
+    (set-rotation target (:rotation props))
+    (set-pivot target (:pivot props))
+    (set-alpha target (:alpha props))
     target))
 
 (defn render-circle [element dispatch!]
@@ -135,6 +133,8 @@
       (set! (.-buttonMode target) true)
       (doseq [[k listener] events]
         (.on target (name k) (fn [event] (listener event dispatch!)))))
+    (set-position target (:position props))
+    (set-alpha target (:alpha props))
     (doseq [child-pair (:children element)]
       (if (some? child-pair)
         (.addChild target (render-element (last child-pair) dispatch!))
@@ -166,21 +166,18 @@
          (use-number (:y options))
          (use-number (:radius options)))
         (js/console.warn "Unknown options" options))
-      (when (some? (:fill props)) (.endFill target)))))
+      (when (some? (:fill props)) (.endFill target))
+      (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
+      (when (not= (:position props) (:position props'))
+        (set-position target (:position props))))))
 
 (defn update-container [element old-element target]
-  (let [props (:props element)
-        props' (:props old-element)
-        options (:options props)
-        options' (:options props')]
-    (when (not= options options')
-      (set! (.-x target) (:x options))
-      (set! (.-y target) (:y options)))
-    (when (not= (:pivot props) (:pivot props'))
-      (set! (-> target .-pivot .-x) (-> props :pivot :x))
-      (set! (-> target .-pivot .-y) (-> props :pivot :y)))
+  (let [props (:props element), props' (:props old-element)]
+    (when (not= (:position props) (:position props')) (set-position target (:position props)))
+    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
     (when (not= (:rotation props) (:rotation props'))
-      (set! (.-rotation target) (:rotation props)))))
+      (set-rotation target (:rotation props)))
+    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
 
 (defn update-graphics [element old-element target]
   (let [props (:props element)
@@ -192,7 +189,8 @@
       (set-position target (:position props)))
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
-    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))))
+    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
+    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
 
 (defn update-rect [element old-element target]
   (let [props (:props element)
@@ -225,7 +223,8 @@
       (set-position target (:position props)))
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
-    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))))
+    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
+    (when (not= (:alpha props) (:alpha props')) (set-pivot target (:alpha props)))))
 
 (defn update-text [element old-element target]
   (let [props (:props element)
@@ -237,13 +236,11 @@
       (let [new-style (new (.-TextStyle PIXI) (map-to-object text-style))]
         (set! (.-style target) new-style)))
     (when (not= (:position props) (:position props'))
-      (set! (-> target .-position .-x) (-> props :position :x))
-      (set! (-> target .-position .-y) (-> props :position :y)))
+      (set-position target (:position props)))
     (when (not= (:rotation props) (:rotation props'))
-      (set! (.-rotation target) (:rotation props)))
-    (when (not= (:pivot props) (:pivot props'))
-      (set! (-> target .-pivot .-x) (-> props :pivot :x))
-      (set! (-> target .-pivot .-y) (-> props :pivot :y)))))
+      (set-rotation target (:rotation props)))
+    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
+    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
 
 (defn update-element [element old-element parent-element idx dispath! options]
   (cond
