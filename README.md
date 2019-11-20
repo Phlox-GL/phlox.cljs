@@ -21,6 +21,7 @@ Add a container:
   :on {
     :pointerdown (fn [])
   }
+  :alpha 1
 }
 ```
 
@@ -42,6 +43,7 @@ Draw a circle:
   :on {
     :pointerdown (fn [])
   }
+  :alpha 1
 }
 ```
 
@@ -66,6 +68,7 @@ Draw a rectangle:
   }
   :rotation 1
   :pivot {:x 1, :y 2}
+  :alpha 1
 }
 ```
 
@@ -75,6 +78,7 @@ Draw text:
 {
   :text "demo"
   :positiion {:x 1, :y 1}
+  :alpha 1
 }
 ```
 
@@ -95,6 +99,7 @@ Draw graphics:
   ]
   :position {:x 1, :y 1}
   :pivot {:x 1, :y 2}
+  :alpha 1
 }
 ```
 
