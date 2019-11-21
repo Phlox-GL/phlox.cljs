@@ -4,7 +4,6 @@
   :dependencies [
     [mvc-works/hsl "0.1.2"]
     [mvc-works/shell-page "0.1.10"]
-    [respo "0.11.5"]
     [cumulo/util "0.1.10"]
     [org.clojure/core.incubator "0.1.4"]
   ]

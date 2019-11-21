@@ -446,7 +446,7 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
 
 color-convert@^1.9.1:
   version "1.9.3"
-  resolved "https://registry.npm.taobao.org/color-convert/download/color-convert-1.9.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcolor-convert%2Fdownload%2Fcolor-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
+  resolved "https://registry.npm.taobao.org/color-convert/download/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
   integrity sha1-u3GFBpDh8TZWfeYp0tVHHe2kweg=
   dependencies:
     color-name "1.1.3"
@@ -471,7 +471,7 @@ color-string@^1.5.2:
 
 color@^3.1.2:
   version "3.1.2"
-  resolved "https://registry.npm.taobao.org/color/download/color-3.1.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcolor%2Fdownload%2Fcolor-3.1.2.tgz#68148e7f85d41ad7649c5fa8c8106f098d229e10"
+  resolved "https://registry.npm.taobao.org/color/download/color-3.1.2.tgz#68148e7f85d41ad7649c5fa8c8106f098d229e10"
   integrity sha1-aBSOf4XUGtdknF+oyBBvCY0inhA=
   dependencies:
     color-convert "^1.9.1"
@@ -558,9 +558,9 @@ debug@^3.0.0, debug@^3.1.1:
     ms "^2.1.1"
 
 des.js@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/des.js/download/des.js-1.0.0.tgz#c074d2e2aa6a8a9a07dbd61f9a15c2cd83ec8ecc"
-  integrity sha1-wHTS4qpqipoH29YfmhXCzYPsjsw=
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/des.js/download/des.js-1.0.1.tgz#5382142e1bdc53f85d86d53e5f4aa7deb91e0843"
+  integrity sha1-U4IULhvcU/hdhtU+X0qn3rkeCEM=
   dependencies:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
@@ -576,7 +576,7 @@ diffie-hellman@^5.0.0:
 
 domain-browser@^1.1.1:
   version "1.2.0"
-  resolved "https://registry.npm.taobao.org/domain-browser/download/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
+  resolved "https://registry.npm.taobao.org/domain-browser/download/domain-browser-1.2.0.tgz?cache=0&sync_timestamp=1574051269386&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdomain-browser%2Fdownload%2Fdomain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha1-PTH1AZGmdJ3RN1p/Ui6CPULlTto=
 
 earcut@^2.1.5:
@@ -810,9 +810,9 @@ ms@^2.1.1:
   integrity sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk=
 
 nanoid@^2.1.0:
-  version "2.1.6"
-  resolved "https://registry.npm.taobao.org/nanoid/download/nanoid-2.1.6.tgz#0665418f692e54cf44f34d4010761f3240a03314"
-  integrity sha1-BmVBj2kuVM9E801AEHYfMkCgMxQ=
+  version "2.1.7"
+  resolved "https://registry.npm.taobao.org/nanoid/download/nanoid-2.1.7.tgz#d775e3e7c6470bbaaae3da9a647a80e228e0abf7"
+  integrity sha1-13Xj58ZHC7qq49qaZHqA4ijgq/c=
 
 node-libs-browser@^2.0.0:
   version "2.2.1"
@@ -1082,10 +1082,10 @@ shadow-cljs-jar@1.3.1:
   resolved "https://registry.npm.taobao.org/shadow-cljs-jar/download/shadow-cljs-jar-1.3.1.tgz#a5f8ab7664b40e11345837e4c6bce8e0ac9b2cc3"
   integrity sha1-pfirdmS0DhE0WDfkxrzo4KybLMM=
 
-shadow-cljs@^2.8.69:
-  version "2.8.69"
-  resolved "https://registry.npm.taobao.org/shadow-cljs/download/shadow-cljs-2.8.69.tgz#a646926ce0ba2b0b0f1086925a1048fdd69ebb08"
-  integrity sha1-pkaSbOC6KwsPEIaSWhBI/daeuwg=
+shadow-cljs@^2.8.73:
+  version "2.8.73"
+  resolved "https://registry.npm.taobao.org/shadow-cljs/download/shadow-cljs-2.8.73.tgz#3b49fccbf0f9706987ec0d830320ec9d75f54eec"
+  integrity sha1-O0n8y/D5cGmH7A2DAyDsnXX1Tuw=
   dependencies:
     mkdirp "^0.5.1"
     node-libs-browser "^2.0.0"
@@ -1222,7 +1222,7 @@ vm-browserify@^1.0.1:
 
 which@^1.3.1:
   version "1.3.1"
-  resolved "https://registry.npm.taobao.org/which/download/which-1.3.1.tgz#a45043d54f5805316da8d62f9f50918d3da70b0a"
+  resolved "https://registry.npm.taobao.org/which/download/which-1.3.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwhich%2Fdownload%2Fwhich-1.3.1.tgz#a45043d54f5805316da8d62f9f50918d3da70b0a"
   integrity sha1-pFBD1U9YBTFtqNYvn1CRjT2nCwo=
   dependencies:
     isexe "^2.0.0"

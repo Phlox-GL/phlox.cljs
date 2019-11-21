@@ -8,7 +8,7 @@
       :args [~@args]
       :render (fn [~@args] ~@children)}))
 
-(def current-elements '(container rect circle text))
+(def current-elements '(container rect circle text graphics))
 
 (defn helper-create-element [el props children]
   `(phlox.core/create-element ~el ~props [~@children]))

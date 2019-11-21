@@ -1,7 +1,6 @@
 
 (ns phlox.app.page
-  (:require [respo.render.html :refer [make-string]]
-            [shell-page.core :refer [make-page spit slurp]]
+  (:require [shell-page.core :refer [make-page spit slurp]]
             [phlox.app.schema :as schema]
             [cljs.reader :refer [read-string]]
             [phlox.app.config :as config]
@@ -30,7 +29,6 @@
       base-info
       {:styles [(:release-ui config/site)],
        :scripts (map #(-> % :output-name prefix-cdn) assets),
-       :ssr "respo-ssr",
        :inline-styles [(slurp "./entry/main.css")]}))))
 
 (defn main! []
