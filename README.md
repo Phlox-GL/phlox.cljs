@@ -79,6 +79,9 @@ Draw text:
   :text "demo"
   :positiion {:x 1, :y 1}
   :alpha 1
+  :style {
+    :color "red"
+  }
 }
 ```
 

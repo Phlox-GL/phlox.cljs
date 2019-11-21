@@ -79,7 +79,6 @@
     target))
 
 (defn render-element [element dispatch!]
-  (js/console.log "render-element" element)
   (case (:phlox-node element)
     :element
       (case (:name element)
@@ -90,9 +89,7 @@
         :rect (render-rect element dispatch!)
         :text (render-text element)
         (do (println "unknown tag:" (:tag element)) {}))
-    :component
-      (let [renderer (:render element), tree (apply renderer (:args element))]
-        (render-element tree dispatch!))
+    :component (render-element (:tree element) dispatch!)
     (do (js/console.error "Unknown element:" element))))
 
 (defn render-container [element dispatch!]
@@ -250,13 +247,7 @@
          (= (:name element) (:name old-element)))
       (if (and (= (:args element) (:args old-element)) (not (:swap? options)))
         (do (println "Same, no changes") (js/console.log (:args element) (:args old-element)))
-        (recur
-         (apply (:render element) (:args element))
-         (apply (:render old-element) (:args old-element))
-         parent-element
-         idx
-         dispath!
-         options))
+        (recur (:tree element) (:tree old-element) parent-element idx dispath! options))
     (and (element? element) (element? old-element) (= (:name element) (:name old-element)))
       (do
        (let [target (.getChildAt parent-element idx)]
@@ -284,6 +275,7 @@
                    lcs-state-0
                    (map first old-children-dict)
                    (map first children-dict)))]
+    (comment js/console.log "ops" list-ops old-children-dict children-dict)
     (loop [idx 0, ops list-ops, xs children-dict, ys old-children-dict]
       (when-not (empty? ops)
         (let [op (first ops)]

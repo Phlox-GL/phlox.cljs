@@ -2,7 +2,8 @@
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
             [phlox.render :refer [render-element update-element update-children]]
-            [phlox.util :refer [hslx index-items remove-nil-values]])
+            [phlox.util :refer [hslx index-items remove-nil-values]]
+            [phlox.render.expand :refer [expand-tree]])
   (:require-macros [phlox.core]))
 
 (defonce *app (atom nil))
@@ -53,7 +54,8 @@
        "resize"
        (fn [] (-> pixi-app .-renderer (.resize js/window.innerWidth js/window.innerHeight)))))
     (set! js/window._phloxTree @*app))
-  (if (nil? @*tree-element)
-    (mount-app! app dispatch!)
-    (rerender-app! app dispatch! options))
-  (reset! *tree-element app))
+  (let [expanded-app (expand-tree app)]
+    (if (nil? @*tree-element)
+      (mount-app! expanded-app dispatch!)
+      (rerender-app! expanded-app dispatch! options))
+    (reset! *tree-element expanded-app)))

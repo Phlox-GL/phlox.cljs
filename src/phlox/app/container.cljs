@@ -4,10 +4,10 @@
             [phlox.util :refer [hslx]]))
 
 (defcomp
- comp-container
- (store)
+ comp-drafts
+ (x)
  (container
-  {:options {:x 0, :y 0}, :rotation 0}
+  {:position {:x 100, :y 100}, :rotation 0}
   (circle
    {:options {:x 200, :y 100, :radius 40},
     :line-style {:width 2, :color (hslx 0 80 50), :alpha 1},
@@ -18,19 +18,14 @@
     :line-style {:width 2, :color (hslx 200 80 80), :alpha 1},
     :fill (hslx 200 80 80),
     :on {:mousedown (fn [e dispatch!] (dispatch! :add-x "b"))},
-    :rotation (+ 1 (* 0.1 (:x store))),
+    :rotation (+ 1 (* 0.1 x)),
     :pivot {:x 0, :y 0},
     :position {:x 100, :y 100}}
    (text
-    {:text (str
-            "Text demo:"
-            (+ 1 (* 0.1 (:x store)))
-            "\n"
-            "pivot"
-            (pr-str {:x 100, :y 100})),
+    {:text (str "Text demo:" (+ 1 (* 0.1 x)) "\n" "pivot" (pr-str {:x 100, :y 100})),
      :style {:font-family "Menlo", :font-size 12, :fill (hslx 200 80 90), :align "center"}}))
   (text
-   {:text (str "Text demo:" (:x store)),
+   {:text (str "Text demo:" x),
     :style {:font-family "Menlo",
             :font-size 12,
             :fill (hslx 200 80 (+ 80 (* 20 (js/Math.random)))),
@@ -50,14 +45,50 @@
                       :font-size 14,
                       :fill (hslx 200 10 (+ 40 (* 4 idx)))},
               :position {:x (+ 200 (* idx 20)), :y (+ 140 (* idx 10))},
-              :rotation (* 0.1 (+ idx (:x store)))})]))))
+              :rotation (* 0.1 (+ idx x))})]))))
   (graphics
    {:ops [[:line-style {:width 4, :color (hslx 200 80 80), :alpha 1}]
           [:begin-fill {:color (hslx 0 80 20)}]
-          [:move-to {:x 100, :y 200}]
-          [:line-to {:x 400, :y 400}]
-          [:line-to {:x 500, :y 300}]
+          [:move-to {:x (+ (* 20 x) 100), :y 200}]
+          [:line-to {:x (+ (* 20 x) 400), :y 400}]
+          [:line-to {:x (- 500 (* 20 x)), :y 300}]
           [:close-path]],
     :rotation 0.1,
     :pivot {:x 0, :y 100},
     :alpha 0.5})))
+
+(defcomp
+ comp-tabs
+ ()
+ (container
+  {}
+  (container
+   {:position {:x 10, :y 100}}
+   (rect
+    {:options {:x 0, :y 0, :width 80, :height 32},
+     :fill (hslx 100 90 80),
+     :on {:mousedown (fn [event dispatch!] (dispatch! :tab :drafts))}})
+   (text
+    {:text "Drafts",
+     :style {:fill (hslx 200 90 60), :font-size 20, :font-family "Helvetica"}}))
+  (container
+   {:position {:x 10, :y 200}}
+   (rect
+    {:options {:x 0, :y 0, :width 160, :height 32},
+     :fill (hslx 100 90 80),
+     :on {:mousedown (fn [event dispatch!] (dispatch! :tab :repeated))}})
+   (text
+    {:text "Repeated shapes",
+     :style {:fill (hslx 200 90 60), :font-size 20, :font-family "Helvetica"}}))))
+
+(defcomp
+ comp-container
+ (store)
+ (container
+  {}
+  (comp-tabs)
+  (comp-drafts (:x store))
+  (comp-drafts (+ 10 (:x store)))
+  (comp-drafts (+ 20 (:x store)))
+  (comp-drafts (+ 30 (:x store)))
+  (comp-drafts (+ 40 (:x store)))))
