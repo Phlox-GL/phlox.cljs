@@ -84,11 +84,19 @@
 (defcomp
  comp-container
  (store)
+ (println "Store" store (:tab store))
  (container
   {}
   (comp-tabs)
-  (comp-drafts (:x store))
-  (comp-drafts (+ 10 (:x store)))
-  (comp-drafts (+ 20 (:x store)))
-  (comp-drafts (+ 30 (:x store)))
-  (comp-drafts (+ 40 (:x store)))))
+  (case (:tab store)
+    :drafts (comp-drafts (:x store))
+    :repeated
+      (container
+       {}
+       (text
+        {:text "Repeated",
+         :position {:x 200, :y 0},
+         :style {:fill (hslx 200 80 80), :font-size 20, :font-family "Helvetica"}}))
+    (text
+     {:text "Unknown",
+      :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))
