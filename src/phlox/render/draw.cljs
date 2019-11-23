@@ -41,10 +41,9 @@
 (defn set-rotation [target v] (when (some? v) (set! (.-rotation target) v)))
 
 (defn update-events [target events old-events dispatch!]
-  (when (some? old-events) (doseq [[k listener] events] (.off target (name k))))
-  (when (some? events)
-    (doseq [[k listener] events]
-      (.on target (name k) (fn [event] (listener event dispatch!)))))
+  (doseq [[k listener] old-events] (.off target (name k)))
+  (doseq [[k listener] events]
+    (.on target (name k) (fn [event] (listener event dispatch!))))
   (if (some? events)
     (do (set! (.-buttonMode target) true) (set! (.-buttonMode target) true))
     (do (set! (.-buttonMode target) false) (set! (.-buttonMode target) false))))

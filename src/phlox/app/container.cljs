@@ -55,7 +55,8 @@
           [:close-path]],
     :rotation 0.1,
     :pivot {:x 0, :y 100},
-    :alpha 0.5})))
+    :alpha 0.5,
+    :on {:pointerdown (fn [e dispatch!] (println "clicked"))}})))
 
 (defcomp
  comp-tabs

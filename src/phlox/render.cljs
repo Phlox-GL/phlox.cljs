@@ -27,13 +27,17 @@
 
 (declare update-children)
 
-(defn render-graphics [element]
-  (let [target (new (.-Graphics PIXI)), props (:props element), ops (:ops props)]
+(defn render-graphics [element dispatch!]
+  (let [target (new (.-Graphics PIXI))
+        props (:props element)
+        ops (:ops props)
+        events (:on props)]
     (call-graphics-ops target ops)
     (set-rotation target (:rotation props))
     (set-pivot target (:pivot props))
     (set-position target (:position props))
     (set-alpha target (:alpha props))
+    (add-events target events dispatch!)
     target))
 
 (defn render-text [element]
@@ -86,7 +90,7 @@
       (case (:name element)
         nil nil
         :container (render-container element dispatch!)
-        :graphics (render-graphics element)
+        :graphics (render-graphics element dispatch!)
         :circle (render-circle element dispatch!)
         :rect (render-rect element dispatch!)
         :text (render-text element)
@@ -175,7 +179,7 @@
       (set-rotation target (:rotation props)))
     (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
 
-(defn update-graphics [element old-element target]
+(defn update-graphics [element old-element target dispatch!]
   (let [props (:props element)
         props' (:props old-element)
         ops (:ops props)
@@ -186,7 +190,8 @@
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
-    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
+    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
+    (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-rect [element old-element target dispatch!]
   (let [props (:props element)
@@ -263,7 +268,7 @@
              :circle (update-circle element old-element target dispatch!)
              :rect (update-rect element old-element target dispatch!)
              :text (update-text element old-element target)
-             :graphics (update-graphics element old-element target)
+             :graphics (update-graphics element old-element target dispatch!)
              (do (println "not implement yet for updating:" (:name element)))))
          (update-children
           (:children element)

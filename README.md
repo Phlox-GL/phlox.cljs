@@ -103,6 +103,9 @@ Draw graphics:
   :position {:x 1, :y 1}
   :pivot {:x 1, :y 2}
   :alpha 1
+  :on {
+    :pointerdown (fn [])
+  }
 }
 ```
 
