@@ -2,6 +2,7 @@
 body {
   margin: 0;
   overscroll-behavior-y: none;
+  font-family: Josefin Sans, Hind;
 }
 
 body * {
