@@ -7,7 +7,13 @@
             [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]
             [phlox.render.draw
              :refer
-             [call-graphics-ops set-position set-pivot set-rotation set-alpha]]))
+             [call-graphics-ops
+              set-position
+              set-pivot
+              set-rotation
+              set-alpha
+              add-events
+              update-events]]))
 
 (declare render-element)
 
@@ -67,11 +73,7 @@
     (set-pivot target (:pivot props))
     (set-rotation target (:rotation props))
     (set-alpha target (:alpha props))
-    (when (some? events)
-      (set! (.-interactive target) true)
-      (set! (.-buttonMode target) true)
-      (doseq [[k listener] events]
-        (.on target (name k) (fn [event] (listener event dispatch!)))))
+    (add-events target events dispatch!)
     (doseq [child-pair (:children element)]
       (if (some? child-pair)
         (.addChild target (render-element (last child-pair) dispatch!))
@@ -125,11 +127,7 @@
        (use-number (:radius options)))
       (js/console.warn "Unknown options" options))
     (when (some? (:fill props)) (.endFill target))
-    (when (some? events)
-      (set! (.-interactive target) true)
-      (set! (.-buttonMode target) true)
-      (doseq [[k listener] events]
-        (.on target (name k) (fn [event] (listener event dispatch!)))))
+    (add-events target events dispatch!)
     (set-position target (:position props))
     (set-alpha target (:alpha props))
     (doseq [child-pair (:children element)]
@@ -138,7 +136,7 @@
         (js/console.log "nil child:" child-pair)))
     target))
 
-(defn update-circle [element old-element target dispath!]
+(defn update-circle [element old-element target dispatch!]
   (let [props (:props element)
         props' (:props old-element)
         options (:options props)
@@ -166,7 +164,8 @@
       (when (some? (:fill props)) (.endFill target))
       (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
       (when (not= (:position props) (:position props'))
-        (set-position target (:position props))))))
+        (set-position target (:position props))))
+    (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-container [element old-element target]
   (let [props (:props element), props' (:props old-element)]
@@ -189,7 +188,7 @@
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
     (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
 
-(defn update-rect [element old-element target]
+(defn update-rect [element old-element target dispatch!]
   (let [props (:props element)
         props' (:props old-element)
         options (:options props)
@@ -221,7 +220,8 @@
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
-    (when (not= (:alpha props) (:alpha props')) (set-pivot target (:alpha props)))))
+    (when (not= (:alpha props) (:alpha props')) (set-pivot target (:alpha props)))
+    (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-text [element old-element target]
   (let [props (:props element)
@@ -261,7 +261,7 @@
            (case (:name element)
              :container (update-container element old-element target)
              :circle (update-circle element old-element target dispatch!)
-             :rect (update-rect element old-element target)
+             :rect (update-rect element old-element target dispatch!)
              :text (update-text element old-element target)
              :graphics (update-graphics element old-element target)
              (do (println "not implement yet for updating:" (:name element)))))

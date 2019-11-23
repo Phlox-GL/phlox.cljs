@@ -1,6 +1,13 @@
 
 (ns phlox.render.draw (:require [phlox.util :refer [use-number]]))
 
+(defn add-events [target events dispatch!]
+  (when (some? events)
+    (set! (.-interactive target) true)
+    (set! (.-buttonMode target) true)
+    (doseq [[k listener] events]
+      (.on target (name k) (fn [event] (listener event dispatch!))))))
+
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
     (case op
@@ -32,3 +39,12 @@
     (set! (-> target .-position .-y) (-> options :y))))
 
 (defn set-rotation [target v] (when (some? v) (set! (.-rotation target) v)))
+
+(defn update-events [target events old-events dispatch!]
+  (when (some? old-events) (doseq [[k listener] events] (.off target (name k))))
+  (when (some? events)
+    (doseq [[k listener] events]
+      (.on target (name k) (fn [event] (listener event dispatch!)))))
+  (if (some? events)
+    (do (set! (.-buttonMode target) true) (set! (.-buttonMode target) true))
+    (do (set! (.-buttonMode target) false) (set! (.-buttonMode target) false))))
