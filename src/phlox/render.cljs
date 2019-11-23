@@ -221,26 +221,26 @@
       (recur (:tree element) old-element parent-element idx dispatch! options)
     (and (element? element) (component? old-element))
       (recur element (:tree old-element) parent-element idx dispatch! options)
-    (and (element? element) (element? old-element))
-      (if (= (:name element) (:name old-element))
-        (do
-         (let [target (.getChildAt parent-element idx)]
-           (case (:name element)
-             :container (update-container element old-element target)
-             :circle (update-circle element old-element target dispatch!)
-             :rect (update-rect element old-element target dispatch!)
-             :text (update-text element old-element target)
-             :graphics (update-graphics element old-element target dispatch!)
-             (do (println "not implement yet for updating:" (:name element)))))
-         (update-children
-          (:children element)
-          (:children old-element)
-          (.getChildAt parent-element idx)
-          dispatch!
-          options))
-        (do
-         (.removeChildAt parent-element idx)
-         (.addChildAt parent-element (render-element element dispatch!) idx)))
+    (and (element? element) (element? old-element) (= (:name element) (:name old-element)))
+      (do
+       (let [target (.getChildAt parent-element idx)]
+         (case (:name element)
+           :container (update-container element old-element target)
+           :circle (update-circle element old-element target dispatch!)
+           :rect (update-rect element old-element target dispatch!)
+           :text (update-text element old-element target)
+           :graphics (update-graphics element old-element target dispatch!)
+           (do (println "not implement yet for updating:" (:name element)))))
+       (update-children
+        (:children element)
+        (:children old-element)
+        (.getChildAt parent-element idx)
+        dispatch!
+        options))
+    (not= (:name element) (:name old-element))
+      (do
+       (.removeChildAt parent-element idx)
+       (.addChildAt parent-element (render-element element dispatch!) idx))
     :else (js/console.warn "Unknown case:" element old-element)))
 
 (defn update-children [children-dict old-children-dict parent-container dispatch! options]
