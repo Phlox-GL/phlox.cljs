@@ -4,20 +4,28 @@
             [phlox.util :refer [hslx]]))
 
 (defcomp
+ comp-circle-tree
+ ()
+ (container
+  {:position {:x 200, :y 100}}
+  (text
+   {:text "Tree", :style {:fill (hslx 200 80 80), :font-size 18, :font-family "Helvetica"}})))
+
+(defcomp
  comp-drafts
  (x)
  (container
-  {:position {:x 100, :y 100}, :rotation 0}
+  {:position {:x 200, :y 100}, :rotation 0}
   (circle
    {:options {:x 200, :y 100, :radius 40},
     :line-style {:width 2, :color (hslx 0 80 50), :alpha 1},
     :fill (hslx 160 80 70),
-    :on {:mousedown (fn [event dispatch!] (dispatch! :add-x "a"))}})
+    :on {:mousedown (fn [event dispatch!] (dispatch! :add-x nil))}})
   (rect
    {:options {:x 0, :y 0, :width 50, :height 50},
     :line-style {:width 2, :color (hslx 200 80 80), :alpha 1},
     :fill (hslx 200 80 80),
-    :on {:mousedown (fn [e dispatch!] (dispatch! :add-x "b"))},
+    :on {:mousedown (fn [e dispatch!] (dispatch! :add-x nil))},
     :rotation (+ 1 (* 0.1 x)),
     :pivot {:x 0, :y 0},
     :position {:x 100, :y 100}}
@@ -55,31 +63,31 @@
           [:close-path]],
     :rotation 0.1,
     :pivot {:x 0, :y 100},
-    :alpha 0.5})))
+    :alpha 0.5,
+    :on {:pointerdown (fn [e dispatch!] (println "clicked"))}})))
+
+(defcomp
+ comp-tab-entry
+ (tab-value tab-title position selected?)
+ (container
+  {:position position}
+  (rect
+   {:options {:x 0, :y 0, :width 160, :height 32},
+    :fill (if selected? (hslx 180 50 50) (hslx 180 50 30)),
+    :on {:mousedown (fn [event dispatch!] (dispatch! :tab tab-value))}})
+  (text
+   {:text tab-title,
+    :style {:fill (hslx 200 90 100), :font-size 20, :font-family "Helvetica"},
+    :position {:x 10, :y 0}})))
 
 (defcomp
  comp-tabs
- ()
+ (tab)
  (container
   {}
-  (container
-   {:position {:x 10, :y 100}}
-   (rect
-    {:options {:x 0, :y 0, :width 80, :height 32},
-     :fill (hslx 100 90 80),
-     :on {:mousedown (fn [event dispatch!] (dispatch! :tab :drafts))}})
-   (text
-    {:text "Drafts",
-     :style {:fill (hslx 200 90 60), :font-size 20, :font-family "Helvetica"}}))
-  (container
-   {:position {:x 10, :y 200}}
-   (rect
-    {:options {:x 0, :y 0, :width 160, :height 32},
-     :fill (hslx 100 90 80),
-     :on {:mousedown (fn [event dispatch!] (dispatch! :tab :repeated))}})
-   (text
-    {:text "Repeated shapes",
-     :style {:fill (hslx 200 90 60), :font-size 20, :font-family "Helvetica"}}))))
+  (comp-tab-entry :drafts "Drafts" {:x 10, :y 100} (= :drafts tab))
+  (comp-tab-entry :repeated "Repeated" {:x 10, :y 150} (= :repeated tab))
+  (comp-tab-entry :tree "Tree" {:x 10, :y 200} (= :tree tab))))
 
 (defcomp
  comp-container
@@ -87,7 +95,7 @@
  (println "Store" store (:tab store))
  (container
   {}
-  (comp-tabs)
+  (comp-tabs (:tab store))
   (case (:tab store)
     :drafts (comp-drafts (:x store))
     :repeated
@@ -97,6 +105,7 @@
         {:text "Repeated",
          :position {:x 200, :y 0},
          :style {:fill (hslx 200 80 80), :font-size 20, :font-family "Helvetica"}}))
+    :tree (comp-circle-tree)
     (text
      {:text "Unknown",
       :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))

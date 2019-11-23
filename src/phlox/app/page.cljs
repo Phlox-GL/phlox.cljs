@@ -15,9 +15,9 @@
    ""
    (merge
     base-info
-    {:styles [(<< "http://~(get-ip!):8100/main.css") "/entry/main.css"],
+    {:styles [(<< "http://~(get-ip!):8100/main.css")],
      :scripts ["/client.js"],
-     :inline-styles []})))
+     :inline-styles [(slurp "./entry/main.css")]})))
 
 (defn prod-page []
   (let [assets (read-string (slurp "dist/assets.edn"))

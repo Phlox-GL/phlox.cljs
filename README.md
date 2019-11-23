@@ -97,12 +97,17 @@ Draw graphics:
     [:circle {:x 1, :y 1, :r 2}]
     [:end-fill]
     [:close-path]
-    [:arc-to TODO]
-    [:arc TODO]
+    [:arc-to 'TODO]
+    [:arc 'TODO]
+    [:bezier-curve-to 'TODO]
+    [:quadratic-curve-to 'TODO]
   ]
   :position {:x 1, :y 1}
   :pivot {:x 1, :y 2}
   :alpha 1
+  :on {
+    :pointerdown (fn [])
+  }
 }
 ```
 

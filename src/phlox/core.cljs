@@ -29,13 +29,13 @@
     (.addChild (.-stage @*app) element-tree)
     (js/console.log "got tree" element-tree)))
 
-(defn rerender-app! [app dispath! options]
+(defn rerender-app! [app dispatch! options]
   (comment js/console.log "rerender tree" app @*tree-element)
   (update-children
    (list [0 app])
    (list [0 @*tree-element])
    (.-stage @*app)
-   dispath!
+   dispatch!
    options))
 
 (defn render! [app dispatch! options]
