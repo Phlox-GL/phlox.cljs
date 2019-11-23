@@ -13,7 +13,12 @@
               set-rotation
               set-alpha
               add-events
-              update-events]]))
+              update-events
+              set-line-style
+              draw-circle
+              draw-rect]]))
+
+(declare render-children)
 
 (declare render-element)
 
@@ -21,11 +26,45 @@
 
 (declare render-container)
 
+(declare render-graphics)
+
 (declare render-circle)
+
+(declare render-text)
 
 (declare update-element)
 
 (declare update-children)
+
+(defn render-text [element dispatch!]
+  (let [style (:style (:props element))
+        text-style (new (.-TextStyle PIXI) (map-to-object style))
+        target (new (.-Text PIXI) (:text (:props element)) text-style)
+        props (:props element)]
+    (set-position target (:position props))
+    (set-pivot target (:pivot props))
+    (set-rotation target (:rotation props))
+    (set-alpha target (:alpha props))
+    (render-children target (:children element) dispatch!)
+    target))
+
+(defn render-rect [element dispatch!]
+  (let [target (new (.-Graphics PIXI))
+        props (:props element)
+        line-style (:line-style props)
+        options (:options props)
+        events (:on props)]
+    (if (some? (:fill props)) (.beginFill target (:fill props)))
+    (set-line-style target line-style)
+    (draw-rect target options)
+    (if (some? (:fill props)) (.endFill target))
+    (set-position target (:position props))
+    (set-pivot target (:pivot props))
+    (set-rotation target (:rotation props))
+    (set-alpha target (:alpha props))
+    (add-events target events dispatch!)
+    (render-children target (:children element) dispatch!)
+    target))
 
 (defn render-graphics [element dispatch!]
   (let [target (new (.-Graphics PIXI))
@@ -38,50 +77,7 @@
     (set-position target (:position props))
     (set-alpha target (:alpha props))
     (add-events target events dispatch!)
-    target))
-
-(defn render-text [element]
-  (let [style (:style (:props element))
-        text-style (new (.-TextStyle PIXI) (map-to-object style))
-        target (new (.-Text PIXI) (:text (:props element)) text-style)
-        props (:props element)]
-    (set-position target (:position props))
-    (set-pivot target (:pivot props))
-    (set-rotation target (:rotation props))
-    (set-alpha target (:alpha props))
-    target))
-
-(defn render-rect [element dispatch!]
-  (let [target (new (.-Graphics PIXI))
-        props (:props element)
-        line-style (:line-style props)
-        options (:options props)
-        events (:on props)]
-    (if (some? (:fill props)) (.beginFill target (:fill props)))
-    (when (some? line-style)
-      (.lineStyle
-       target
-       (use-number (:width line-style))
-       (use-number (:color line-style))
-       (:alpha line-style)))
-    (if (map? options)
-      (.drawRect
-       target
-       (use-number (:x options))
-       (use-number (:y options))
-       (use-number (:width options))
-       (use-number (:height options)))
-      (js/console.warn "Unknown options" options))
-    (if (some? (:fill props)) (.endFill target))
-    (set-position target (:position props))
-    (set-pivot target (:pivot props))
-    (set-rotation target (:rotation props))
-    (set-alpha target (:alpha props))
-    (add-events target events dispatch!)
-    (doseq [child-pair (:children element)]
-      (if (some? child-pair)
-        (.addChild target (render-element (last child-pair) dispatch!))
-        (js/console.log "nil child:" child-pair)))
+    (render-children target (:children element) dispatch!)
     target))
 
 (defn render-element [element dispatch!]
@@ -93,17 +89,14 @@
         :graphics (render-graphics element dispatch!)
         :circle (render-circle element dispatch!)
         :rect (render-rect element dispatch!)
-        :text (render-text element)
+        :text (render-text element dispatch!)
         (do (println "unknown tag:" (:tag element)) {}))
     :component (render-element (:tree element) dispatch!)
     (do (js/console.error "Unknown element:" element))))
 
 (defn render-container [element dispatch!]
   (let [target (new (.-Container PIXI)), props (:props element)]
-    (doseq [child-pair (:children element)]
-      (if (some? child-pair)
-        (.addChild target (render-element (last child-pair) dispatch!))
-        (js/console.log "nil child:" child-pair)))
+    (render-children target (:children element) dispatch!)
     (set-position target (:position props))
     (set-rotation target (:rotation props))
     (set-pivot target (:pivot props))
@@ -117,28 +110,20 @@
         options (:options props)
         events (:on props)]
     (when (some? (:fill props)) (.beginFill target (:fill props)))
-    (when (some? line-style)
-      (.lineStyle
-       target
-       (use-number (:width line-style))
-       (use-number (:color line-style))
-       (:alpha line-style)))
-    (if (map? options)
-      (.drawCircle
-       target
-       (use-number (:x options))
-       (use-number (:y options))
-       (use-number (:radius options)))
-      (js/console.warn "Unknown options" options))
+    (set-line-style target line-style)
+    (draw-circle target options)
     (when (some? (:fill props)) (.endFill target))
     (add-events target events dispatch!)
     (set-position target (:position props))
     (set-alpha target (:alpha props))
-    (doseq [child-pair (:children element)]
-      (if (some? child-pair)
-        (.addChild target (render-element (last child-pair) dispatch!))
-        (js/console.log "nil child:" child-pair)))
+    (render-children target (:children element) dispatch!)
     target))
+
+(defn render-children [target children dispatch!]
+  (doseq [child-pair children]
+    (if (some? child-pair)
+      (.addChild target (render-element (last child-pair) dispatch!))
+      (js/console.log "nil child:" child-pair))))
 
 (defn update-circle [element old-element target dispatch!]
   (let [props (:props element)
@@ -152,19 +137,8 @@
               (not= (:fill props) (:fill props')))
       (.clear target)
       (when (some? (:fill props)) (.beginFill target (:fill props)))
-      (when (some? line-style)
-        (.lineStyle
-         target
-         (use-number (:width line-style))
-         (use-number (:color line-style))
-         (:alpha line-style)))
-      (if (map? options)
-        (.drawCircle
-         target
-         (use-number (:x options))
-         (use-number (:y options))
-         (use-number (:radius options)))
-        (js/console.warn "Unknown options" options))
+      (set-line-style target line-style)
+      (draw-circle target options)
       (when (some? (:fill props)) (.endFill target))
       (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
       (when (not= (:position props) (:position props'))
@@ -205,20 +179,8 @@
               (not= (:fill props) (:fill props')))
       (.clear target)
       (if (some? (:fill props)) (.beginFill target (:fill props)))
-      (when (some? line-style)
-        (.lineStyle
-         target
-         (use-number (:width line-style))
-         (use-number (:color line-style))
-         (:alpha line-style)))
-      (if (map? options)
-        (.drawRect
-         target
-         (use-number (:x options))
-         (use-number (:y options))
-         (use-number (:width options))
-         (use-number (:height options)))
-        (js/console.warn "Unknown options" options))
+      (set-line-style target line-style)
+      (draw-rect target options)
       (if (some? (:fill props)) (.endFill target)))
     (when (not= (:position props) (:position props'))
       (set-position target (:position props)))

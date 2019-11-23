@@ -26,7 +26,34 @@
       :arc-to (println "TODO")
       (js/console.warn "not supported:" op))))
 
+(defn draw-circle [target options]
+  (if (map? options)
+    (.drawCircle
+     target
+     (use-number (:x options))
+     (use-number (:y options))
+     (use-number (:radius options)))
+    (js/console.warn "Unknown options" options)))
+
+(defn draw-rect [target options]
+  (if (map? options)
+    (.drawRect
+     target
+     (use-number (:x options))
+     (use-number (:y options))
+     (use-number (:width options))
+     (use-number (:height options)))
+    (js/console.warn "Unknown options" options)))
+
 (defn set-alpha [target alpha] (when (some? alpha) (set! (-> target .-alpha) alpha)))
+
+(defn set-line-style [target line-style]
+  (when (some? line-style)
+    (.lineStyle
+     target
+     (use-number (:width line-style))
+     (use-number (:color line-style))
+     (:alpha line-style))))
 
 (defn set-pivot [target pivot]
   (when-not (nil? pivot)
