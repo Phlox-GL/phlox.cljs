@@ -67,6 +67,28 @@
     :on {:pointerdown (fn [e dispatch!] (println "clicked"))}})))
 
 (defcomp
+ comp-grids
+ ()
+ (container
+  {}
+  (create-list
+   :container
+   {:position {:x 200, :y 20}}
+   (->> (range 40)
+        (mapcat (fn [x] (->> (range 20) (map (fn [y] [x y])))))
+        (map
+         (fn [[x y]]
+           [(str x "+" y)
+            (rect
+             {:options {:x (* x 14), :y (* y 14), :width 10, :height 10},
+              :fill (hslx 200 80 80),
+              :on {:mouseover (fn [e d!] (println "d" x y))}})]))))
+  (rect
+   {:options {:x 30, :y 320, :width 40, :height 30},
+    :fill (hslx 40 80 80),
+    :on {:pointerdown (fn [e d!] (println "corsur"))}})))
+
+(defcomp
  comp-tab-entry
  (tab-value tab-title position selected?)
  (container
@@ -87,7 +109,8 @@
   {}
   (comp-tab-entry :drafts "Drafts" {:x 10, :y 100} (= :drafts tab))
   (comp-tab-entry :repeated "Repeated" {:x 10, :y 150} (= :repeated tab))
-  (comp-tab-entry :tree "Tree" {:x 10, :y 200} (= :tree tab))))
+  (comp-tab-entry :tree "Tree" {:x 10, :y 200} (= :tree tab))
+  (comp-tab-entry :grids "Grids" {:x 10, :y 250} (= :grids tab))))
 
 (defcomp
  comp-container
@@ -106,6 +129,7 @@
          :position {:x 200, :y 0},
          :style {:fill (hslx 200 80 80), :font-size 20, :font-family "Helvetica"}}))
     :tree (comp-circle-tree)
+    :grids (comp-grids)
     (text
      {:text "Unknown",
       :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))
