@@ -72,5 +72,5 @@
   (doseq [[k listener] events]
     (.on target (name k) (fn [event] (listener event dispatch!))))
   (if (some? events)
-    (do (set! (.-buttonMode target) true) (set! (.-buttonMode target) true))
-    (do (set! (.-buttonMode target) false) (set! (.-buttonMode target) false))))
+    (do (set! (.-buttonMode target) true) (set! (.-interactive target) true))
+    (do (set! (.-buttonMode target) false) (set! (.-interactive target) false))))
