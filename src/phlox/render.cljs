@@ -187,7 +187,7 @@
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
-    (when (not= (:alpha props) (:alpha props')) (set-pivot target (:alpha props)))
+    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-text [element old-element target]

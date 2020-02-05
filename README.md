@@ -1,12 +1,48 @@
 
-Phlox(WIP)
+Phlox
 ----
 
-> Pixi.js DSL in ClojureScript
+> Pixi.js DSL in ClojureScript, inspired by Virtual DOMs. Currently only a small subset of Pixi.js features is supported, good part is how swapping on code changes is available.
+
+Previews http://repo.quamolit.org/phlox/ .
 
 ### Usage
 
-WIP
+[![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
+
+```edn
+[quamolit/phlox "0.0.1"]
+```
+
+`render!` to add canvas to `<body/>`:
+
+```clojure
+(ns app.main
+  (:require [phlox.core :refer [defcomp render! create-list
+                                rect circle text container graphics]]
+            [phlox.util :refer [hslx]]))
+
+(defcomp comp-demo [data]
+  (rect
+   {:options {:x 800, :y 40, :width 60, :height 34},
+    :fill (hslx 40 80 80),
+    :on {:pointerdown (fn [e d!] (d! :demo nil))}}
+   (text
+    {:text "Demo",
+     :position {:x 808, :y 44},
+     :style {:fill (hslx 120 80 20), :font-size 18, :font-family "Josefin Sans"}})))
+
+(defonce *store (atom nil))
+
+(defn dispatch! [op op-data]
+  (reset! *store (updater @*store op op-data)))
+
+(defn main []
+  (render! (comp-demo data) dispatch! {}))
+
+(defn reload! []
+  (render! (comp-container @*store) dispatch! {:swap? true}))
+```
 
 ### Spec
 
@@ -121,7 +157,7 @@ Draw star:
 
 ### Workflow
 
-Workflow https://github.com/mvc-works/calcit-workflow
+Workflow https://github.com/Quamolit/phlox-workflow
 
 ### License
 
