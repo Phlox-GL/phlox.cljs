@@ -55,7 +55,7 @@
        (fn [] (-> pixi-app .-renderer (.resize js/window.innerWidth js/window.innerHeight)))))
     (set! js/window._phloxTree @*app))
   (let [expanded-app (expand-tree app)]
-    (js/console.log "render!" expanded-app)
+    (comment js/console.log "render!" expanded-app)
     (if (nil? @*tree-element)
       (mount-app! expanded-app dispatch!)
       (rerender-app! expanded-app dispatch! options))

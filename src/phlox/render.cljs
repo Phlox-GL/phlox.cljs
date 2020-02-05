@@ -213,7 +213,8 @@
          (component? old-element)
          (= (:name element) (:name old-element)))
       (if (and (= (:args element) (:args old-element)) (not (:swap? options)))
-        (do
+        (comment
+         do
          (js/console.log "Same, no changes" (:name element))
          (js/console.log (:args element) (:args old-element)))
         (recur (:tree element) (:tree old-element) parent-element idx dispatch! options))

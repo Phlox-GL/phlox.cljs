@@ -80,7 +80,9 @@ Draw text:
   :positiion {:x 1, :y 1}
   :alpha 1
   :style {
-    :color "red"
+    :fill "red"
+    :font-size 14
+    :font-family "Hind"
   }
 }
 ```
