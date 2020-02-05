@@ -3,19 +3,17 @@
   (:require ["pixi.js" :as PIXI]
             [phlox.core :refer [render!]]
             [phlox.app.container :refer [comp-container]]
-            [phlox.app.schema :as schema]))
+            [phlox.app.schema :as schema]
+            [phlox.app.config :refer [dev?]]
+            ["shortid" :as shortid]
+            [phlox.app.updater :refer [updater]]))
 
 (defonce *store (atom schema/store))
 
-(defn updater [store op op-data]
-  (case op
-    :add-x (update store :x (fn [x] (if (> x 10) 0 (+ x 1))))
-    :tab (assoc store :tab op-data)
-    (do (println "unknown op" op op-data) store)))
-
 (defn dispatch! [op op-data]
-  (println "dispatch!" op op-data)
-  (reset! *store (updater @*store op op-data)))
+  (when dev? (println "dispatch!" op op-data))
+  (let [op-id (shortid/generate), op-time (.now js/Date)]
+    (reset! *store (updater @*store op op-data op-id op-time))))
 
 (defn main! []
   (comment js/console.log PIXI)
