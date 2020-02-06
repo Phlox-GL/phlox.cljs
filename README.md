@@ -18,9 +18,8 @@ Previews http://repo.quamolit.org/phlox/ .
 
 ```clojure
 (ns app.main
-  (:require [phlox.core :refer [defcomp render! create-list
-                                rect circle text container graphics]]
-            [phlox.util :refer [hslx]]))
+  (:require [phlox.core :refer [defcomp hslx render! create-list
+                                rect circle text container graphics]]))
 
 (defcomp comp-demo [data]
   (rect
