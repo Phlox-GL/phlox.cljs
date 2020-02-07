@@ -1,13 +1,11 @@
 
-(ns phlox.util (:require ["color" :as color] [clojure.string :as string]))
+(ns phlox.util (:require [clojure.string :as string]))
 
 (defn camel-case [x] (string/replace x #"-[a-z]" (fn [x] (string/upper-case (subs x 1)))))
 
 (defn component? [x] (= :component (:phlox-node x)))
 
 (defn element? [x] (= :element (:phlox-node x)))
-
-(defn hslx [h s l] (-> color (.hsl h s l) (.rgbNumber)))
 
 (defn index-items [xs] (->> xs (map-indexed (fn [idx x] [idx x]))))
 

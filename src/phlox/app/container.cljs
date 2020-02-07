@@ -1,7 +1,6 @@
 
 (ns phlox.app.container
-  (:require [phlox.core :refer [defcomp rect circle text container graphics create-list]]
-            [phlox.util :refer [hslx]]))
+  (:require [phlox.core :refer [defcomp hslx rect circle text container graphics create-list]]))
 
 (defcomp
  comp-circle-tree

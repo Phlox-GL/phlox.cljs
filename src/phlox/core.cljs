@@ -2,8 +2,9 @@
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
             [phlox.render :refer [render-element update-element update-children]]
-            [phlox.util :refer [hslx index-items remove-nil-values]]
-            [phlox.render.expand :refer [expand-tree]])
+            [phlox.util :refer [index-items remove-nil-values]]
+            [phlox.render.expand :refer [expand-tree]]
+            ["./hue-to-rgb" :refer [hslToRgb]])
   (:require-macros [phlox.core]))
 
 (defonce *app (atom nil))
@@ -22,6 +23,11 @@
 
 (defn create-list [tag props children]
   {:name tag, :phlox-node :element, :props props, :children (remove-nil-values children)})
+
+(defn hslx [h s l]
+  (let [[r g b] (hslToRgb (/ h 360) (* 0.01 s) (* 0.01 l))
+        r0 (PIXI/utils.rgb2hex (array r g b))]
+    r0))
 
 (defn mount-app! [app dispatch!]
   (js/console.log "mount" app)

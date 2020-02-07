@@ -36,6 +36,8 @@
 
 (declare update-children)
 
+(def in-dev? (do ^boolean js/goog.DEBUG))
+
 (defn render-text [element dispatch!]
   (let [style (:style (:props element))
         text-style (new (.-TextStyle PIXI) (map-to-object style))
@@ -122,7 +124,7 @@
 (defn render-children [target children dispatch!]
   (doseq [child-pair children]
     (if (some? child-pair)
-      (.addChild target (render-element (last child-pair) dispatch!))
+      (.addChild target (render-element (peek child-pair) dispatch!))
       (js/console.log "nil child:" child-pair))))
 
 (defn update-circle [element old-element target dispatch!]
@@ -245,9 +247,11 @@
     :else (js/console.warn "Unknown case:" element old-element)))
 
 (defn update-children [children-dict old-children-dict parent-container dispatch! options]
-  (assert
-   (and (every? some? (map last children-dict)) (every? some? (map last old-children-dict)))
-   "children should not contain nil element")
+  (when in-dev?
+    (assert
+     (and (every? some? (map peek children-dict))
+          (every? some? (map peek old-children-dict)))
+     "children should not contain nil element"))
   (let [list-ops (:acc
                   (find-minimal-ops
                    lcs-state-0
@@ -260,10 +264,11 @@
           (case (first op)
             :remains
               (do
-               (assert (= (last op) (first (first xs)) (first (first ys))) "check key")
+               (when in-dev?
+                 (assert (= (peek op) (first (first xs)) (first (first ys))) "check key"))
                (update-element
-                (last (first xs))
-                (last (first ys))
+                (peek (first xs))
+                (peek (first ys))
                 parent-container
                 idx
                 dispatch!
@@ -271,15 +276,15 @@
                (recur (inc idx) (rest ops) (rest xs) (rest ys)))
             :add
               (do
-               (assert (= (last op) (first (first xs))) "check key")
+               (when in-dev? (assert (= (peek op) (first (first xs))) "check key"))
                (.addChildAt
                 parent-container
-                (render-element (last (first xs)) dispatch!)
+                (render-element (peek (first xs)) dispatch!)
                 idx)
                (recur (inc idx) (rest ops) (rest xs) ys))
             :remove
               (do
-               (assert (= (last op) (first (first ys))) "check key")
+               (when in-dev? (assert (= (peek op) (first (first ys))) "check key"))
                (.removeChildAt parent-container idx)
                (recur idx (rest ops) xs (rest ys)))
             (do (println "Unknown op:" op))))))))
