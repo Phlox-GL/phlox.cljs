@@ -11,6 +11,18 @@
    {:text "Tree", :style {:fill (hslx 200 80 80), :font-size 18, :font-family "Helvetica"}})))
 
 (defcomp
+ comp-curves
+ ()
+ (graphics
+  {:ops [[:line-style {:width 4, :color (hslx 200 80 80), :alpha 1}]
+         [:move-to [0 0]]
+         [:line-to [100 200]]
+         [:arc-to {:p1 [200 200], :p2 [240 180], :radius 90}]
+         [:arc {:center [260 120], :radius 40, :angle [70 60], :anticlockwise? false}]
+         [:quadratic-to {:p1 [400 100], :to-p [500 400]}]
+         [:bezier-to {:p1 [400 500], :p2 [300 200], :to-p [600 300]}]]}))
+
+(defcomp
  comp-drafts
  (x)
  (container
@@ -56,9 +68,9 @@
   (graphics
    {:ops [[:line-style {:width 4, :color (hslx 200 80 80), :alpha 1}]
           [:begin-fill {:color (hslx 0 80 20)}]
-          [:move-to {:x (+ (* 20 x) 100), :y 200}]
-          [:line-to {:x (+ (* 20 x) 400), :y 400}]
-          [:line-to {:x (- 500 (* 20 x)), :y 300}]
+          [:move-to [(+ (* 20 x) 100) 200]]
+          [:line-to [(+ (* 20 x) 400) 400]]
+          [:line-to [(- 500 (* 20 x)) 300]]
           [:close-path]],
     :rotation 0.1,
     :pivot {:x 0, :y 100},
@@ -109,7 +121,8 @@
   (comp-tab-entry :drafts "Drafts" {:x 10, :y 100} (= :drafts tab))
   (comp-tab-entry :repeated "Repeated" {:x 10, :y 150} (= :repeated tab))
   (comp-tab-entry :tree "Tree" {:x 10, :y 200} (= :tree tab))
-  (comp-tab-entry :grids "Grids" {:x 10, :y 250} (= :grids tab))))
+  (comp-tab-entry :grids "Grids" {:x 10, :y 250} (= :grids tab))
+  (comp-tab-entry :curves "Curves" {:x 10, :y 300} (= :curves tab))))
 
 (defcomp
  comp-container
@@ -129,6 +142,7 @@
          :style {:fill (hslx 200 80 80), :font-size 20, :font-family "Helvetica"}}))
     :tree (comp-circle-tree)
     :grids (comp-grids)
+    :curves (comp-curves)
     (text
      {:text "Unknown",
       :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))

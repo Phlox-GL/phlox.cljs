@@ -11,8 +11,8 @@
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
     (case op
-      :move-to (.moveTo target (:x data) (:y data))
-      :line-to (.lineTo target (:x data) (:y data))
+      :move-to (.moveTo target (first data) (peek data))
+      :line-to (.lineTo target (first data) (peek data))
       :line-style
         (.lineStyle
          target
@@ -22,8 +22,34 @@
       :begin-fill (.beginFill target (:color data))
       :end-fill (.endFill target)
       :close-path (.closePath target)
-      :arc (println "TODO")
-      :arc-to (println "TODO")
+      :arc
+        (let [center (:center data), angle (:angle data)]
+          (.arc
+           target
+           (first center)
+           (peek center)
+           (:radius data)
+           (first angle)
+           (peek angle)
+           (:anticlockwise? data)))
+      :arc-to
+        (let [p1 (:p1 data), p2 (:p2 data)]
+          (.arcTo target (first p1) (peek p1) (first p2) (peek p2) (:radius data)))
+      :bezier-to
+        (let [p1 (:p1 data), p2 (:p2 data), to-p (:to-p data)]
+          (.bezierCurveTo
+           target
+           (first p1)
+           (peek p1)
+           (first p2)
+           (peek p2)
+           (first to-p)
+           (peek to-p)))
+      :quadratic-to
+        (let [p1 (:p1 data), to-p (:to-p data)]
+          (.quadraticCurveTo target (first p1) (peek p1) (first to-p) (peek to-p)))
+      :begin-hole (.beginHole target)
+      :end-hole (.endHole target)
       (js/console.warn "not supported:" op))))
 
 (defn draw-circle [target options]
