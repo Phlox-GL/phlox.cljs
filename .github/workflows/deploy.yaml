@@ -1,20 +1,19 @@
 
-name: Run tests
+name: Deploy package
 
 on:
-  pull_request: {}
-  push:
-    branches:
-      - master
+  release:
+    types: [created]
 
 jobs:
-  test:
-    name: Tests
+  deploy:
+    name: Deploy
 
     runs-on: ubuntu-latest
 
     steps:
-      - uses: docker://timbru31/java-node:latest
+      - run: curl -O https://download.clojure.org/install/linux-install-1.10.1.507.sh && chmod +x linux-install-1.10.1.507.sh && sudo ./linux-install-1.10.1.507.sh
+
       - uses: actions/checkout@v2
 
       - name: Get yarn cache
@@ -40,4 +39,7 @@ jobs:
             ${{ runner.os }}-clojars
 
       - name: run tests
-        run: 'yarn && yarn shadow-cljs compile client'
+        run: 'yarn && yarn shadow-cljs compile test-only && node ./target/test.js'
+
+      - name: deploy to clojars
+        run: clojure -A:depstar && env CLOJARS_USERNAME=jiyinyiyong CLOJARS_PASSWORD=${{ secrets.CLOJARS_PASSWORD }} clojure -A:deploy
