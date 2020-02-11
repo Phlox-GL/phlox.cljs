@@ -3372,11 +3372,6 @@
                 :data $ {}
                   |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573357579617) (:text |app) (:id |L4lJuCrvq8)
                   |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573662223795) (:text |dispatch!) (:id |dgQeD-zDrL)
-              |u $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1573366790354) (:id |4UHp4FRs-y)
-                :data $ {}
-                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573366795965) (:text |js/console.log) (:id |4UHp4FRs-yleaf)
-                  |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573366798124) (:text "|\"mount") (:id |AgNYowFn5T)
-                  |r $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573366798639) (:text |app) (:id |a-TiUMINN2)
               |v $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1573358989863) (:id |29oiYL8rp)
                 :data $ {}
                   |D $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573358991352) (:text |let) (:id |4c8XkQUHdn)
@@ -3398,11 +3393,6 @@
                           |D $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573368207761) (:text |.-stage) (:id |FeJV8-aAU)
                           |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573368203128) (:text |@*app) (:id |gWZ3e15rL3leaf)
                       |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573368227584) (:text |element-tree) (:id |kFZcne5WB)
-                  |T $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1573357586403) (:id |jPRNjyVUhv)
-                    :data $ {}
-                      |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573357595278) (:text |js/console.log) (:id |jPRNjyVUhvleaf)
-                      |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573359022495) (:text "|\"got tree") (:id |y07c-faSFa)
-                      |v $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573359031923) (:text |element-tree) (:id |bP1t-N5Jf)
           |*app $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1573356725764) (:id |_IHjeM10_K)
             :data $ {}
               |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1573356739302) (:text |defonce) (:id |6dDj0rrtDe)

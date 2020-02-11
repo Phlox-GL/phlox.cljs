@@ -30,10 +30,7 @@
     r0))
 
 (defn mount-app! [app dispatch!]
-  (js/console.log "mount" app)
-  (let [element-tree (render-element app dispatch!)]
-    (.addChild (.-stage @*app) element-tree)
-    (js/console.log "got tree" element-tree)))
+  (let [element-tree (render-element app dispatch!)] (.addChild (.-stage @*app) element-tree)))
 
 (defn rerender-app! [app dispatch! options]
   (comment js/console.log "rerender tree" app @*tree-element)

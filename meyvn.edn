@@ -1,9 +1,0 @@
-
-{:pom {:group-id "quamolit",
-       :artifact-id "phlox",
-       :version "0.0.3-a2",
-       :name "Pixi.js DSL in ClojureScript"}
- :packaging {:jar {:enabled true
-                   :remote-repository {:id "clojars"
-                                       :url "https://clojars.org/repo"}}}
- :scm {:enabled true}}
