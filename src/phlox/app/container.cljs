@@ -6,7 +6,7 @@
  comp-circle-tree
  ()
  (container
-  {:position {:x 200, :y 100}}
+  {:position [200 100]}
   (text
    {:text "Tree", :style {:fill (hslx 200 80 80), :font-size 18, :font-family "Helvetica"}})))
 
@@ -26,20 +26,21 @@
  comp-drafts
  (x)
  (container
-  {:position {:x 200, :y 100}, :rotation 0}
+  {:position [200 100], :rotation 0}
   (circle
-   {:options {:x 200, :y 100, :radius 40},
+   {:position [200 100],
+    :radius 40,
     :line-style {:width 2, :color (hslx 0 80 50), :alpha 1},
     :fill (hslx 160 80 70),
     :on {:mousedown (fn [event dispatch!] (dispatch! :add-x nil))}})
   (rect
-   {:options {:x 0, :y 0, :width 50, :height 50},
+   {:position [100 100],
+    :size [50 50],
     :line-style {:width 2, :color (hslx 200 80 80), :alpha 1},
     :fill (hslx 200 80 80),
     :on {:mousedown (fn [e dispatch!] (dispatch! :add-x nil))},
     :rotation (+ 1 (* 0.1 x)),
-    :pivot {:x 0, :y 0},
-    :position {:x 100, :y 100}}
+    :pivot [0 0]}
    (text
     {:text (str "Text demo:" (+ 1 (* 0.1 x)) "\n" "pivot" (pr-str {:x 100, :y 100})),
      :style {:font-family "Menlo", :font-size 12, :fill (hslx 200 80 90), :align "center"}}))
@@ -63,7 +64,7 @@
                       :font-weight 300,
                       :font-size 14,
                       :fill (hslx 200 10 (+ 40 (* 4 idx)))},
-              :position {:x (+ 200 (* idx 20)), :y (+ 140 (* idx 10))},
+              :position [(+ 200 (* idx 20)) (+ 140 (* idx 10))],
               :rotation (* 0.1 (+ idx x))})]))))
   (graphics
    {:ops [[:line-style {:width 4, :color (hslx 200 80 80), :alpha 1}]
@@ -73,7 +74,7 @@
           [:line-to [(- 500 (* 20 x)) 300]]
           [:close-path]],
     :rotation 0.1,
-    :pivot {:x 0, :y 100},
+    :pivot [0 100],
     :alpha 0.5,
     :on {:pointerdown (fn [e dispatch!] (println "clicked"))}})))
 
@@ -84,18 +85,20 @@
   {}
   (create-list
    :container
-   {:position {:x 200, :y 20}}
+   {:position [200 20]}
    (->> (range 40)
         (mapcat (fn [x] (->> (range 20) (map (fn [y] [x y])))))
         (map
          (fn [[x y]]
            [(str x "+" y)
             (rect
-             {:options {:x (* x 14), :y (* y 14), :width 10, :height 10},
+             {:position [(* x 14) (* y 14)],
+              :size [10 10],
               :fill (hslx 200 80 80),
               :on {:mouseover (fn [e d!] (println "d" x y))}})]))))
   (rect
-   {:options {:x 30, :y 320, :width 40, :height 30},
+   {:position [300 320],
+    :size [40 30],
     :fill (hslx 40 80 80),
     :on {:pointerdown (fn [e d!] (println "corsur"))}})))
 
@@ -105,24 +108,25 @@
  (container
   {:position position}
   (rect
-   {:options {:x 0, :y 0, :width 160, :height 32},
+   {:position [0 0],
+    :size [160 32],
     :fill (if selected? (hslx 180 50 50) (hslx 180 50 30)),
     :on {:mousedown (fn [event dispatch!] (dispatch! :tab tab-value))}})
   (text
    {:text tab-title,
     :style {:fill (hslx 200 90 100), :font-size 20, :font-family "Helvetica"},
-    :position {:x 10, :y 0}})))
+    :position [10 0]})))
 
 (defcomp
  comp-tabs
  (tab)
  (container
   {}
-  (comp-tab-entry :drafts "Drafts" {:x 10, :y 100} (= :drafts tab))
-  (comp-tab-entry :repeated "Repeated" {:x 10, :y 150} (= :repeated tab))
-  (comp-tab-entry :tree "Tree" {:x 10, :y 200} (= :tree tab))
-  (comp-tab-entry :grids "Grids" {:x 10, :y 250} (= :grids tab))
-  (comp-tab-entry :curves "Curves" {:x 10, :y 300} (= :curves tab))))
+  (comp-tab-entry :drafts "Drafts" [10 100] (= :drafts tab))
+  (comp-tab-entry :repeated "Repeated" [10 150] (= :repeated tab))
+  (comp-tab-entry :tree "Tree" [10 200] (= :tree tab))
+  (comp-tab-entry :grids "Grids" [10 250] (= :grids tab))
+  (comp-tab-entry :curves "Curves" [10 300] (= :curves tab))))
 
 (defcomp
  comp-container
@@ -138,7 +142,7 @@
        {}
        (text
         {:text "Repeated",
-         :position {:x 200, :y 0},
+         :position [20 0],
          :style {:fill (hslx 200 80 80), :font-size 20, :font-family "Helvetica"}}))
     :tree (comp-circle-tree)
     :grids (comp-grids)
