@@ -49,10 +49,7 @@ Add a container:
 
 ```edn
 {
-  :position {
-    :x 1
-    :y 1
-  }
+  :position [1 1]
   :on {
     :pointerdown (fn [])
   }
@@ -64,11 +61,8 @@ Draw a circle:
 
 ```edn
 {
-  :options {
-    :x 1,
-    :y 1,
-    :radius 1
-  }
+  :options [1 1]
+  :radius 1
   :line-style {
     :width 2
     :color 0x000001
@@ -86,12 +80,8 @@ Draw a rectangle:
 
 ```edn
 {
-  :options {
-    :x 1,
-    :y 1,
-    :width 1
-    :height 1
-  }
+  :position [1 2]
+  :size [1 1]
   :line-style {
     :width 2
     :color 0x000001
@@ -102,7 +92,7 @@ Draw a rectangle:
     :pointerdown (fn [])
   }
   :rotation 1
-  :pivot {:x 1, :y 2}
+  :pivot [1 2]
   :alpha 1
 }
 ```
@@ -112,7 +102,7 @@ Draw text:
 ```edn
 {
   :text "demo"
-  :positiion {:x 1, :y 1}
+  :position [1 1]
   :alpha 1
   :style {
     :fill "red"
@@ -127,20 +117,19 @@ Draw graphics:
 ```edn
 {
   :ops [
-    [:move-to {:x 1, :y 1}]
-    [:line-to {:x 1, :y 1}]
+    [:move-to [1 1]]
+    [:line-to [2 2]]
     [:line-style {}]
     [:begin-fill {:color "red"}]
-    [:circle {:x 1, :y 1, :r 2}]
     [:end-fill]
     [:close-path]
-    [:arc-to 'TODO]
-    [:arc 'TODO]
-    [:bezier-curve-to 'TODO]
-    [:quadratic-curve-to 'TODO]
+    [:arc-to {:p1 [200 200], :p2 [240 180], :radius 90}]
+    [:arc {:center [260 120], :radius 40, :angle [70 60], :anticlockwise? false}]
+    [:bezier-to {:p1 [400 500], :p2 [300 200], :to-p [600 300]}]
+    [:quadratic-to {:p1 [400 100], :to-p [500 400]}]
   ]
-  :position {:x 1, :y 1}
-  :pivot {:x 1, :y 2}
+  :position [1 1]
+  :pivot [1 2]
   :alpha 1
   :on {
     :pointerdown (fn [])
