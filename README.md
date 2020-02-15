@@ -23,12 +23,13 @@ Previews http://repo.quamolit.org/phlox/ .
 
 (defcomp comp-demo [data]
   (rect
-   {:options {:x 800, :y 40, :width 60, :height 34},
+   {:position [800 40],
+    :size [60 34],
     :fill (hslx 40 80 80),
     :on {:pointerdown (fn [e d!] (d! :demo nil))}}
    (text
     {:text "Demo",
-     :position {:x 808, :y 44},
+     :position [808 44],
      :style {:fill (hslx 120 80 20), :font-size 18, :font-family "Josefin Sans"}})))
 
 (defonce *store (atom nil))
@@ -61,7 +62,7 @@ Draw a circle:
 
 ```edn
 {
-  :options [1 1]
+  :position [1 1]
   :radius 1
   :line-style {
     :width 2
