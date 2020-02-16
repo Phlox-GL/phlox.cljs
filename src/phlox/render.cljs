@@ -52,7 +52,6 @@
         text-style (new (.-TextStyle PIXI) (map-to-object style))
         target (new (.-Text PIXI) (:text (:props element)) text-style)
         props (:props element)]
-    (dev-check props lilac-text)
     (set-position target (:position props))
     (set-pivot target (:pivot props))
     (set-rotation target (:rotation props))
@@ -65,7 +64,6 @@
         props (:props element)
         line-style (:line-style props)
         events (:on props)]
-    (dev-check props lilac-rect)
     (if (some? (:fill props)) (.beginFill target (:fill props)))
     (set-line-style target line-style)
     (draw-rect target (:position props) (:size props))
@@ -108,7 +106,6 @@
 
 (defn render-container [element dispatch!]
   (let [target (new (.-Container PIXI)), props (:props element)]
-    (dev-check props lilac-container)
     (render-children target (:children element) dispatch!)
     (set-position target (:position props))
     (set-rotation target (:rotation props))
@@ -122,7 +119,6 @@
         line-style (:line-style props)
         position (:position props)
         events (:on props)]
-    (dev-check props lilac-circle)
     (when (some? (:fill props)) (.beginFill target (:fill props)))
     (set-line-style target line-style)
     (draw-circle target position (:radius props))
@@ -147,7 +143,6 @@
         radius' (:radius props')
         line-style (:line-style props)
         line-style' (:line-style props')]
-    (dev-check props lilac-circle)
     (when (or (not= position position')
               (not= radius radius')
               (not= line-style line-style')
@@ -162,9 +157,7 @@
 
 (defn update-container [element old-element target]
   (let [props (:props element), props' (:props old-element)]
-    (dev-check props lilac-container)
-    (when (not= (:position props) (:position props'))
-      (set-position target (:position props)))
+    (when (not= (:position props) (:position props')) (set-position target (:position props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
@@ -175,7 +168,6 @@
         props' (:props old-element)
         ops (:ops props)
         ops' (:ops props')]
-    (dev-check props lilac-graphics)
     (when (not= ops ops') (.clear target) (call-graphics-ops target ops))
     (when (not= (:position props) (:position props'))
       (set-position target (:position props)))
@@ -194,7 +186,6 @@
         size' (:size props')
         line-style (:line-style props)
         line-style' (:line-style props')]
-    (dev-check props lilac-rect)
     (when (or (not= position position')
               (not= size size')
               (not= line-style line-style')
@@ -215,7 +206,6 @@
         props' (:props old-element)
         text-style (:style props)
         text-style' (:style props')]
-    (dev-check props lilac-text)
     (when (not= (:text props) (:text props')) (set! (.-text target) (:text props)))
     (when (not= text-style text-style')
       (let [new-style (new (.-TextStyle PIXI) (map-to-object text-style))]

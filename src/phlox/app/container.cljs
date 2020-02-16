@@ -1,6 +1,8 @@
 
 (ns phlox.app.container
-  (:require [phlox.core :refer [defcomp hslx rect circle text container graphics create-list]]))
+  (:require [phlox.core
+             :refer
+             [defcomp g hslx rect circle text container graphics create-list]]))
 
 (defcomp
  comp-circle-tree
@@ -14,13 +16,13 @@
  comp-curves
  ()
  (graphics
-  {:ops [[:line-style {:width 4, :color (hslx 200 80 80), :alpha 1}]
-         [:move-to [0 0]]
-         [:line-to [100 200]]
-         [:arc-to {:p1 [200 200], :p2 [240 180], :radius 90}]
-         [:arc {:center [260 120], :radius 40, :angle [70 60], :anticlockwise? false}]
-         [:quadratic-to {:p1 [400 100], :to-p [500 400]}]
-         [:bezier-to {:p1 [400 500], :p2 [300 200], :to-p [600 300]}]]}))
+  {:ops [(g :line-style {:width 4, :color (hslx 200 80 80), :alpha 1})
+         (g :move-to [0 0])
+         (g :line-to [100 200])
+         (g :arc-to {:p1 [200 200], :p2 [240 180], :radius 90})
+         (g :arc {:center [260 120], :radius 40, :angle [70 60], :anticlockwise? false})
+         (g :quadratic-to {:p1 [400 100], :to-p [500 400]})
+         (g :bezier-to {:p1 [400 500], :p2 [300 200], :to-p [600 300]})]}))
 
 (defcomp
  comp-drafts
@@ -95,7 +97,7 @@
              {:position [(* x 14) (* y 14)],
               :size [10 10],
               :fill (hslx 200 80 80),
-              :on {:mouseover (fn [e d!] (println "d" x y))}})]))))
+              :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))
   (rect
    {:position [300 320],
     :size [40 30],

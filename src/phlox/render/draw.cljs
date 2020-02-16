@@ -28,44 +28,19 @@
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
     (case op
-      :move-to
-        (do
-         (dev-check-message "check :move-to" data lilac-point)
-         (.moveTo target (first data) (peek data)))
-      :line-to
-        (do
-         (dev-check-message "check :line-to" data lilac-point)
-         (.lineTo target (first data) (peek data)))
+      :move-to (.moveTo target (first data) (peek data))
+      :line-to (.lineTo target (first data) (peek data))
       :line-style
-        (do
-         (dev-check-message "check :line-style" data lilac-line-style)
-         (.lineStyle
-          target
-          (use-number (:width data))
-          (use-number (:color data))
-          (:alpha data)))
-      :begin-fill
-        (do
-         (dev-check-message
-          "check :fill"
-          data
-          (record+
-           {:color (optional+ lilac-color), :alpha (optional+ (number+))}
-           {:check-keys? true}))
-         (.beginFill target (:color data)))
+        (.lineStyle
+         target
+         (use-number (:width data))
+         (use-number (:color data))
+         (:alpha data))
+      :begin-fill (.beginFill target (:color data))
       :end-fill (.endFill target)
       :close-path (.closePath target)
       :arc
         (let [center (:center data), angle (:angle data)]
-          (dev-check-message
-           "check :arc"
-           data
-           (record+
-            {:center lilac-point,
-             :angle (tuple+ [(number+) (number+)]),
-             :radius (number+),
-             :anticlockwise? (optional+ (boolean+))}
-            {:check-keys? true}))
           (.arc
            target
            (first center)
@@ -76,21 +51,9 @@
            (:anticlockwise? data)))
       :arc-to
         (let [p1 (:p1 data), p2 (:p2 data)]
-          (dev-check-message
-           "check :arc-to"
-           data
-           (record+
-            {:p1 lilac-point, :p2 lilac-point, :radius (number+)}
-            {:exact-keys? true}))
           (.arcTo target (first p1) (peek p1) (first p2) (peek p2) (:radius data)))
       :bezier-to
         (let [p1 (:p1 data), p2 (:p2 data), to-p (:to-p data)]
-          (dev-check-message
-           "check :bezier-to"
-           data
-           (record+
-            {:p1 lilac-point, :p2 lilac-point, :to-p lilac-point}
-            {:exact-keys? true}))
           (.bezierCurveTo
            target
            (first p1)
@@ -101,10 +64,6 @@
            (peek to-p)))
       :quadratic-to
         (let [p1 (:p1 data), to-p (:to-p data)]
-          (dev-check-message
-           "check :quadratic-to"
-           data
-           (record+ {:p1 lilac-point, :to-p lilac-point} {:exact-keys? true}))
           (.quadraticCurveTo target (first p1) (peek p1) (first to-p) (peek to-p)))
       :begin-hole (.beginHole target)
       :end-hole (.endHole target)
