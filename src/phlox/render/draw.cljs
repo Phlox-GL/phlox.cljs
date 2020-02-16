@@ -1,21 +1,22 @@
 
 (ns phlox.render.draw
   (:require [phlox.util :refer [use-number]]
-            [lilac.core :refer [tuple+ number+ optional+]]
-            [phlox.check :refer [dev-check]]
             [lilac.core
              :refer
              [record+
               number+
               string+
               optional+
+              boolean+
               tuple+
               map+
               fn+
               keyword+
-              or+
-              boolean+
-              vector+]]))
+              vector+
+              or+]]
+            [phlox.check
+             :refer
+             [dev-check dev-check-message lilac-point lilac-line-style lilac-color]]))
 
 (defn add-events [target events dispatch!]
   (when (some? events)
@@ -24,45 +25,22 @@
     (doseq [[k listener] events]
       (.on target (name k) (fn [event] (listener event dispatch!))))))
 
-(def lilac-color (or+ [(number+) (string+)]))
-
-(def lilac-line-style (record+ {:width (number+), :color (number+), :alpha (number+)}))
-
-(def lilac-point (tuple+ [(number+) (number+)]))
-
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
     (case op
-      :move-to (do (dev-check data lilac-point) (.moveTo target (first data) (peek data)))
-      :line-to (do (dev-check data lilac-point) (.lineTo target (first data) (peek data)))
+      :move-to (.moveTo target (first data) (peek data))
+      :line-to (.lineTo target (first data) (peek data))
       :line-style
-        (do
-         (dev-check data lilac-line-style)
-         (.lineStyle
-          target
-          (use-number (:width data))
-          (use-number (:color data))
-          (:alpha data)))
-      :begin-fill
-        (do
-         (dev-check
-          data
-          (record+
-           {:color (optional+ lilac-color), :alpha (optional+ (number+))}
-           {:check-keys? true}))
-         (.beginFill target (:color data)))
+        (.lineStyle
+         target
+         (use-number (:width data))
+         (use-number (:color data))
+         (:alpha data))
+      :begin-fill (.beginFill target (:color data))
       :end-fill (.endFill target)
       :close-path (.closePath target)
       :arc
         (let [center (:center data), angle (:angle data)]
-          (dev-check
-           data
-           (record+
-            {:center lilac-point,
-             :angle (tuple+ [(number+) (number+)]),
-             :radius (number+),
-             :anticlockwise? (optional+ (boolean+))}
-            {:exact-keys? true}))
           (.arc
            target
            (first center)
@@ -73,19 +51,9 @@
            (:anticlockwise? data)))
       :arc-to
         (let [p1 (:p1 data), p2 (:p2 data)]
-          (dev-check
-           data
-           (record+
-            {:p1 lilac-point, :p2 lilac-point, :radius (number+)}
-            {:exact-keys? true}))
           (.arcTo target (first p1) (peek p1) (first p2) (peek p2) (:radius data)))
       :bezier-to
         (let [p1 (:p1 data), p2 (:p2 data), to-p (:to-p data)]
-          (dev-check
-           data
-           (record+
-            {:p1 lilac-point, :p2 lilac-point, :to-p lilac-point}
-            {:exact-keys? true}))
           (.bezierCurveTo
            target
            (first p1)
@@ -96,7 +64,6 @@
            (peek to-p)))
       :quadratic-to
         (let [p1 (:p1 data), to-p (:to-p data)]
-          (dev-check data (record+ {:p1 lilac-point, :to-p lilac-point} {:exact-keys? true}))
           (.quadraticCurveTo target (first p1) (peek p1) (first to-p) (peek to-p)))
       :begin-hole (.beginHole target)
       :end-hole (.endHole target)
