@@ -14,7 +14,9 @@
               keyword+
               vector+
               or+]]
-            [phlox.check :refer [dev-check lilac-point lilac-line-style lilac-color]]))
+            [phlox.check
+             :refer
+             [dev-check dev-check-message lilac-point lilac-line-style lilac-color]]))
 
 (defn add-events [target events dispatch!]
   (when (some? events)
@@ -26,11 +28,17 @@
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
     (case op
-      :move-to (do (dev-check data lilac-point) (.moveTo target (first data) (peek data)))
-      :line-to (do (dev-check data lilac-point) (.lineTo target (first data) (peek data)))
+      :move-to
+        (do
+         (dev-check-message "check :move-to" data lilac-point)
+         (.moveTo target (first data) (peek data)))
+      :line-to
+        (do
+         (dev-check-message "check :line-to" data lilac-point)
+         (.lineTo target (first data) (peek data)))
       :line-style
         (do
-         (dev-check data lilac-line-style)
+         (dev-check-message "check :line-style" data lilac-line-style)
          (.lineStyle
           target
           (use-number (:width data))
@@ -38,7 +46,8 @@
           (:alpha data)))
       :begin-fill
         (do
-         (dev-check
+         (dev-check-message
+          "check :fill"
           data
           (record+
            {:color (optional+ lilac-color), :alpha (optional+ (number+))}
@@ -48,14 +57,15 @@
       :close-path (.closePath target)
       :arc
         (let [center (:center data), angle (:angle data)]
-          (dev-check
+          (dev-check-message
+           "check :arc"
            data
            (record+
             {:center lilac-point,
              :angle (tuple+ [(number+) (number+)]),
              :radius (number+),
              :anticlockwise? (optional+ (boolean+))}
-            {:exact-keys? true}))
+            {:check-keys? true}))
           (.arc
            target
            (first center)
@@ -66,7 +76,8 @@
            (:anticlockwise? data)))
       :arc-to
         (let [p1 (:p1 data), p2 (:p2 data)]
-          (dev-check
+          (dev-check-message
+           "check :arc-to"
            data
            (record+
             {:p1 lilac-point, :p2 lilac-point, :radius (number+)}
@@ -74,7 +85,8 @@
           (.arcTo target (first p1) (peek p1) (first p2) (peek p2) (:radius data)))
       :bezier-to
         (let [p1 (:p1 data), p2 (:p2 data), to-p (:to-p data)]
-          (dev-check
+          (dev-check-message
+           "check :bezier-to"
            data
            (record+
             {:p1 lilac-point, :p2 lilac-point, :to-p lilac-point}
@@ -89,7 +101,10 @@
            (peek to-p)))
       :quadratic-to
         (let [p1 (:p1 data), to-p (:to-p data)]
-          (dev-check data (record+ {:p1 lilac-point, :to-p lilac-point} {:exact-keys? true}))
+          (dev-check-message
+           "check :quadratic-to"
+           data
+           (record+ {:p1 lilac-point, :to-p lilac-point} {:exact-keys? true}))
           (.quadraticCurveTo target (first p1) (peek p1) (first to-p) (peek to-p)))
       :begin-hole (.beginHole target)
       :end-hole (.endHole target)
