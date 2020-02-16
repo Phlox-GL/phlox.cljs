@@ -1,21 +1,20 @@
 
 (ns phlox.render.draw
   (:require [phlox.util :refer [use-number]]
-            [lilac.core :refer [tuple+ number+ optional+]]
-            [phlox.check :refer [dev-check]]
             [lilac.core
              :refer
              [record+
               number+
               string+
               optional+
+              boolean+
               tuple+
               map+
               fn+
               keyword+
-              or+
-              boolean+
-              vector+]]))
+              vector+
+              or+]]
+            [phlox.check :refer [dev-check lilac-point lilac-line-style lilac-color]]))
 
 (defn add-events [target events dispatch!]
   (when (some? events)
@@ -23,12 +22,6 @@
     (set! (.-buttonMode target) true)
     (doseq [[k listener] events]
       (.on target (name k) (fn [event] (listener event dispatch!))))))
-
-(def lilac-color (or+ [(number+) (string+)]))
-
-(def lilac-line-style (record+ {:width (number+), :color (number+), :alpha (number+)}))
-
-(def lilac-point (tuple+ [(number+) (number+)]))
 
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
