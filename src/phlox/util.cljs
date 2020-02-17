@@ -13,7 +13,13 @@
   (->> props
        (map
         (fn [[k v]]
-          [(camel-case (cond (keyword? k) (name k) (string? k) k :else (str k))) v]))
+          [(camel-case (cond (keyword? k) (name k) (string? k) k :else (str k)))
+           (cond
+             (keyword? v) (name v)
+             (string? v) v
+             (number? v) v
+             (boolean? v) v
+             :else (do (println "Unknown style value:" v) v))]))
        (into {})
        (clj->js)))
 

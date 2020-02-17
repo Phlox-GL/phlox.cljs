@@ -45,13 +45,13 @@
     :pivot [0 0]}
    (text
     {:text (str "Text demo:" (+ 1 (* 0.1 x)) "\n" "pivot" (pr-str {:x 100, :y 100})),
-     :style {:font-family "Menlo", :font-size 12, :fill (hslx 200 80 90), :align "center"}}))
+     :style {:font-family "Menlo", :font-size 12, :fill (hslx 200 80 90), :align :center}}))
   (text
    {:text (str "Text demo:" x),
     :style {:font-family "Menlo",
             :font-size 12,
             :fill (hslx 200 80 (+ 80 (* 20 (js/Math.random)))),
-            :align "center"},
+            :align :center},
     :alpha 1})
   (create-list
    :container
