@@ -7,6 +7,7 @@
               string+
               optional+
               tuple+
+              enum+
               map+
               fn+
               any+
@@ -68,36 +69,36 @@
 
 (def lilac-text-style
   (record+
-   {:align (optional+ (or+ [(is+ :left) (is+ :center) (is+ :right)])),
-    :break-words (optional+ (boolean+)),
-    :drop-shadow (optional+ (boolean+)),
-    :drop-shadow-alpha (optional+ (number+ {:min 0, :max 1})),
-    :drop-shadow-angle (optional+ (number+)),
-    :drop-shadow-blur (optional+ (number+)),
-    :drop-shadow-color (optional+ lilac-color),
-    :drop-shadow-distance (optional+ (number+)),
-    :fill (optional+ lilac-color),
-    :fill-gradient-type (optional+ (any+)),
-    :fill-gradient-stops (optional+ (any+)),
-    :font-family (optional+ (string+)),
-    :font-size (optional+ (number+)),
-    :font-style (optional+ (or+ [(is+ :normal) (is+ :italic) (is+ :oblique)])),
-    :font-variant (optional+ (or+ [(is+ :normal) (is+ :small-caps)])),
-    :font-weight (optional+ (number+)),
-    :leading (optional+ (number+)),
-    :letter-spacing (optional+ (number+)),
-    :line-height (optional+ (number+)),
-    :line-join (optional+ (or+ [(is+ :miter) (is+ :round) (is+ :round) (is+ :bevel)])),
-    :miter-limit (optional+ (number+)),
-    :padding (optional+ (number+)),
-    :stroke (optional+ lilac-color),
-    :stroke-thickness (optional+ (number+)),
-    :trim (optional+ (boolean+)),
-    :text-baseline (optional+ (or+ [(is+ :alphabetic)])),
-    :white-space (optional+ (or+ [(is+ :normal) (is+ :pre) (is+ :pre-line)])),
-    :word-wrap (optional+ (boolean+)),
-    :word-wrap-width (optional+ (number+))}
-   {:check-keys? true}))
+   {:align (enum+ #{:left :center :right}),
+    :break-words (boolean+),
+    :drop-shadow (boolean+),
+    :drop-shadow-alpha (number+ {:min 0, :max 1}),
+    :drop-shadow-angle (number+),
+    :drop-shadow-blur (number+),
+    :drop-shadow-color lilac-color,
+    :drop-shadow-distance (number+),
+    :fill lilac-color,
+    :fill-gradient-type (any+),
+    :fill-gradient-stops (any+),
+    :font-family (string+),
+    :font-size (number+),
+    :font-style (enum+ #{:normal :italic :oblique}),
+    :font-variant (enum+ #{:normal :small-caps}),
+    :font-weight (number+),
+    :leading (number+),
+    :letter-spacing (number+),
+    :line-height (number+),
+    :line-join (enum+ #{:miter :round :bevel}),
+    :miter-limit (number+),
+    :padding (number+),
+    :stroke lilac-color,
+    :stroke-thickness (number+),
+    :trim (boolean+),
+    :text-baseline (enum+ #{:alphabetic}),
+    :white-space (enum+ #{:normal :pre :pre-line}),
+    :word-wrap (boolean+),
+    :word-wrap-width (number+)}
+   {:check-keys? true, :all-optional? true}))
 
 (def lilac-text
   (record+
