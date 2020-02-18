@@ -45,13 +45,13 @@
     :pivot [0 0]}
    (text
     {:text (str "Text demo:" (+ 1 (* 0.1 x)) "\n" "pivot" (pr-str {:x 100, :y 100})),
-     :style {:font-family "Menlo", :font-size 12, :fill (hslx 200 80 90), :align "center"}}))
+     :style {:font-family "Menlo", :font-size 12, :fill (hslx 200 80 90), :align :center}}))
   (text
    {:text (str "Text demo:" x),
     :style {:font-family "Menlo",
             :font-size 12,
             :fill (hslx 200 80 (+ 80 (* 20 (js/Math.random)))),
-            :align "center"},
+            :align :center},
     :alpha 1})
   (create-list
    :container
@@ -79,6 +79,21 @@
     :pivot [0 100],
     :alpha 0.5,
     :on {:pointerdown (fn [e dispatch!] (println "clicked"))}})))
+
+(defcomp
+ comp-gradients
+ ()
+ (container
+  {}
+  (text
+   {:text "long long text",
+    :position [200 160],
+    :style {:fill [(hslx 0 0 100) (hslx 0 0 40)], :fill-gradient-type :v}})
+  (text
+   {:text "long long text",
+    :position [200 200],
+    :style {:fill [(hslx 0 0 100) (hslx 0 0 40)], :fill-gradient-type :h}})
+  (text {:text "long long text", :position [200 120], :style {:fill (hslx 20 90 60)}})))
 
 (defcomp
  comp-grids
@@ -128,7 +143,8 @@
   (comp-tab-entry :repeated "Repeated" [10 150] (= :repeated tab))
   (comp-tab-entry :tree "Tree" [10 200] (= :tree tab))
   (comp-tab-entry :grids "Grids" [10 250] (= :grids tab))
-  (comp-tab-entry :curves "Curves" [10 300] (= :curves tab))))
+  (comp-tab-entry :curves "Curves" [10 300] (= :curves tab))
+  (comp-tab-entry :gradients "Gradients" [10 350] (= :gradients tab))))
 
 (defcomp
  comp-container
@@ -149,6 +165,7 @@
     :tree (comp-circle-tree)
     :grids (comp-grids)
     :curves (comp-curves)
+    :gradients (comp-gradients)
     (text
      {:text "Unknown",
       :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))

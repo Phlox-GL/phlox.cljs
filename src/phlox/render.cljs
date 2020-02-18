@@ -3,7 +3,12 @@
   (:require ["pixi.js" :as PIXI]
             [phlox.util
              :refer
-             [use-number component? element? remove-nil-values index-items map-to-object]]
+             [use-number
+              component?
+              element?
+              remove-nil-values
+              index-items
+              convert-line-style]]
             [phlox.util.lcs :refer [find-minimal-ops lcs-state-0]]
             [phlox.render.draw
              :refer
@@ -49,7 +54,7 @@
 
 (defn render-text [element dispatch!]
   (let [style (:style (:props element))
-        text-style (new (.-TextStyle PIXI) (map-to-object style))
+        text-style (new (.-TextStyle PIXI) (convert-line-style style))
         target (new (.-Text PIXI) (:text (:props element)) text-style)
         props (:props element)]
     (set-position target (:position props))
@@ -208,7 +213,7 @@
         text-style' (:style props')]
     (when (not= (:text props) (:text props')) (set! (.-text target) (:text props)))
     (when (not= text-style text-style')
-      (let [new-style (new (.-TextStyle PIXI) (map-to-object text-style))]
+      (let [new-style (new (.-TextStyle PIXI) (convert-line-style text-style))]
         (set! (.-style target) new-style)))
     (when (not= (:position props) (:position props'))
       (set-position target (:position props)))
