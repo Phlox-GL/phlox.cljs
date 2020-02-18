@@ -5,14 +5,6 @@
              [defcomp g hslx rect circle text container graphics create-list]]))
 
 (defcomp
- comp-circle-tree
- ()
- (container
-  {:position [200 100]}
-  (text
-   {:text "Tree", :style {:fill (hslx 200 80 80), :font-size 18, :font-family "Helvetica"}})))
-
-(defcomp
  comp-curves
  ()
  (graphics
@@ -140,11 +132,9 @@
  (container
   {}
   (comp-tab-entry :drafts "Drafts" [10 100] (= :drafts tab))
-  (comp-tab-entry :repeated "Repeated" [10 150] (= :repeated tab))
-  (comp-tab-entry :tree "Tree" [10 200] (= :tree tab))
-  (comp-tab-entry :grids "Grids" [10 250] (= :grids tab))
-  (comp-tab-entry :curves "Curves" [10 300] (= :curves tab))
-  (comp-tab-entry :gradients "Gradients" [10 350] (= :gradients tab))))
+  (comp-tab-entry :grids "Grids" [10 150] (= :grids tab))
+  (comp-tab-entry :curves "Curves" [10 200] (= :curves tab))
+  (comp-tab-entry :gradients "Gradients" [10 250] (= :gradients tab))))
 
 (defcomp
  comp-container
@@ -155,14 +145,6 @@
   (comp-tabs (:tab store))
   (case (:tab store)
     :drafts (comp-drafts (:x store))
-    :repeated
-      (container
-       {}
-       (text
-        {:text "Repeated",
-         :position [20 0],
-         :style {:fill (hslx 200 80 80), :font-size 20, :font-family "Helvetica"}}))
-    :tree (comp-circle-tree)
     :grids (comp-grids)
     :curves (comp-curves)
     :gradients (comp-gradients)
