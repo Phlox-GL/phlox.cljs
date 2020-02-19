@@ -36,7 +36,7 @@
          (use-number (:width data))
          (use-number (:color data))
          (:alpha data))
-      :begin-fill (.beginFill target (:color data))
+      :begin-fill (.beginFill target (:color data) (:alpha data))
       :end-fill (.endFill target)
       :close-path (.closePath target)
       :arc

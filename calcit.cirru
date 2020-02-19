@@ -1479,6 +1479,11 @@
                                 :data $ {}
                                   |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1574181860944) (:text |:color) (:id |2A_GQ5oC48p)
                                   |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1574181860944) (:text |data) (:id |sntYG75BjPJ)
+                              |v $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1582130753806)
+                                :data $ {}
+                                  |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1582130756511) (:text |:alpha) (:id |91za40hgC)
+                                  |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1582130757355) (:text |data) (:id |JoIlQiOVR)
+                                :id |CYF8WRGpo
                       |yvT $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1581436946023)
                         :data $ {}
                           |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1581436955367) (:text |:bezier-to) (:id |YfEvymiCcleaf)
