@@ -132,6 +132,8 @@
                     (clj->js
                      {:backgroundColor (hslx 0 0 0),
                       :antialias true,
+                      :autoDensity true,
+                      :resolution 2,
                       :width js/window.innerWidth,
                       :height js/window.innerHeight,
                       :interactive true}))]
