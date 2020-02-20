@@ -51,10 +51,12 @@ Add a container:
 ```edn
 {
   :position [1 1]
+  :pivot [0 0]
+  :rotation 0
+  :alpha 1
   :on {
     :pointerdown (fn [])
   }
-  :alpha 1
 }
 ```
 
@@ -104,6 +106,8 @@ Draw text:
 {
   :text "demo"
   :position [1 1]
+  :pivot [0 0]
+  :rotation 0
   :alpha 1
   :style {
     :fill "red"
@@ -131,6 +135,7 @@ Draw graphics(use `phlox.core/g` for validations):
   ]
   :position [1 1]
   :pivot [1 2]
+  :rotation 0
   :alpha 1
   :on {
     :pointerdown (fn [])

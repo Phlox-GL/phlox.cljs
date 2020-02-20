@@ -60,7 +60,7 @@
    {:line-style (optional+ lilac-line-style),
     :on (optional+ (map+ (keyword+) (fn+))),
     :position (optional+ lilac-point),
-    :size (optional+ lilac-point),
+    :size lilac-point,
     :pivot (optional+ lilac-point),
     :alpha (optional+ (number+)),
     :rotation (optional+ (number+)),

@@ -708,11 +708,7 @@
                       |x $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1581527159632)
                         :data $ {}
                           |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1581527159632) (:text |:size) (:id |oN2NA9UFI8)
-                          |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1581527159632)
-                            :data $ {}
-                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1581527159632) (:text |optional+) (:id |vWrAQGp1jc)
-                              |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1581527159632) (:text |lilac-point) (:id |jDF9ivJc81)
-                            :id |6b_ozshouY
+                          |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1581527159632) (:text |lilac-point) (:id |jDF9ivJc81)
                         :id |kx06EL3YpZ
                       |v $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1581527159632)
                         :data $ {}
