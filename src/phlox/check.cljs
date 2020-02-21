@@ -30,20 +30,23 @@
     :on (optional+ (map+ (keyword+) (fn+))),
     :position lilac-point,
     :radius (number+),
-    :fill (number+),
+    :fill (optional+ (number+)),
     :alpha (optional+ (number+)),
-    :rotation (optional+ (number+))}
+    :rotation (optional+ (number+)),
+    :angle (optional+ (number+)),
+    :pivot (optional+ lilac-point)}
    {:check-keys? true}))
 
 (def lilac-color (or+ [(number+) (string+)]))
 
 (def lilac-container
   (record+
-   {:position (optional+ lilac-point),
-    :rotation (optional+ (number+)),
-    :pivot (optional+ lilac-point),
-    :alpha (optional+ (number+))}
-   {:check-keys? true}))
+   {:position lilac-point,
+    :rotation (number+),
+    :pivot lilac-point,
+    :alpha (number+),
+    :angle (number+)}
+   {:check-keys? true, :all-optional? true}))
 
 (def lilac-graphics
   (record+
@@ -52,6 +55,7 @@
     :pivot (optional+ lilac-point),
     :alpha (optional+ (number+)),
     :rotation (optional+ (number+)),
+    :angle (optional+ (number+)),
     :ops (vector+ (tuple+ [(keyword+)]))}
    {:check-keys? true}))
 
@@ -60,10 +64,11 @@
    {:line-style (optional+ lilac-line-style),
     :on (optional+ (map+ (keyword+) (fn+))),
     :position (optional+ lilac-point),
-    :size (optional+ lilac-point),
+    :size lilac-point,
     :pivot (optional+ lilac-point),
     :alpha (optional+ (number+)),
     :rotation (optional+ (number+)),
+    :angle (optional+ (number+)),
     :fill (optional+ lilac-color)}
    {:check-keys? true}))
 
@@ -107,5 +112,6 @@
     :position (optional+ lilac-point),
     :pivot (optional+ (number+)),
     :rotation (optional+ (number+)),
+    :angle (optional+ (number+)),
     :alpha (optional+ (number+))}
    {:check-keys? true}))

@@ -20,7 +20,7 @@
  comp-drafts
  (x)
  (container
-  {:position [200 100], :rotation 0}
+  {:position [400 100], :rotation 0}
   (circle
    {:position [200 100],
     :radius 40,
@@ -28,9 +28,9 @@
     :fill (hslx 160 80 70),
     :on {:mousedown (fn [event dispatch!] (dispatch! :add-x nil))}})
   (rect
-   {:position [100 100],
+   {:position [40 40],
     :size [50 50],
-    :line-style {:width 2, :color (hslx 200 80 80), :alpha 1},
+    :line-style {:width 2, :color (hslx 0 80 80), :alpha 1},
     :fill (hslx 200 80 80),
     :on {:mousedown (fn [e dispatch!] (dispatch! :add-x nil))},
     :rotation (+ 1 (* 0.1 x)),

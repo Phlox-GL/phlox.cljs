@@ -18,13 +18,6 @@
              :refer
              [dev-check dev-check-message lilac-point lilac-line-style lilac-color]]))
 
-(defn add-events [target events dispatch!]
-  (when (some? events)
-    (set! (.-interactive target) true)
-    (set! (.-buttonMode target) true)
-    (doseq [[k listener] events]
-      (.on target (name k) (fn [event] (listener event dispatch!))))))
-
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
     (case op
@@ -88,9 +81,18 @@
      (use-number (peek size)))
     (js/console.warn "Unknown options" position size)))
 
-(defn set-alpha [target alpha] (when (some? alpha) (set! (-> target .-alpha) alpha)))
+(defn init-alpha [target alpha] (when (some? alpha) (set! (-> target .-alpha) alpha)))
 
-(defn set-line-style [target line-style]
+(defn init-angle [target v] (when (some? v) (set! (.-angle target) v)))
+
+(defn init-events [target events dispatch!]
+  (when (some? events)
+    (set! (.-interactive target) true)
+    (set! (.-buttonMode target) true)
+    (doseq [[k listener] events]
+      (.on target (name k) (fn [event] (listener event dispatch!))))))
+
+(defn init-line-style [target line-style]
   (when (some? line-style)
     (.lineStyle
      target
@@ -98,19 +100,39 @@
      (use-number (:color line-style))
      (:alpha line-style))))
 
-(defn set-pivot [target pivot]
-  (dev-check pivot (optional+ lilac-point))
-  (when-not (nil? pivot)
+(defn init-pivot [target pivot]
+  (when (some? pivot)
     (set! (-> target .-pivot .-x) (first pivot))
     (set! (-> target .-pivot .-y) (peek pivot))))
 
-(defn set-position [target point]
-  (dev-check point (optional+ (tuple+ [(number+) (number+)])))
+(defn init-position [target point]
   (when (some? point)
-    (set! (-> target .-position .-x) (first point))
-    (set! (-> target .-position .-y) (peek point))))
+    (set! (-> target .-position .-x) (if (vector? point) (first point) 0))
+    (set! (-> target .-position .-y) (if (vector? point) (peek point) 0))))
 
-(defn set-rotation [target v] (when (some? v) (set! (.-rotation target) v)))
+(defn init-rotation [target v] (when (some? v) (set! (.-rotation target) v)))
+
+(defn set-alpha [target alpha] (set! (-> target .-alpha) (or alpha 1)))
+
+(defn set-line-style [target line-style]
+  (when (some? line-style)
+    (.lineStyle
+     target
+     (use-number (:width line-style))
+     (use-number (:color line-style))
+     (:alpha line-style))
+    (.lineStyle target 0 0 0)))
+
+(defn set-pivot [target pivot]
+  (dev-check pivot (optional+ lilac-point))
+  (set! (-> target .-pivot .-x) (if (vector? pivot) (first pivot) 0))
+  (set! (-> target .-pivot .-y) (if (vector? pivot) (peek pivot) 0)))
+
+(defn set-position [target point]
+  (set! (-> target .-position .-x) (if (vector? point) (first point) 0))
+  (set! (-> target .-position .-y) (if (vector? point) (peek point) 0)))
+
+(defn set-rotation [target v] (set! (.-rotation target) (or v 0)))
 
 (defn update-events [target events old-events dispatch!]
   (doseq [[k listener] old-events] (.off target (name k)))

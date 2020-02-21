@@ -17,11 +17,17 @@
               set-pivot
               set-rotation
               set-alpha
-              add-events
+              init-events
               update-events
               set-line-style
               draw-circle
-              draw-rect]]
+              draw-rect
+              init-position
+              init-pivot
+              init-angle
+              init-rotation
+              init-alpha
+              init-line-style]]
             [phlox.check
              :refer
              [dev-check
@@ -57,10 +63,11 @@
         text-style (new (.-TextStyle PIXI) (convert-line-style style))
         target (new (.-Text PIXI) (:text (:props element)) text-style)
         props (:props element)]
-    (set-position target (:position props))
-    (set-pivot target (:pivot props))
-    (set-rotation target (:rotation props))
-    (set-alpha target (:alpha props))
+    (init-position target (:position props))
+    (init-pivot target (:pivot props))
+    (init-angle target (:angle props))
+    (init-rotation target (:rotation props))
+    (init-alpha target (:alpha props))
     (render-children target (:children element) dispatch!)
     target))
 
@@ -73,10 +80,11 @@
     (set-line-style target line-style)
     (draw-rect target (:position props) (:size props))
     (if (some? (:fill props)) (.endFill target))
-    (set-pivot target (:pivot props))
-    (set-rotation target (:rotation props))
-    (set-alpha target (:alpha props))
-    (add-events target events dispatch!)
+    (init-pivot target (:pivot props))
+    (init-rotation target (:rotation props))
+    (init-angle target (:angle props))
+    (init-alpha target (:alpha props))
+    (init-events target events dispatch!)
     (render-children target (:children element) dispatch!)
     target))
 
@@ -87,11 +95,12 @@
         events (:on props)]
     (dev-check props lilac-graphics)
     (call-graphics-ops target ops)
-    (set-rotation target (:rotation props))
-    (set-pivot target (:pivot props))
-    (set-position target (:position props))
-    (set-alpha target (:alpha props))
-    (add-events target events dispatch!)
+    (init-rotation target (:rotation props))
+    (init-angle target (:angle props))
+    (init-pivot target (:pivot props))
+    (init-position target (:position props))
+    (init-alpha target (:alpha props))
+    (init-events target events dispatch!)
     (render-children target (:children element) dispatch!)
     target))
 
@@ -112,10 +121,11 @@
 (defn render-container [element dispatch!]
   (let [target (new (.-Container PIXI)), props (:props element)]
     (render-children target (:children element) dispatch!)
-    (set-position target (:position props))
-    (set-rotation target (:rotation props))
-    (set-pivot target (:pivot props))
-    (set-alpha target (:alpha props))
+    (init-position target (:position props))
+    (init-rotation target (:rotation props))
+    (init-angle target (:angle props))
+    (init-pivot target (:pivot props))
+    (init-alpha target (:alpha props))
     target))
 
 (defn render-circle [element dispatch!]
@@ -128,8 +138,11 @@
     (set-line-style target line-style)
     (draw-circle target position (:radius props))
     (when (some? (:fill props)) (.endFill target))
-    (add-events target events dispatch!)
-    (set-alpha target (:alpha props))
+    (init-events target events dispatch!)
+    (init-rotation target (:rotation props))
+    (init-pivot target (:pivot props))
+    (init-angle target (:angle props))
+    (init-alpha target (:alpha props))
     (render-children target (:children element) dispatch!)
     target))
 
@@ -138,6 +151,8 @@
     (if (some? child-pair)
       (.addChild target (render-element (peek child-pair) dispatch!))
       (js/console.log "nil child:" child-pair))))
+
+(defn set-angle [target v] (set! (.-angle target) (or v 0)))
 
 (defn update-circle [element old-element target dispatch!]
   (let [props (:props element)
@@ -157,13 +172,18 @@
       (set-line-style target line-style)
       (draw-circle target position (:radius props))
       (when (some? (:fill props)) (.endFill target))
-      (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props))))
+      (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
+      (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
+      (when (not= (:rotation props) (:rotation props'))
+        (set-rotation target (:rotation props)))
+      (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props))))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-container [element old-element target]
   (let [props (:props element), props' (:props old-element)]
     (when (not= (:position props) (:position props')) (set-position target (:position props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
+    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
     (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
@@ -178,6 +198,7 @@
       (set-position target (:position props)))
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
+    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
     (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
@@ -202,6 +223,7 @@
       (if (some? (:fill props)) (.endFill target)))
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
+    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
     (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
@@ -219,6 +241,7 @@
       (set-position target (:position props)))
     (when (not= (:rotation props) (:rotation props'))
       (set-rotation target (:rotation props)))
+    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
     (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
     (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
 
