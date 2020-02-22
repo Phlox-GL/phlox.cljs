@@ -62,24 +62,15 @@
       :end-hole (.endHole target)
       (js/console.warn "not supported:" op))))
 
-(defn draw-circle [target position radius]
-  (if (and (vector? position) (number? radius))
-    (.drawCircle
-     target
-     (use-number (first position))
-     (use-number (peek position))
-     (use-number radius))
-    (js/console.warn "Unknown options" position radius)))
+(defn draw-circle [target radius]
+  (if (number? radius)
+    (.drawCircle target 0 0 (use-number radius))
+    (js/console.warn "Unknown radius"  radius)))
 
-(defn draw-rect [target position size]
-  (if (and (vector? position) (vector? size))
-    (.drawRect
-     target
-     (use-number (first position))
-     (use-number (peek position))
-     (use-number (first size))
-     (use-number (peek size)))
-    (js/console.warn "Unknown options" position size)))
+(defn draw-rect [target size]
+  (if (vector? size)
+    (.drawRect target 0 0 (use-number (first size)) (use-number (peek size)))
+    (js/console.warn "Unknown size" size)))
 
 (defn init-alpha [target alpha] (when (some? alpha) (set! (-> target .-alpha) alpha)))
 
@@ -122,16 +113,6 @@
   (if (some? events)
     (do (set! (.-buttonMode target) true) (set! (.-interactive target) true))
     (do (set! (.-buttonMode target) false) (set! (.-interactive target) false))))
-
-(defn update-line-style [target line-style line-style0]
-  (when (not= line-style line-style0)
-    (if (some? line-style)
-      (.lineStyle
-       target
-       (use-number (:width line-style))
-       (use-number (:color line-style))
-       (:alpha line-style))
-      (.lineStyle target 0 0 0))))
 
 (defn update-pivot [target pivot pivot0]
   (when (not= pivot pivot0)

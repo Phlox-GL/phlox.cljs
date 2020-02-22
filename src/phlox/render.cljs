@@ -18,7 +18,6 @@
               update-rotation
               update-alpha
               update-events
-              update-line-style
               draw-circle
               draw-rect
               init-events
@@ -58,6 +57,10 @@
 
 (def in-dev? (do ^boolean js/goog.DEBUG))
 
+(defn init-fill [target color]
+  (.endFill target)
+  (if (some? color) (.beginFill target color)))
+
 (defn render-text [element dispatch!]
   (let [style (:style (:props element))
         text-style (new (.-TextStyle PIXI) (convert-line-style style))
@@ -72,14 +75,11 @@
     target))
 
 (defn render-rect [element dispatch!]
-  (let [target (new (.-Graphics PIXI))
-        props (:props element)
-        line-style (:line-style props)
-        events (:on props)]
-    (if (some? (:fill props)) (.beginFill target (:fill props)))
-    (init-line-style target line-style)
-    (draw-rect target (:position props) (:size props))
-    (if (some? (:fill props)) (.endFill target))
+  (let [target (new (.-Graphics PIXI)), props (:props element), events (:on props)]
+    (init-fill target (:fill props))
+    (init-line-style target (:line-style props))
+    (draw-rect target (:size props))
+    (init-position target (:position props))
     (init-pivot target (:pivot props))
     (init-rotation target (:rotation props))
     (init-angle target (:angle props))
@@ -134,11 +134,11 @@
         line-style (:line-style props)
         position (:position props)
         events (:on props)]
-    (when (some? (:fill props)) (.beginFill target (:fill props)))
+    (init-fill target (:fill props))
     (init-line-style target line-style)
-    (draw-circle target position (:radius props))
-    (when (some? (:fill props)) (.endFill target))
+    (draw-circle target (:radius props))
     (init-events target events dispatch!)
+    (init-position target (:position props))
     (init-rotation target (:rotation props))
     (init-pivot target (:pivot props))
     (init-angle target (:angle props))
@@ -168,14 +168,14 @@
               (not= line-style line-style')
               (not= (:fill props) (:fill props')))
       (.clear target)
-      (when (some? (:fill props)) (.beginFill target (:fill props)))
-      (update-line-style target line-style line-style')
-      (draw-circle target position (:radius props))
-      (when (some? (:fill props)) (.endFill target))
-      (update-alpha target (:alpha props) (:alpha props'))
-      (update-angle target (:angle props) (:angle props'))
-      (update-rotation target (:rotation props) (:rotation props'))
-      (update-pivot target (:pivot props) (:pivot props')))
+      (init-fill target (:fill props))
+      (init-line-style target line-style)
+      (draw-circle target (:radius props)))
+    (update-position target (:position props) (:position props'))
+    (update-alpha target (:alpha props) (:alpha props'))
+    (update-angle target (:angle props) (:angle props'))
+    (update-rotation target (:rotation props) (:rotation props'))
+    (update-pivot target (:pivot props) (:pivot props'))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-container [element old-element target]
@@ -208,15 +208,14 @@
         size' (:size props')
         line-style (:line-style props)
         line-style' (:line-style props')]
-    (when (or (not= position position')
-              (not= size size')
+    (when (or (not= size size')
               (not= line-style line-style')
               (not= (:fill props) (:fill props')))
       (.clear target)
-      (if (some? (:fill props)) (.beginFill target (:fill props)))
-      (update-line-style target line-style line-style')
-      (draw-rect target position size)
-      (if (some? (:fill props)) (.endFill target)))
+      (init-fill target (:fill props))
+      (init-line-style target line-style)
+      (draw-rect target size))
+    (update-position target (:position props) (:position props'))
     (update-rotation target (:rotation props) (:rotation props'))
     (update-angle target (:angle props) (:angle props'))
     (update-pivot target (:pivot props) (:pivot props'))
