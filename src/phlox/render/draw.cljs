@@ -115,7 +115,7 @@
 (defn set-alpha [target alpha] (set! (-> target .-alpha) (or alpha 1)))
 
 (defn set-line-style [target line-style]
-  (when (some? line-style)
+  (if (some? line-style)
     (.lineStyle
      target
      (use-number (:width line-style))
