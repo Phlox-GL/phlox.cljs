@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.1.3-a3"]
+[quamolit/phlox "0.1.3-a4"]
 ```
 
 `render!` to add canvas to `<body/>`:

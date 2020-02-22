@@ -20,7 +20,8 @@
 
 (def in-dev? (do ^boolean js/goog.DEBUG))
 
-(def lilac-line-style (record+ {:width (number+), :color (number+), :alpha (number+)}))
+(def lilac-line-style
+  (record+ {:width (number+), :color (number+), :alpha (optional+ (number+))}))
 
 (def lilac-point (tuple+ [(number+) (number+)]))
 

@@ -96,7 +96,7 @@
    :container
    {:position [200 20]}
    (->> (range 40)
-        (mapcat (fn [x] (->> (range 20) (map (fn [y] [x y])))))
+        (mapcat (fn [x] (->> (range 30) (map (fn [y] [x y])))))
         (map
          (fn [[x y]]
            [(str x "+" y)
@@ -104,12 +104,7 @@
              {:position [(* x 14) (* y 14)],
               :size [10 10],
               :fill (hslx 200 80 80),
-              :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))
-  (rect
-   {:position [300 320],
-    :size [40 30],
-    :fill (hslx 40 80 80),
-    :on {:pointerdown (fn [e d!] (println "corsur"))}})))
+              :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))))
 
 (defcomp
  comp-tab-entry
@@ -139,7 +134,7 @@
 (defcomp
  comp-container
  (store)
- (println "Store" store (:tab store))
+ (comment println "Store" store (:tab store))
  (container
   {}
   (comp-tabs (:tab store))

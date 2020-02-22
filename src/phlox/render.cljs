@@ -13,15 +13,15 @@
             [phlox.render.draw
              :refer
              [call-graphics-ops
-              set-position
-              set-pivot
-              set-rotation
-              set-alpha
-              init-events
+              update-position
+              update-pivot
+              update-rotation
+              update-alpha
               update-events
-              set-line-style
+              update-line-style
               draw-circle
               draw-rect
+              init-events
               init-position
               init-pivot
               init-angle
@@ -77,7 +77,7 @@
         line-style (:line-style props)
         events (:on props)]
     (if (some? (:fill props)) (.beginFill target (:fill props)))
-    (set-line-style target line-style)
+    (init-line-style target line-style)
     (draw-rect target (:position props) (:size props))
     (if (some? (:fill props)) (.endFill target))
     (init-pivot target (:pivot props))
@@ -135,7 +135,7 @@
         position (:position props)
         events (:on props)]
     (when (some? (:fill props)) (.beginFill target (:fill props)))
-    (set-line-style target line-style)
+    (init-line-style target line-style)
     (draw-circle target position (:radius props))
     (when (some? (:fill props)) (.endFill target))
     (init-events target events dispatch!)
@@ -152,7 +152,7 @@
       (.addChild target (render-element (peek child-pair) dispatch!))
       (js/console.log "nil child:" child-pair))))
 
-(defn set-angle [target v] (set! (.-angle target) (or v 0)))
+(defn update-angle [target v v0] (when (not= v v0) (set! (.-angle target) v)))
 
 (defn update-circle [element old-element target dispatch!]
   (let [props (:props element)
@@ -169,24 +169,22 @@
               (not= (:fill props) (:fill props')))
       (.clear target)
       (when (some? (:fill props)) (.beginFill target (:fill props)))
-      (set-line-style target line-style)
+      (update-line-style target line-style line-style')
       (draw-circle target position (:radius props))
       (when (some? (:fill props)) (.endFill target))
-      (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
-      (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
-      (when (not= (:rotation props) (:rotation props'))
-        (set-rotation target (:rotation props)))
-      (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props))))
+      (update-alpha target (:alpha props) (:alpha props'))
+      (update-angle target (:angle props) (:angle props'))
+      (update-rotation target (:rotation props) (:rotation props'))
+      (update-pivot target (:pivot props) (:pivot props')))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-container [element old-element target]
   (let [props (:props element), props' (:props old-element)]
-    (when (not= (:position props) (:position props')) (set-position target (:position props)))
-    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
-    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
-    (when (not= (:rotation props) (:rotation props'))
-      (set-rotation target (:rotation props)))
-    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
+    (update-position target (:position props) (:position props'))
+    (update-pivot target (:pivot props) (:pivot props'))
+    (update-angle target (:angle props) (:angle props'))
+    (update-rotation target (:rotation props) (:rotation props'))
+    (update-alpha target (:alpha props) (:alpha props'))))
 
 (defn update-graphics [element old-element target dispatch!]
   (let [props (:props element)
@@ -194,13 +192,11 @@
         ops (:ops props)
         ops' (:ops props')]
     (when (not= ops ops') (.clear target) (call-graphics-ops target ops))
-    (when (not= (:position props) (:position props'))
-      (set-position target (:position props)))
-    (when (not= (:rotation props) (:rotation props'))
-      (set-rotation target (:rotation props)))
-    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
-    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
-    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
+    (update-position target (:position props) (:position props'))
+    (update-rotation target (:rotation props) (:rotation props'))
+    (update-angle target (:angle props) (:angle props'))
+    (update-pivot target (:pivot props) (:pivot props'))
+    (update-alpha target (:alpha props) (:alpha props'))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-rect [element old-element target dispatch!]
@@ -218,14 +214,13 @@
               (not= (:fill props) (:fill props')))
       (.clear target)
       (if (some? (:fill props)) (.beginFill target (:fill props)))
-      (set-line-style target line-style)
+      (update-line-style target line-style line-style')
       (draw-rect target position size)
       (if (some? (:fill props)) (.endFill target)))
-    (when (not= (:rotation props) (:rotation props'))
-      (set-rotation target (:rotation props)))
-    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
-    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
-    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))
+    (update-rotation target (:rotation props) (:rotation props'))
+    (update-angle target (:angle props) (:angle props'))
+    (update-pivot target (:pivot props) (:pivot props'))
+    (update-alpha target (:alpha props) (:alpha props'))
     (update-events target (-> element :props :on) (-> old-element :props :on) dispatch!)))
 
 (defn update-text [element old-element target]
@@ -237,13 +232,11 @@
     (when (not= text-style text-style')
       (let [new-style (new (.-TextStyle PIXI) (convert-line-style text-style))]
         (set! (.-style target) new-style)))
-    (when (not= (:position props) (:position props'))
-      (set-position target (:position props)))
-    (when (not= (:rotation props) (:rotation props'))
-      (set-rotation target (:rotation props)))
-    (when (not= (:angle props) (:angle props')) (set-angle target (:angle props)))
-    (when (not= (:pivot props) (:pivot props')) (set-pivot target (:pivot props)))
-    (when (not= (:alpha props) (:alpha props')) (set-alpha target (:alpha props)))))
+    (update-position target (:position props) (:position props'))
+    (update-rotation target (:rotation props) (:rotation props'))
+    (update-angle target (:angle props) (:angle props'))
+    (update-pivot target (:pivot props) (:pivot props'))
+    (update-alpha target (:alpha props) (:alpha props'))))
 
 (defn update-element [element old-element parent-element idx dispatch! options]
   (cond
@@ -289,13 +282,12 @@
      (and (every? some? (map peek children-dict))
           (every? some? (map peek old-children-dict)))
      "children should not contain nil element"))
-  (let [list-ops (:acc
-                  (find-minimal-ops
-                   lcs-state-0
-                   (map first old-children-dict)
-                   (map first children-dict)))]
-    (comment js/console.log "ops" list-ops old-children-dict children-dict)
-    (loop [idx 0, ops list-ops, xs children-dict, ys old-children-dict]
+  (let [list-ops (find-minimal-ops
+                  lcs-state-0
+                  (map first old-children-dict)
+                  (map first children-dict))]
+    (comment js/console.log "ops" (:total list-ops))
+    (loop [idx 0, ops (:acc list-ops), xs children-dict, ys old-children-dict]
       (when-not (empty? ops)
         (let [op (first ops)]
           (case (first op)
