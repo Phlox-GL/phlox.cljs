@@ -112,27 +112,8 @@
 
 (defn init-rotation [target v] (when (some? v) (set! (.-rotation target) v)))
 
-(defn set-alpha [target alpha] (set! (-> target .-alpha) (or alpha 1)))
-
-(defn set-line-style [target line-style]
-  (when (some? line-style)
-    (.lineStyle
-     target
-     (use-number (:width line-style))
-     (use-number (:color line-style))
-     (:alpha line-style))
-    (.lineStyle target 0 0 0)))
-
-(defn set-pivot [target pivot]
-  (dev-check pivot (optional+ lilac-point))
-  (set! (-> target .-pivot .-x) (if (vector? pivot) (first pivot) 0))
-  (set! (-> target .-pivot .-y) (if (vector? pivot) (peek pivot) 0)))
-
-(defn set-position [target point]
-  (set! (-> target .-position .-x) (if (vector? point) (first point) 0))
-  (set! (-> target .-position .-y) (if (vector? point) (peek point) 0)))
-
-(defn set-rotation [target v] (set! (.-rotation target) (or v 0)))
+(defn update-alpha [target alpha alpha0]
+  (when (not= alpha alpha0) (set! (-> target .-alpha) alpha)))
 
 (defn update-events [target events old-events dispatch!]
   (doseq [[k listener] old-events] (.off target (name k)))
@@ -141,3 +122,25 @@
   (if (some? events)
     (do (set! (.-buttonMode target) true) (set! (.-interactive target) true))
     (do (set! (.-buttonMode target) false) (set! (.-interactive target) false))))
+
+(defn update-line-style [target line-style line-style0]
+  (when (not= line-style line-style0)
+    (if (some? line-style)
+      (.lineStyle
+       target
+       (use-number (:width line-style))
+       (use-number (:color line-style))
+       (:alpha line-style))
+      (.lineStyle target 0 0 0))))
+
+(defn update-pivot [target pivot pivot0]
+  (when (not= pivot pivot0)
+    (set! (-> target .-pivot .-x) (if (vector? pivot) (first pivot) nil))
+    (set! (-> target .-pivot .-y) (if (vector? pivot) (peek pivot) nil))))
+
+(defn update-position [target point point0]
+  (when (not= point point0)
+    (set! (-> target .-position .-x) (if (vector? point) (first point) nil))
+    (set! (-> target .-position .-y) (if (vector? point) (peek point) nil))))
+
+(defn update-rotation [target v v0] (when (not= v v0) (set! (.-rotation target) v)))
