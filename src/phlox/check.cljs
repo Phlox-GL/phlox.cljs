@@ -57,7 +57,7 @@
     :alpha (optional+ (number+)),
     :rotation (optional+ (number+)),
     :angle (optional+ (number+)),
-    :ops (vector+ (tuple+ [(keyword+)]))}
+    :ops (vector+ (optional+ (tuple+ [(keyword+) (any+)])) {:allow-seq? true})}
    {:check-keys? true}))
 
 (def lilac-rect
