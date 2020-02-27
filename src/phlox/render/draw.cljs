@@ -60,7 +60,8 @@
           (.quadraticCurveTo target (first p1) (peek p1) (first to-p) (peek to-p)))
       :begin-hole (.beginHole target)
       :end-hole (.endHole target)
-      (js/console.warn "not supported:" op))))
+      nil (do)
+      (js/console.warn "not supported op:" op data))))
 
 (defn draw-circle [target radius]
   (if (number? radius)
