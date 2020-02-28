@@ -20,6 +20,8 @@
 
 (def in-dev? (do ^boolean js/goog.DEBUG))
 
+(def lilac-event-map (map+ (keyword+) (fn+)))
+
 (def lilac-line-style
   (record+ {:width (number+), :color (number+), :alpha (optional+ (number+))}))
 
@@ -28,14 +30,15 @@
 (def lilac-circle
   (record+
    {:line-style (optional+ lilac-line-style),
-    :on (optional+ (map+ (keyword+) (fn+))),
+    :on (optional+ lilac-event-map),
     :position lilac-point,
     :radius (number+),
     :fill (optional+ (number+)),
     :alpha (optional+ (number+)),
     :rotation (optional+ (number+)),
     :angle (optional+ (number+)),
-    :pivot (optional+ lilac-point)}
+    :pivot (optional+ lilac-point),
+    :on-keyboard (optional+ lilac-event-map)}
    {:check-keys? true}))
 
 (def lilac-color (or+ [(number+) (string+)]))
@@ -46,31 +49,34 @@
     :rotation (number+),
     :pivot lilac-point,
     :alpha (number+),
-    :angle (number+)}
+    :angle (number+),
+    :on-keyboard (optional+ lilac-event-map)}
    {:check-keys? true, :all-optional? true}))
 
 (def lilac-graphics
   (record+
-   {:on (optional+ (map+ (keyword+) (fn+))),
+   {:on (optional+ lilac-event-map),
     :position (optional+ lilac-point),
     :pivot (optional+ lilac-point),
     :alpha (optional+ (number+)),
     :rotation (optional+ (number+)),
     :angle (optional+ (number+)),
-    :ops (vector+ (optional+ (tuple+ [(keyword+) (any+)])) {:allow-seq? true})}
+    :ops (vector+ (optional+ (tuple+ [(keyword+) (any+)])) {:allow-seq? true}),
+    :on-keyboard (optional+ lilac-event-map)}
    {:check-keys? true}))
 
 (def lilac-rect
   (record+
    {:line-style (optional+ lilac-line-style),
-    :on (optional+ (map+ (keyword+) (fn+))),
+    :on (optional+ lilac-event-map),
     :position (optional+ lilac-point),
     :size lilac-point,
     :pivot (optional+ lilac-point),
     :alpha (optional+ (number+)),
     :rotation (optional+ (number+)),
     :angle (optional+ (number+)),
-    :fill (optional+ lilac-color)}
+    :fill (optional+ lilac-color),
+    :on-keyboard (optional+ lilac-event-map)}
    {:check-keys? true}))
 
 (def lilac-text-style
@@ -114,5 +120,6 @@
     :pivot (optional+ (number+)),
     :rotation (optional+ (number+)),
     :angle (optional+ (number+)),
-    :alpha (optional+ (number+))}
+    :alpha (optional+ (number+)),
+    :on-keyboard (optional+ lilac-event-map)}
    {:check-keys? true}))

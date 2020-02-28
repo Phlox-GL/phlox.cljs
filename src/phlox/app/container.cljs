@@ -108,6 +108,30 @@
               :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))))
 
 (defcomp
+ comp-keyboard
+ (on? counted)
+ (container
+  {:position [400 200]}
+  (container
+   {:position [0 0]}
+   (rect
+    {:position [0 0],
+     :size [160 40],
+     :fill (hslx 0 0 50),
+     :on {:click (fn [e d!] (d! :toggle-keyboard nil))}})
+   (text
+    {:text (str "Toggle: " on?),
+     :position [4 8],
+     :style {:font-size 16, :fill (hslx 0 0 100)}}))
+  (text
+   {:text (str "Counted: " counted),
+    :position [20 60],
+    :style {:font-size 16, :fill (hslx 0 0 100)},
+    :on-keyboard (if on?
+      {:down (fn [e d!] (d! :counted nil)), :up (fn [e d!] (println :up))}
+      {})})))
+
+(defcomp
  comp-tab-entry
  (tab-value tab-title position selected?)
  (container
@@ -130,7 +154,8 @@
   (comp-tab-entry :drafts "Drafts" [10 100] (= :drafts tab))
   (comp-tab-entry :grids "Grids" [10 150] (= :grids tab))
   (comp-tab-entry :curves "Curves" [10 200] (= :curves tab))
-  (comp-tab-entry :gradients "Gradients" [10 250] (= :gradients tab))))
+  (comp-tab-entry :gradients "Gradients" [10 250] (= :gradients tab))
+  (comp-tab-entry :keyboard "Keyboard" [10 300] (= :keyboard tab))))
 
 (defcomp
  comp-container
@@ -144,6 +169,7 @@
     :grids (comp-grids)
     :curves (comp-curves)
     :gradients (comp-gradients)
+    :keyboard (comp-keyboard (:keyboard-on? store) (:counted store))
     (text
      {:text "Unknown",
       :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))
