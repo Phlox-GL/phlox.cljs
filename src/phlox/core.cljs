@@ -29,7 +29,8 @@
               keyword+
               boolean+
               vector+
-              or+]])
+              or+]]
+            [phlox.keyboard :refer [handle-keyboard-events]])
   (:require-macros [phlox.core]))
 
 (defonce *app (atom nil))
@@ -147,7 +148,9 @@
   (let [expanded-app (expand-tree app)]
     (comment js/console.log "render!" expanded-app)
     (if (nil? @*tree-element)
-      (mount-app! expanded-app dispatch!)
+      (do
+       (mount-app! expanded-app dispatch!)
+       (handle-keyboard-events *tree-element dispatch!))
       (rerender-app! expanded-app dispatch! options))
     (reset! *tree-element expanded-app)))
 

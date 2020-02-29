@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.1.5"]
+[quamolit/phlox "0.1.6-a1"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -44,6 +44,18 @@ Previews http://repo.quamolit.org/phlox/ .
   (render! (comp-container @*store) dispatch! {:swap? true}))
 ```
 
+### Global keyboard events
+
+Phlox supports a naive global event system for listening to keyboard events from elements:
+
+```clojure
+:on-keyboard {
+  :down (fn [e dispatch!])
+  :press (fn [e dispatch!])
+  :up (fn [e dispatch!])
+}
+```
+
 ### Spec
 
 Add a container:
@@ -56,6 +68,9 @@ Add a container:
   :alpha 1
   :on {
     :pointerdown (fn [])
+  }
+  :on-keyboard {
+    :down (fn [])
   }
 }
 ```
@@ -76,6 +91,9 @@ Draw a circle:
     :pointerdown (fn [])
   }
   :alpha 1
+  :on-keyboard {
+    :down (fn [])
+  }
 }
 ```
 
@@ -97,6 +115,9 @@ Draw a rectangle:
   :rotation 1
   :pivot [1 2]
   :alpha 1
+  :on-keyboard {
+    :down (fn [])
+  }
 }
 ```
 
@@ -113,6 +134,9 @@ Draw text:
     :fill "red"
     :font-size 14
     :font-family "Hind"
+  }
+  :on-keyboard {
+    :down (fn [])
   }
 }
 ```
@@ -139,6 +163,9 @@ Draw graphics(use `phlox.core/g` for validations):
   :alpha 1
   :on {
     :pointerdown (fn [])
+  }
+  :on-keyboard {
+    :down (fn [])
   }
 }
 ```
