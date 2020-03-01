@@ -11,9 +11,12 @@
 (defonce *store (atom schema/store))
 
 (defn dispatch! [op op-data]
-  (when dev? (println "dispatch!" op op-data))
-  (let [op-id (shortid/generate), op-time (.now js/Date)]
-    (reset! *store (updater @*store op op-data op-id op-time))))
+  (if (vector? op)
+    (recur :states [op op-data])
+    (do
+     (when (and dev? (not= op :states)) (println "dispatch!" op op-data))
+     (let [op-id (shortid/generate), op-time (.now js/Date)]
+       (reset! *store (updater @*store op op-data op-id op-time))))))
 
 (defn main! []
   (comment js/console.log PIXI)
