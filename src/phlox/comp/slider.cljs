@@ -21,20 +21,21 @@
               or+
               is+]]))
 
+(def lilac-slider
+  (record+
+   {:value (number+),
+    :on-change (fn+),
+    :unit (optional+ (number+)),
+    :fill (optional+ (number+)),
+    :color (optional+ (number+)),
+    :position (optional+ (tuple+ [(number+) (number+)]))}
+   {:check-keys? true}))
+
 (defcomp
  comp-slider
  (cursor states props)
  (dev-check cursor (vector+ (or (keyword+) (number+))))
- (dev-check
-  props
-  (record+
-   {:value (number+),
-    :unit (number+),
-    :on-change (fn+),
-    :fill (number+),
-    :color (number+),
-    :position (tuple+ [(number+) (number+)])}
-   {:check-keys? true, :all-optional? true}))
+ (dev-check props lilac-slider)
  (let [value (or (:value props) 1)
        state (or (:data states) {:v0 value, :x0 0, :dragging? false})
        unit (or (:unit props) 1)

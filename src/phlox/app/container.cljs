@@ -6,7 +6,8 @@
             [phlox.app.comp.drafts :refer [comp-drafts]]
             [phlox.app.comp.keyboard :refer [comp-keyboard]]
             [phlox.comp.button :refer [comp-button]]
-            [phlox.comp.slider :refer [comp-slider]]))
+            [phlox.comp.slider :refer [comp-slider]]
+            [phlox.comp.drag-point :refer [comp-drag-point]]))
 
 (defcomp
  comp-buttons
@@ -68,6 +69,33 @@
               :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))))
 
 (defcomp
+ comp-points-demo
+ (cursor states)
+ (let [state (or (:data states) {:p1 [0 0], :p2 [0 0], :p3 [0 0]})]
+   (container
+    {:position [300 200]}
+    (comp-drag-point
+     (conj cursor :p1)
+     (:p1 states)
+     {:position (:p1 state),
+      :on-change (fn [position d!] (d! cursor (assoc state :p1 position)))})
+    (comp-drag-point
+     (conj cursor :p2)
+     (:p2 states)
+     {:position (:p2 state),
+      :unit 2,
+      :on-change (fn [position d!] (d! cursor (assoc state :p2 position)))})
+    (comp-drag-point
+     (conj cursor :p3)
+     (:p3 states)
+     {:position (:p3 state),
+      :unit 0.4,
+      :radius 6,
+      :fill (hslx 0 90 60),
+      :color (hslx 0 0 50),
+      :on-change (fn [position d!] (d! cursor (assoc state :p3 position)))}))))
+
+(defcomp
  comp-slider-demo
  (cursor states)
  (let [state (or (:data states) {:a 40, :b 20, :c 10})]
@@ -123,7 +151,8 @@
   (comp-tab-entry :gradients "Gradients" [10 250] (= :gradients tab))
   (comp-tab-entry :keyboard "Keyboard" [10 300] (= :keyboard tab))
   (comp-tab-entry :slider "Slider" [10 350] (= :slider tab))
-  (comp-tab-entry :buttons "Buttons" [10 400] (= :buttons tab))))
+  (comp-tab-entry :buttons "Buttons" [10 400] (= :buttons tab))
+  (comp-tab-entry :points "Points" [10 450] (= :points tab))))
 
 (defcomp
  comp-container
@@ -141,6 +170,7 @@
       :keyboard (comp-keyboard (:keyboard-on? store) (:counted store))
       :buttons (comp-buttons)
       :slider (comp-slider-demo (conj cursor :slider) (:slider states))
+      :points (comp-points-demo (conj cursor :points) (:points states))
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))
