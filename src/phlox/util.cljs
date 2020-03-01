@@ -1,6 +1,8 @@
 
 (ns phlox.util (:require [clojure.string :as string] ["pixi.js" :as PIXI]))
 
+(defonce *ctx-instance (atom nil))
+
 (defn camel-case [x] (string/replace x #"-[a-z]" (fn [x] (string/upper-case (subs x 1)))))
 
 (defn component? [x] (= :component (:phlox-node x)))
@@ -32,6 +34,15 @@
 (defn element? [x] (= :element (:phlox-node x)))
 
 (defn index-items [xs] (->> xs (map-indexed (fn [idx x] [idx x]))))
+
+(defn measure-text-width! [text size font-family]
+  (when (nil? @*ctx-instance)
+    (let [el (js/document.createElement "canvas")]
+      (reset! *ctx-instance (.getContext el "2d"))))
+  (set! (.-font @*ctx-instance) (str size "px " font-family))
+  (.-width (.measureText @*ctx-instance text)))
+
+(defn rand-color [] (rand-int 0xffffff))
 
 (defn remove-nil-values [dict] (->> dict (filter (fn [[k v]] (some? v)))))
 

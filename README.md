@@ -176,6 +176,19 @@ Draw star:
 ; TODO
 ```
 
+### Components
+
+`comp-button` for clickable buttons:
+
+```clojure
+(comp-button
+   {:text "DEMO BUTTON",
+    :position [100 0],
+    :on {:click (fn [e d!] (js/console.log "clicked" e d!))}})
+  (comp-button
+   {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)})))
+```
+
 ### Workflow
 
 Workflow https://github.com/Quamolit/phlox-workflow

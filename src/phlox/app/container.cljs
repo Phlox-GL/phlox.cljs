@@ -4,7 +4,20 @@
              :refer
              [defcomp g hslx rect circle text container graphics create-list]]
             [phlox.app.comp.drafts :refer [comp-drafts]]
-            [phlox.app.comp.keyboard :refer [comp-keyboard]]))
+            [phlox.app.comp.keyboard :refer [comp-keyboard]]
+            [phlox.comp.button :refer [comp-button]]))
+
+(defcomp
+ comp-buttons
+ ()
+ (container
+  {:position [300 100]}
+  (comp-button
+   {:text "DEMO BUTTON",
+    :position [100 0],
+    :on {:click (fn [e d!] (js/console.log "clicked" e d!))}})
+  (comp-button
+   {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)})))
 
 (defcomp
  comp-curves
@@ -94,6 +107,7 @@
     :curves (comp-curves)
     :gradients (comp-gradients)
     :keyboard (comp-keyboard (:keyboard-on? store) (:counted store))
+    :buttons (comp-buttons)
     (text
      {:text "Unknown",
       :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))
