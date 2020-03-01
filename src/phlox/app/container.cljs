@@ -5,7 +5,8 @@
              [defcomp g hslx rect circle text container graphics create-list]]
             [phlox.app.comp.drafts :refer [comp-drafts]]
             [phlox.app.comp.keyboard :refer [comp-keyboard]]
-            [phlox.comp.button :refer [comp-button]]))
+            [phlox.comp.button :refer [comp-button]]
+            [phlox.comp.slider :refer [comp-slider]]))
 
 (defcomp
  comp-buttons
@@ -67,6 +68,36 @@
               :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))))
 
 (defcomp
+ comp-slider-demo
+ (cursor states)
+ (let [state (or (:data states) {:a 40, :b 20, :c 10})]
+   (container
+    {:position [300 100]}
+    (comp-slider
+     (conj cursor :a)
+     (:a states)
+     {:value (:a state),
+      :unit 1,
+      :position [20 0],
+      :on-change (fn [value d!] (d! cursor (assoc state :a value)))})
+    (comp-slider
+     (conj cursor :b)
+     (:b states)
+     {:value (:b state),
+      :unit 0.1,
+      :position [20 60],
+      :on-change (fn [value d!] (d! cursor (assoc state :b value)))})
+    (comp-slider
+     (conj cursor :c)
+     (:c states)
+     {:value (:c state),
+      :unit 10,
+      :position [20 120],
+      :fill (hslx 50 90 70),
+      :color (hslx 200 90 30),
+      :on-change (fn [value d!] (d! cursor (assoc state :c value)))}))))
+
+(defcomp
  comp-tab-entry
  (tab-value tab-title position selected?)
  (container
@@ -98,16 +129,18 @@
  comp-container
  (store)
  (comment println "Store" store (:tab store))
- (container
-  {}
-  (comp-tabs (:tab store))
-  (case (:tab store)
-    :drafts (comp-drafts (:x store))
-    :grids (comp-grids)
-    :curves (comp-curves)
-    :gradients (comp-gradients)
-    :keyboard (comp-keyboard (:keyboard-on? store) (:counted store))
-    :buttons (comp-buttons)
-    (text
-     {:text "Unknown",
-      :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}}))))
+ (let [cursor [], states (:states store)]
+   (container
+    {}
+    (comp-tabs (:tab store))
+    (case (:tab store)
+      :drafts (comp-drafts (:x store))
+      :grids (comp-grids)
+      :curves (comp-curves)
+      :gradients (comp-gradients)
+      :keyboard (comp-keyboard (:keyboard-on? store) (:counted store))
+      :buttons (comp-buttons)
+      :slider (comp-slider-demo (conj cursor :slider) (:slider states))
+      (text
+       {:text "Unknown",
+        :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))

@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.1.6"]
+[quamolit/phlox "0.1.7-a1"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -178,7 +178,7 @@ Draw star:
 
 ### Components
 
-`comp-button` for clickable buttons:
+`comp-button` provides a clickable button:
 
 ```clojure
 (comp-button
@@ -186,7 +186,21 @@ Draw star:
     :position [100 0],
     :on {:click (fn [e d!] (js/console.log "clicked" e d!))}})
   (comp-button
-   {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)})))
+   {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)}))
+```
+
+`comp-sider` provides a little slider bar of a number, changes on dragging:
+
+```clojure
+(comp-slider
+ (conj cursor :c)
+ (:c states)
+ {:value (:c state),
+  :unit 10,
+  :position [20 120],
+  :fill (hslx 50 90 70),
+  :color (hslx 200 90 30),
+  :on-change (fn [value d!] (d! cursor (assoc state :c value)))})
 ```
 
 ### Workflow

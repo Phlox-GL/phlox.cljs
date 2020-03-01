@@ -7,5 +7,8 @@
     :tab (assoc store :tab op-data)
     :toggle-keyboard (update store :keyboard-on? not)
     :counted (update store :counted inc)
+    :states
+      (let [[cursor new-state] op-data]
+        (assoc-in store (concat [:states] cursor [:data]) new-state))
     :hydrate-storage op-data
     (do (println "unknown op" op op-data) store)))
