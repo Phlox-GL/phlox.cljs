@@ -28,16 +28,18 @@
     :unit (optional+ (number+)),
     :fill (optional+ (number+)),
     :color (optional+ (number+)),
+    :title (optional+ (string+)),
     :position (optional+ (tuple+ [(number+) (number+)]))}
    {:check-keys? true}))
 
 (defcomp
  comp-slider
  (cursor states props)
- (dev-check cursor (vector+ (or (keyword+) (number+))))
+ (dev-check cursor (vector+ (any+ {:some? true})))
  (dev-check props lilac-slider)
  (let [value (or (:value props) 1)
        state (or (:data states) {:v0 value, :x0 0, :dragging? false})
+       title (:title props)
        unit (or (:unit props) 1)
        fill (or (:fill props) (hslx 0 0 30))
        color (or (:color props) (hslx 0 0 100))
@@ -45,7 +47,7 @@
    (container
     {:position (:position props)}
     (rect
-     {:size [140 24],
+     {:size [120 24],
       :fill fill,
       :on {:mousedown (fn [e d!]
              (let [x1 (-> e .-data .-global .-x)]
@@ -59,6 +61,10 @@
            :mouseup (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false})),
            :mouseupoutside (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false}))}}
      (text
-      {:text (str "◀ " (if (number? value) (.toFixed value 4) "nil") " ▶ " unit),
+      {:text (str "◀ " (if (number? value) (.toFixed value 4) "nil") " ▶"),
        :position [4 4],
-       :style {:fill color, :font-size 12, :font-family "Menlo, monospace"}})))))
+       :style {:fill color, :font-size 12, :font-family "Menlo, monospace"}})
+     (text
+      {:text (str (if (string? title) (str title " ") "") "◈ " unit),
+       :position [0 -18],
+       :style {:fill (hslx 0 0 80), :font-size 13, :font-family "Arial, sans-serif"}})))))
