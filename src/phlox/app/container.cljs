@@ -112,6 +112,7 @@
      (conj cursor :b)
      (:b states)
      {:value (:b state),
+      :title "Refine",
       :unit 0.1,
       :position [20 60],
       :on-change (fn [value d!] (d! cursor (assoc state :b value)))})
