@@ -105,6 +105,11 @@
     (comp-switch
      {:value (:value state),
       :position [0 0],
+      :on-change (fn [value d!] (d! cursor (assoc state :value value)))})
+    (comp-switch
+     {:value (:value state),
+      :position [100 20],
+      :title "Custom title",
       :on-change (fn [value d!] (d! cursor (assoc state :value value)))}))))
 
 (defcomp
