@@ -44,4 +44,4 @@ jobs:
       - run: echo Working on ${{ github.ref }}
 
       - name: deploy to clojars
-        run: clojure -A:depstar && env CLOJARS_USERNAME=jiyinyiyong CLOJARS_PASSWORD=${{ secrets.CLOJARS_PASSWORD }} clojure -A:deploy
+        run: env CLOJARS_USERNAME=jiyinyiyong CLOJARS_PASSWORD=${{ secrets.CLOJARS_PASSWORD }} clojure -A:release
