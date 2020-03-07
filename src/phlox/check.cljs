@@ -76,6 +76,7 @@
     :rotation (optional+ (number+)),
     :angle (optional+ (number+)),
     :fill (optional+ lilac-color),
+    :radius (optional+ (number+)),
     :on-keyboard (optional+ lilac-event-map)}
    {:check-keys? true}))
 

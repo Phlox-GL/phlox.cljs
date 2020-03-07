@@ -32,16 +32,17 @@
    (container
     {}
     (rect
-     {:size [56 24],
-      :fill (hslx 0 0 50),
+     {:size [56 20],
+      :fill (if value (hslx 0 0 92) (hslx 0 0 50)),
       :position [0 0],
+      :radius 3,
       :on {:click (fn [e d!] (when (fn? on-change) (on-change (not value) d!)))}})
-    (circle {:position [12 12], :radius 6, :fill (hslx 60 80 90), :alpha (if value 1 0.4)})
     (text
      {:text (if value "On" "Off"),
-      :position [24 4],
+      :position (if value [8 2] [24 2]),
       :style {:font-size 14,
-              :fill (hslx 0 0 100),
-              :font-family "Josefin Sans",
+              :fill (if value (hslx 0 0 50) (hslx 0 0 100)),
+              :font-family "Arial",
+              :align :right,
               :font-weight 500},
       :alpha (if value 1 0.4)}))))

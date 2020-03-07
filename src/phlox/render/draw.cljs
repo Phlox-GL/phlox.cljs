@@ -68,9 +68,11 @@
     (.drawCircle target 0 0 (use-number radius))
     (js/console.warn "Unknown radius"  radius)))
 
-(defn draw-rect [target size]
+(defn draw-rect [target size radius]
   (if (vector? size)
-    (.drawRect target 0 0 (use-number (first size)) (use-number (peek size)))
+    (if (some? radius)
+      (.drawRoundedRect target 0 0 (use-number (first size)) (use-number (peek size)) radius)
+      (.drawRect target 0 0 (use-number (first size)) (use-number (peek size))))
     (js/console.warn "Unknown size" size)))
 
 (defn init-alpha [target alpha] (when (some? alpha) (set! (-> target .-alpha) alpha)))

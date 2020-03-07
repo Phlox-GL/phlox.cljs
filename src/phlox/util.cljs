@@ -12,22 +12,22 @@
        (map
         (fn [[k v]]
           (let [key-name (camel-case (cond (keyword? k) (name k) (string? k) k :else (str k)))]
-            (if (= k :fill-gradient-type)
-              [key-name
-               (case v
-                 :h (-> PIXI .-TEXT_GRADIENT .-LINEAR_HORIZONTAL)
-                 :horizontal (-> PIXI .-TEXT_GRADIENT .-LINEAR_HORIZONTAL)
-                 :v (-> PIXI .-TEXT_GRADIENT .-LINEAR_VERTICAL)
-                 :vertical (-> PIXI .-TEXT_GRADIENT .-LINEAR_VERTICAL)
-                 (do (println "unknown gradient type:") v))]
-              [key-name
+            [key-name
+             (case k
+               :fill-gradient-type
+                 (case v
+                   :h (-> PIXI .-TEXT_GRADIENT .-LINEAR_HORIZONTAL)
+                   :horizontal (-> PIXI .-TEXT_GRADIENT .-LINEAR_HORIZONTAL)
+                   :v (-> PIXI .-TEXT_GRADIENT .-LINEAR_VERTICAL)
+                   :vertical (-> PIXI .-TEXT_GRADIENT .-LINEAR_VERTICAL)
+                   (do (println "unknown gradient type:") v))
                (cond
                  (keyword? v) (name v)
                  (string? v) v
                  (number? v) v
                  (boolean? v) v
                  (vector? v) v
-                 :else (do (println "Unknown style value:" v) v))]))))
+                 :else (do (println "Unknown style value:" v) v)))])))
        (into {})
        (clj->js)))
 

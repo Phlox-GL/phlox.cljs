@@ -112,6 +112,7 @@ Draw a rectangle:
   :on {
     :pointerdown (fn [])
   }
+  :radius 1
   :rotation 1
   :pivot [1 2]
   :alpha 1

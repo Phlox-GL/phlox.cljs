@@ -63,7 +63,11 @@
 
 (defn render-text [element dispatch!]
   (let [style (:style (:props element))
-        text-style (new (.-TextStyle PIXI) (convert-line-style style))
+        text-style (new
+                    (.-TextStyle PIXI)
+                    (do
+                     (js/console.log (convert-line-style style))
+                     (convert-line-style style)))
         target (new (.-Text PIXI) (:text (:props element)) text-style)
         props (:props element)]
     (init-position target (:position props))
@@ -78,7 +82,7 @@
   (let [target (new (.-Graphics PIXI)), props (:props element), events (:on props)]
     (init-fill target (:fill props))
     (init-line-style target (:line-style props))
-    (draw-rect target (:size props))
+    (draw-rect target (:size props) (:radius props))
     (init-position target (:position props))
     (init-pivot target (:pivot props))
     (init-rotation target (:rotation props))
@@ -206,15 +210,18 @@
         position' (:position props')
         size (:size props)
         size' (:size props')
+        radius (:radius props)
+        radius' (:radius props')
         line-style (:line-style props)
         line-style' (:line-style props')]
     (when (or (not= size size')
+              (not= radius radius')
               (not= line-style line-style')
               (not= (:fill props) (:fill props')))
       (.clear target)
       (init-fill target (:fill props))
       (init-line-style target line-style)
-      (draw-rect target size))
+      (draw-rect target size (:radius props)))
     (update-position target (:position props) (:position props'))
     (update-rotation target (:rotation props) (:rotation props'))
     (update-angle target (:angle props) (:angle props'))
