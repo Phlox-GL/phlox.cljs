@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.1.8"]
+[quamolit/phlox "0.1.9-a1"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -173,7 +173,7 @@ Draw graphics(use `phlox.core/g` for validations):
 
 ### Components
 
-`phlox.comp/comp-button` provides a clickable button:
+`phlox.comp.button/comp-button` provides a clickable button:
 
 ```clojure
 (comp-button
@@ -184,7 +184,7 @@ Draw graphics(use `phlox.core/g` for validations):
    {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)}))
 ```
 
-`phlox.comp/comp-sider` provides a little slider bar of a number, changes on dragging:
+`phlox.comp.slider/comp-slider` provides a little slider bar of a number, changes on dragging:
 
 ```clojure
 (comp-slider
@@ -201,7 +201,7 @@ Draw graphics(use `phlox.core/g` for validations):
   :on-change (fn [value d!] (d! cursor (assoc state :c value)))})
 ```
 
-`phlox.comp/comp-dragging-point` provides a point for dragging:
+`phlox.comp.drag-point/comp-dragging-point` provides a point for dragging:
 
 ```clojure
 (comp-drag-point
@@ -213,6 +213,16 @@ Draw graphics(use `phlox.core/g` for validations):
   :fill (hslx 0 90 60),
   :color (hslx 0 0 50),
   :on-change (fn [position d!] (d! cursor (assoc state :p3 position)))})
+```
+
+`phlox.comp.switch/comp-switch` provides a switch button:
+
+```clojure
+(comp-switch
+ {:value (:value state),
+  :position [100 20],
+  :title "Custom title",
+  :on-change (fn [value d!] (d! cursor (assoc state :value value)))})
 ```
 
 ### Workflow

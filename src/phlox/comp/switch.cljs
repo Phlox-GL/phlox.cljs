@@ -22,7 +22,12 @@
               is+]]))
 
 (def lilac-switch
-  (record+ {:value (boolean+), :position lilac-point, :on-change (fn+)} {:check-keys? true}))
+  (record+
+   {:value (boolean+),
+    :position (optional+ lilac-point),
+    :on-change (fn+),
+    :title (optional+ (string+))}
+   {:check-keys? true}))
 
 (defcomp
  comp-switch
@@ -30,7 +35,7 @@
  (dev-check props lilac-switch)
  (let [value (:value props), on-change (:on-change props)]
    (container
-    {}
+    {:position (or (:position props) [0 0])}
     (rect
      {:size [56 20],
       :fill (if value (hslx 0 0 92) (hslx 0 0 50)),
@@ -45,4 +50,9 @@
               :font-family "Arial",
               :align :right,
               :font-weight 500},
-      :alpha (if value 1 0.4)}))))
+      :alpha (if value 1 0.4)})
+    (text
+     {:text (or (:title props) "Switch"),
+      :position [0 -20],
+      :style {:fill (hslx 0 0 80), :font-size 13, :font-family "Arial, sans-serif"},
+      :alpha 1}))))
