@@ -25,7 +25,7 @@
 (def lilac-line-style
   (record+ {:width (number+), :color (number+), :alpha (optional+ (number+))}))
 
-(def lilac-point (tuple+ [(number+) (number+)]))
+(def lilac-point (tuple+ [(number+) (number+)] {:check-size? true}))
 
 (def lilac-circle
   (record+
@@ -76,6 +76,7 @@
     :rotation (optional+ (number+)),
     :angle (optional+ (number+)),
     :fill (optional+ lilac-color),
+    :radius (optional+ (number+)),
     :on-keyboard (optional+ lilac-event-map)}
    {:check-keys? true}))
 

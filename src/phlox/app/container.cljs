@@ -6,8 +6,9 @@
             [phlox.app.comp.drafts :refer [comp-drafts]]
             [phlox.app.comp.keyboard :refer [comp-keyboard]]
             [phlox.comp.button :refer [comp-button]]
-            [phlox.comp.slider :refer [comp-slider]]
-            [phlox.comp.drag-point :refer [comp-drag-point]]))
+            [phlox.comp.drag-point :refer [comp-drag-point]]
+            [phlox.comp.switch :refer [comp-switch]]
+            [phlox.app.comp.slider-demo :refer [comp-slider-demo]]))
 
 (defcomp
  comp-buttons
@@ -96,35 +97,15 @@
       :on-change (fn [position d!] (d! cursor (assoc state :p3 position)))}))))
 
 (defcomp
- comp-slider-demo
+ comp-switch-demo
  (cursor states)
- (let [state (or (:data states) {:a 40, :b 20, :c 10})]
+ (let [state (or (:data states) {:value false})]
    (container
-    {:position [300 100]}
-    (comp-slider
-     (conj cursor :a)
-     (:a states)
-     {:value (:a state),
-      :unit 1,
-      :position [20 0],
-      :on-change (fn [value d!] (d! cursor (assoc state :a value)))})
-    (comp-slider
-     (conj cursor :b)
-     (:b states)
-     {:value (:b state),
-      :title "Refine",
-      :unit 0.1,
-      :position [20 60],
-      :on-change (fn [value d!] (d! cursor (assoc state :b value)))})
-    (comp-slider
-     (conj cursor :c)
-     (:c states)
-     {:value (:c state),
-      :unit 10,
-      :position [20 120],
-      :fill (hslx 50 90 70),
-      :color (hslx 200 90 30),
-      :on-change (fn [value d!] (d! cursor (assoc state :c value)))}))))
+    {:position [300 300]}
+    (comp-switch
+     {:value (:value state),
+      :position [0 0],
+      :on-change (fn [value d!] (d! cursor (assoc state :value value)))}))))
 
 (defcomp
  comp-tab-entry
@@ -153,7 +134,8 @@
   (comp-tab-entry :keyboard "Keyboard" [10 300] (= :keyboard tab))
   (comp-tab-entry :slider "Slider" [10 350] (= :slider tab))
   (comp-tab-entry :buttons "Buttons" [10 400] (= :buttons tab))
-  (comp-tab-entry :points "Points" [10 450] (= :points tab))))
+  (comp-tab-entry :points "Points" [10 450] (= :points tab))
+  (comp-tab-entry :switch "Switch" [10 500] (= :switch tab))))
 
 (defcomp
  comp-container
@@ -172,6 +154,7 @@
       :buttons (comp-buttons)
       :slider (comp-slider-demo (conj cursor :slider) (:slider states))
       :points (comp-points-demo (conj cursor :points) (:points states))
+      :switch (comp-switch-demo (conj cursor :switch) (:switch states))
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))

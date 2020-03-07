@@ -4,8 +4,7 @@
   "description": "a PIXI DSL in ClojureScript",
   "main": "index.js",
   "scripts": {
-    "m2": "clojure -A:depstar && clojure -A:install",
-    "deploy": "clojure -A:depstar && CLOJARS_USERNAME=jiyinyiyong CLOJARS_PASSWORD=$CLOJARS_PASSWORD clojure -A:deploy",
+    "deploy": "clj -A:release",
     "watch": "shadow-cljs watch client test",
     "serve": "http-server dist -s",
     "build-cdn": "shadow-cljs clj-run build.main/build-cdn",
@@ -21,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.12.1",
-    "shadow-cljs": "^2.8.90"
+    "shadow-cljs": "^2.8.91"
   },
   "dependencies": {
     "pixi.js": "^5.2.1",

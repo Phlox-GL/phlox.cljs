@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.1.7"]
+[quamolit/phlox "0.1.8-a1"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -112,6 +112,7 @@ Draw a rectangle:
   :on {
     :pointerdown (fn [])
   }
+  :radius 1
   :rotation 1
   :pivot [1 2]
   :alpha 1
@@ -191,6 +192,9 @@ Draw graphics(use `phlox.core/g` for validations):
  (:c states)
  {:value (:c state),
   :unit 10,
+  :min 1
+  :max 10
+  :round? true
   :position [20 120],
   :fill (hslx 50 90 70),
   :color (hslx 200 90 30),
