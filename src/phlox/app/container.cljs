@@ -7,7 +7,8 @@
             [phlox.app.comp.keyboard :refer [comp-keyboard]]
             [phlox.comp.button :refer [comp-button]]
             [phlox.comp.slider :refer [comp-slider]]
-            [phlox.comp.drag-point :refer [comp-drag-point]]))
+            [phlox.comp.drag-point :refer [comp-drag-point]]
+            [phlox.comp.switch :refer [comp-switch]]))
 
 (defcomp
  comp-buttons
@@ -127,6 +128,17 @@
       :on-change (fn [value d!] (d! cursor (assoc state :c value)))}))))
 
 (defcomp
+ comp-switch-demo
+ (cursor states)
+ (let [state (or (:data states) {:value false})]
+   (container
+    {:position [300 300]}
+    (comp-switch
+     {:value (:value state),
+      :position [0 0],
+      :on-change (fn [value d!] (d! cursor (assoc state :value value)))}))))
+
+(defcomp
  comp-tab-entry
  (tab-value tab-title position selected?)
  (container
@@ -153,7 +165,8 @@
   (comp-tab-entry :keyboard "Keyboard" [10 300] (= :keyboard tab))
   (comp-tab-entry :slider "Slider" [10 350] (= :slider tab))
   (comp-tab-entry :buttons "Buttons" [10 400] (= :buttons tab))
-  (comp-tab-entry :points "Points" [10 450] (= :points tab))))
+  (comp-tab-entry :points "Points" [10 450] (= :points tab))
+  (comp-tab-entry :switch "Switch" [10 500] (= :switch tab))))
 
 (defcomp
  comp-container
@@ -172,6 +185,7 @@
       :buttons (comp-buttons)
       :slider (comp-slider-demo (conj cursor :slider) (:slider states))
       :points (comp-points-demo (conj cursor :points) (:points states))
+      :switch (comp-switch-demo (conj cursor :switch) (:switch states))
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))

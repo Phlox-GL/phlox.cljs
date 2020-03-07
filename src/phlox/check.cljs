@@ -25,7 +25,7 @@
 (def lilac-line-style
   (record+ {:width (number+), :color (number+), :alpha (optional+ (number+))}))
 
-(def lilac-point (tuple+ [(number+) (number+)]))
+(def lilac-point (tuple+ [(number+) (number+)] {:check-size? true}))
 
 (def lilac-circle
   (record+
