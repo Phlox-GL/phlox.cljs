@@ -63,11 +63,7 @@
 
 (defn render-text [element dispatch!]
   (let [style (:style (:props element))
-        text-style (new
-                    (.-TextStyle PIXI)
-                    (do
-                     (js/console.log (convert-line-style style))
-                     (convert-line-style style)))
+        text-style (new (.-TextStyle PIXI) (convert-line-style style))
         target (new (.-Text PIXI) (:text (:props element)) text-style)
         props (:props element)]
     (init-position target (:position props))
