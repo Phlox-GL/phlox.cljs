@@ -6,9 +6,9 @@
             [phlox.app.comp.drafts :refer [comp-drafts]]
             [phlox.app.comp.keyboard :refer [comp-keyboard]]
             [phlox.comp.button :refer [comp-button]]
-            [phlox.comp.slider :refer [comp-slider]]
             [phlox.comp.drag-point :refer [comp-drag-point]]
-            [phlox.comp.switch :refer [comp-switch]]))
+            [phlox.comp.switch :refer [comp-switch]]
+            [phlox.app.comp.slider-demo :refer [comp-slider-demo]]))
 
 (defcomp
  comp-buttons
@@ -95,37 +95,6 @@
       :fill (hslx 0 90 60),
       :color (hslx 0 0 50),
       :on-change (fn [position d!] (d! cursor (assoc state :p3 position)))}))))
-
-(defcomp
- comp-slider-demo
- (cursor states)
- (let [state (or (:data states) {:a 40, :b 20, :c 10})]
-   (container
-    {:position [300 100]}
-    (comp-slider
-     (conj cursor :a)
-     (:a states)
-     {:value (:a state),
-      :unit 1,
-      :position [20 0],
-      :on-change (fn [value d!] (d! cursor (assoc state :a value)))})
-    (comp-slider
-     (conj cursor :b)
-     (:b states)
-     {:value (:b state),
-      :title "Refine",
-      :unit 0.1,
-      :position [20 60],
-      :on-change (fn [value d!] (d! cursor (assoc state :b value)))})
-    (comp-slider
-     (conj cursor :c)
-     (:c states)
-     {:value (:c state),
-      :unit 10,
-      :position [20 120],
-      :fill (hslx 50 90 70),
-      :color (hslx 200 90 30),
-      :on-change (fn [value d!] (d! cursor (assoc state :c value)))}))))
 
 (defcomp
  comp-switch-demo

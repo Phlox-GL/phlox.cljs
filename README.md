@@ -192,6 +192,9 @@ Draw graphics(use `phlox.core/g` for validations):
  (:c states)
  {:value (:c state),
   :unit 10,
+  :min 1
+  :max 10
+  :round? true
   :position [20 120],
   :fill (hslx 50 90 70),
   :color (hslx 200 90 30),
