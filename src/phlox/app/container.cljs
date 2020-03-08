@@ -124,7 +124,7 @@
     :on {:mousedown (fn [event dispatch!] (dispatch! :tab tab-value))}})
   (text
    {:text tab-title,
-    :style {:fill (hslx 200 90 100), :font-size 20, :font-family "Helvetica"},
+    :style {:fill (hslx 200 90 100), :font-size 20, :font-family "Josefin Sans"},
     :position [10 0]})))
 
 (defcomp
