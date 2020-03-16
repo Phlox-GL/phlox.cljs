@@ -25,6 +25,7 @@
 (def lilac-drag-point
   (record+
    {:unit (optional+ (number+)),
+    :title (optional+ (string+)),
     :radius (optional+ (number+)),
     :fill (optional+ (number+)),
     :color (optional+ (number+)),
@@ -75,4 +76,14 @@
          :style {:fill color,
                  :font-size 10,
                  :line-height 10,
-                 :font-family "Menlo, monospace"}})))))
+                 :font-family "Menlo, monospace"}})
+       (if (some? (:title props))
+         (text
+          {:text (:title props),
+           :alpha 0.3,
+           :position [-12 6],
+           :style {:fill color,
+                   :font-size 10,
+                   :line-height 10,
+                   :font-family "Menlo, monospace",
+                   :align :center}}))))))
