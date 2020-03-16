@@ -209,6 +209,7 @@ Draw graphics(use `phlox.core/g` for validations):
  (:p3 states)
  {:position (:p3 state),
   :unit 0.4,
+  :title "DEMO"
   :radius 6,
   :fill (hslx 0 90 60),
   :color (hslx 0 0 50),
