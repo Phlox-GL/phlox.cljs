@@ -21,6 +21,8 @@
               or+
               is+]]))
 
+(def lilac-cursor (vector+ (any+ {:some? true})))
+
 (def lilac-slider
   (record+
    {:value (number+),
@@ -38,7 +40,7 @@
 (defcomp
  comp-slider
  (cursor states props)
- (dev-check cursor (vector+ (any+ {:some? true})))
+ (dev-check cursor lilac-cursor)
  (dev-check props lilac-slider)
  (let [value (or (:value props) 1)
        state (or (:data states) {:v0 value, :x0 0, :dragging? false})
