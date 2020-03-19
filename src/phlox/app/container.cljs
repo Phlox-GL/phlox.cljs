@@ -2,7 +2,7 @@
 (ns phlox.app.container
   (:require [phlox.core
              :refer
-             [defcomp g hslx rect circle text container graphics create-list]]
+             [defcomp g hslx rect circle text container graphics create-list >>]]
             [phlox.app.comp.drafts :refer [comp-drafts]]
             [phlox.app.comp.keyboard :refer [comp-keyboard]]
             [phlox.comp.button :refer [comp-button]]
@@ -71,24 +71,22 @@
 
 (defcomp
  comp-points-demo
- (cursor states)
- (let [state (or (:data states) {:p1 [0 0], :p2 [0 0], :p3 [0 0], :p4 [0 0]})]
+ (states)
+ (let [cursor (:cursor states)
+       state (or (:data states) {:p1 [0 0], :p2 [0 0], :p3 [0 0], :p4 [0 0]})]
    (container
     {:position [300 200]}
     (comp-drag-point
-     (conj cursor :p1)
-     (:p1 states)
+     (>> states :p1)
      {:position (:p1 state),
       :on-change (fn [position d!] (d! cursor (assoc state :p1 position)))})
     (comp-drag-point
-     (conj cursor :p2)
-     (:p2 states)
+     (>> states :p2)
      {:position (:p2 state),
       :unit 2,
       :on-change (fn [position d!] (d! cursor (assoc state :p2 position)))})
     (comp-drag-point
-     (conj cursor :p3)
-     (:p3 states)
+     (>> states :p3)
      {:position (:p3 state),
       :unit 0.4,
       :radius 6,
@@ -96,16 +94,15 @@
       :color (hslx 0 0 50),
       :on-change (fn [position d!] (d! cursor (assoc state :p3 position)))})
     (comp-drag-point
-     (conj cursor :p4)
-     (:p4 states)
+     (>> states :p4)
      {:position (:p4 state),
       :title "base",
       :on-change (fn [position d!] (d! cursor (assoc state :p4 position)))}))))
 
 (defcomp
  comp-switch-demo
- (cursor states)
- (let [state (or (:data states) {:value false})]
+ (states)
+ (let [cursor (:cursor states), state (or (:data states) {:value false})]
    (container
     {:position [300 300]}
     (comp-switch
@@ -163,9 +160,9 @@
       :gradients (comp-gradients)
       :keyboard (comp-keyboard (:keyboard-on? store) (:counted store))
       :buttons (comp-buttons)
-      :slider (comp-slider-demo (conj cursor :slider) (:slider states))
-      :points (comp-points-demo (conj cursor :points) (:points states))
-      :switch (comp-switch-demo (conj cursor :switch) (:switch states))
+      :slider (comp-slider-demo (>> states :slider))
+      :points (comp-points-demo (>> states :points))
+      :switch (comp-switch-demo (>> states :switch))
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))

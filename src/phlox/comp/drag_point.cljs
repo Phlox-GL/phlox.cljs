@@ -35,10 +35,11 @@
     :on-change (fn+)}
    {:check-keys? true}))
 
-(defn comp-drag-point [cursor states props]
-  (dev-check cursor lilac-cursor)
+(defn comp-drag-point [states props]
+  (dev-check (:cursor states) lilac-cursor)
   (dev-check props lilac-drag-point)
-  (let [state (or (:data states) {:dragging? false, :x0 [0 0]})
+  (let [cursor (:cursor states)
+        state (or (:data states) {:dragging? false, :x0 [0 0]})
         unit (or (:unit props) 1)
         radius (or (:radius props) 3)
         color (or (:color props) (hslx 0 0 100))

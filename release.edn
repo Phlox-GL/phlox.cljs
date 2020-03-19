@@ -1,4 +1,4 @@
-{:version "0.1.11-a2"
+{:version "0.2.0-a1"
  :group-id "quamolit"
  :artifact-id "phlox"
  :skip-tag true
