@@ -22,6 +22,8 @@
               is+]]
             [phlox.math :refer [v-add]]))
 
+(def lilac-cursor (vector+ (any+ {:some? true})))
+
 (def lilac-drag-point
   (record+
    {:unit (optional+ (number+)),
@@ -34,7 +36,7 @@
    {:check-keys? true}))
 
 (defn comp-drag-point [cursor states props]
-  (dev-check cursor (vector+ (any+ {:some? true})))
+  (dev-check cursor lilac-cursor)
   (dev-check props lilac-drag-point)
   (let [state (or (:data states) {:dragging? false, :x0 [0 0]})
         unit (or (:unit props) 1)

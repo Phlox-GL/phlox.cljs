@@ -58,45 +58,37 @@
 (defn create-list [tag props children]
   {:name tag, :phlox-node :element, :props props, :children (remove-nil-values children)})
 
+(def lilac-arc
+  (record+
+   {:center lilac-point,
+    :angle (tuple+ [(number+) (number+)]),
+    :radius (number+),
+    :anticlockwise? (optional+ (boolean+))}
+   {:check-keys? true}))
+
+(def lilac-arc-to
+  (record+ {:p1 lilac-point, :p2 lilac-point, :radius (number+)} {:exact-keys? true}))
+
+(def lilac-begin-fill
+  (record+ {:color (optional+ lilac-color), :alpha (optional+ (number+))} {:check-keys? true}))
+
+(def lilac-bezier-to
+  (record+ {:p1 lilac-point, :p2 lilac-point, :to-p lilac-point} {:exact-keys? true}))
+
+(def lilac-quodratic-to (record+ {:p1 lilac-point, :to-p lilac-point} {:exact-keys? true}))
+
 (defn g [op data]
   (case op
     :move-to (dev-check-message "check :move-to" data lilac-point)
     :line-to (dev-check-message "check :line-to" data lilac-point)
     :line-style (dev-check-message "check :line-style" data lilac-line-style)
-    :begin-fill
-      (dev-check-message
-       "check :fill"
-       data
-       (record+
-        {:color (optional+ lilac-color), :alpha (optional+ (number+))}
-        {:check-keys? true}))
+    :begin-fill (dev-check-message "check :fill" data lilac-begin-fill)
     :end-fill (do)
     :close-path (do)
-    :arc
-      (dev-check-message
-       "check :arc"
-       data
-       (record+
-        {:center lilac-point,
-         :angle (tuple+ [(number+) (number+)]),
-         :radius (number+),
-         :anticlockwise? (optional+ (boolean+))}
-        {:check-keys? true}))
-    :arc-to
-      (dev-check-message
-       "check :arc-to"
-       data
-       (record+ {:p1 lilac-point, :p2 lilac-point, :radius (number+)} {:exact-keys? true}))
-    :bezier-to
-      (dev-check-message
-       "check :bezier-to"
-       data
-       (record+ {:p1 lilac-point, :p2 lilac-point, :to-p lilac-point} {:exact-keys? true}))
-    :quadratic-to
-      (dev-check-message
-       "check :quadratic-to"
-       data
-       (record+ {:p1 lilac-point, :to-p lilac-point} {:exact-keys? true}))
+    :arc (dev-check-message "check :arc" data lilac-arc)
+    :arc-to (dev-check-message "check :arc-to" data lilac-arc-to)
+    :bezier-to (dev-check-message "check :bezier-to" data lilac-bezier-to)
+    :quadratic-to (dev-check-message "check :quadratic-to" data lilac-quodratic-to)
     :begin-hole (do)
     :end-hole (do)
     (js/console.warn "not supported:" op))
