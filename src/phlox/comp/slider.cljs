@@ -39,10 +39,11 @@
 
 (defcomp
  comp-slider
- (cursor states props)
- (dev-check cursor lilac-cursor)
+ (states props)
+ (dev-check (:cursor states) lilac-cursor)
  (dev-check props lilac-slider)
  (let [value (or (:value props) 1)
+       cursor (:cursor states)
        state (or (:data states) {:v0 value, :x0 0, :dragging? false})
        title (:title props)
        unit (or (:unit props) 0.1)

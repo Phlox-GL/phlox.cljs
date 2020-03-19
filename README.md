@@ -19,7 +19,7 @@ Previews http://repo.quamolit.org/phlox/ .
 ```clojure
 (ns app.main
   (:require [phlox.core :refer [defcomp hslx render! create-list
-                                rect circle text container graphics]]))
+                                rect circle text container graphics >>]]))
 
 (defcomp comp-demo [data]
   (rect
@@ -187,9 +187,7 @@ Draw graphics(use `phlox.core/g` for validations):
 `phlox.comp.slider/comp-slider` provides a little slider bar of a number, changes on dragging:
 
 ```clojure
-(comp-slider
- (conj cursor :c)
- (:c states)
+(comp-slider (>> states :c)
  {:value (:c state),
   :unit 10,
   :min 1
@@ -204,9 +202,7 @@ Draw graphics(use `phlox.core/g` for validations):
 `phlox.comp.drag-point/comp-dragging-point` provides a point for dragging:
 
 ```clojure
-(comp-drag-point
- (conj cursor :p3)
- (:p3 states)
+(comp-drag-point (>> states :p3)
  {:position (:p3 state),
   :unit 0.4,
   :title "DEMO"

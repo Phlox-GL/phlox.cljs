@@ -41,6 +41,10 @@
 
 (defonce *tree-element (atom nil))
 
+(defn >> [states k]
+  (let [parent-cursor (or (:cursor states) []), branch (get states k)]
+    (assoc branch :cursor (conj parent-cursor k))))
+
 (defn create-element [tag props children]
   {:name tag,
    :phlox-node :element,
