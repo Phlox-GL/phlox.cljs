@@ -141,13 +141,15 @@
        "resize"
        (fn [] (-> pixi-app .-renderer (.resize js/window.innerWidth js/window.innerHeight)))))
     (set! js/window._phloxTree @*app))
-  (let [expanded-app (expand-tree app)]
+  (let [expanded-app (expand-tree app)
+        wrap-dispatch (fn [op data]
+                        (if (vector? op) (dispatch! :states [op data]) (dispatch! op data)))]
     (comment js/console.log "render!" expanded-app)
     (if (nil? @*tree-element)
       (do
-       (mount-app! expanded-app dispatch!)
-       (handle-keyboard-events *tree-element dispatch!))
-      (rerender-app! expanded-app dispatch! options))
+       (mount-app! expanded-app wrap-dispatch)
+       (handle-keyboard-events *tree-element wrap-dispatch))
+      (rerender-app! expanded-app wrap-dispatch options))
     (reset! *tree-element expanded-app)))
 
 (defn text [props & children]
