@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.1.11-a1"]
+[quamolit/phlox "0.2.0-a2"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -220,6 +220,20 @@ Draw graphics(use `phlox.core/g` for validations):
   :position [100 20],
   :title "Custom title",
   :on-change (fn [value d!] (d! cursor (assoc state :value value)))})
+```
+
+### Cursor and states
+
+`>>` for branching states:
+
+```clojure
+(phlox.core/>> state :a)
+```
+
+`update-states` for handling states change, used in updater:
+
+```clojure
+(phlox.cursor/update-states store [cursor op-data])
 ```
 
 ### Workflow
