@@ -16,7 +16,8 @@
               or+]]
             [phlox.check
              :refer
-             [dev-check dev-check-message lilac-point lilac-line-style lilac-color]]))
+             [dev-check dev-check-message lilac-point lilac-line-style lilac-color]]
+            [phlox.math :refer [angle->radian]]))
 
 (defn call-graphics-ops [target ops]
   (doseq [[op data] ops]
@@ -29,18 +30,22 @@
          (use-number (:width data))
          (use-number (:color data))
          (:alpha data))
-      :begin-fill (.beginFill target (:color data) (:alpha data))
+      :begin-fill (.beginFill target (:color data) (or (:alpha data) 1))
       :end-fill (.endFill target)
       :close-path (.closePath target)
       :arc
-        (let [center (:center data), angle (:angle data)]
+        (let [center (:center data)
+              radian (cond
+                       (some? (:radian data)) (:radian data)
+                       (some? (:angle data)) (map angle->radian (:angle data))
+                       :else (do (js/console.warn "Unknown arc" data) [0 0]))]
           (.arc
            target
            (first center)
            (peek center)
            (:radius data)
-           (first angle)
-           (peek angle)
+           (first radian)
+           (last radian)
            (:anticlockwise? data)))
       :arc-to
         (let [p1 (:p1 data), p2 (:p2 data)]

@@ -151,8 +151,8 @@ Draw graphics(use `phlox.core/g` for validations):
     (g :line-to [2 2])
     (g :line-style {})
     (g :begin-fill {:color "red"})
-    (g :end-fill)
-    (g :close-path)
+    (g :end-fill nil)
+    (g :close-path nil)
     (g :arc-to {:p1 [200 200], :p2 [240 180], :radius 90})
     (g :arc {:center [260 120], :radius 40, :angle [70 60], :anticlockwise? false})
     (g :bezier-to {:p1 [400 500], :p2 [300 200], :to-p [600 300]})
@@ -177,11 +177,17 @@ Draw graphics(use `phlox.core/g` for validations):
 
 ```clojure
 (comp-button
-   {:text "DEMO BUTTON",
-    :position [100 0],
-    :on {:click (fn [e d!] (js/console.log "clicked" e d!))}})
-  (comp-button
-   {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)}))
+ {:text "DEMO BUTTON",
+  :position [100 0],
+  :on {:click (fn [e d!] (js/console.log "clicked" e d!))}})
+
+(comp-button
+ {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)}))
+
+(comp-button
+ {:text "Quick click",
+  :position [100 0],
+  :on-click (fn [e d!] (js/console.log "clicked" e d!))})
 ```
 
 `phlox.comp.slider/comp-slider` provides a little slider bar of a number, changes on dragging:

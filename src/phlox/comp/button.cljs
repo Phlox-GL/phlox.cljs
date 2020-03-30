@@ -30,7 +30,8 @@
     :size (number+),
     :font-family (string+),
     :position (tuple+ [(number+) (number+)]),
-    :on lilac-event-map}
+    :on lilac-event-map,
+    :on-click (fn+)}
    {:all-optional? true, :check-keys? true}))
 
 (defcomp
@@ -46,7 +47,13 @@
        width (+ 16 (measure-text-width! button-text size font-family))]
    (container
     {:position position}
-    (rect {:fill fill, :size [width 32], :on (:on props)})
+    (rect
+     {:fill fill,
+      :size [width 32],
+      :on (cond
+        (some? (:on props)) (:on props)
+        (some? (:on-click props)) {:click (:on-click props)}
+        :else (do))})
     (text
      {:text button-text,
       :position [8 8],
