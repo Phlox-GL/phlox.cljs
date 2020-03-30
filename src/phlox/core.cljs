@@ -65,7 +65,8 @@
 (def lilac-arc
   (record+
    {:center lilac-point,
-    :angle (tuple+ [(number+) (number+)]),
+    :angle (optional+ (tuple+ [(number+) (number+)])),
+    :radian (optional+ (tuple+ [(number+) (number+)])),
     :radius (number+),
     :anticlockwise? (optional+ (boolean+))}
    {:check-keys? true}))
@@ -74,7 +75,7 @@
   (record+ {:p1 lilac-point, :p2 lilac-point, :radius (number+)} {:exact-keys? true}))
 
 (def lilac-begin-fill
-  (record+ {:color (optional+ lilac-color), :alpha (optional+ (number+))} {:check-keys? true}))
+  (record+ {:color lilac-color, :alpha (optional+ (number+))} {:check-keys? true}))
 
 (def lilac-bezier-to
   (record+ {:p1 lilac-point, :p2 lilac-point, :to-p lilac-point} {:exact-keys? true}))
