@@ -32,6 +32,7 @@
     :fill (optional+ (number+)),
     :color (optional+ (number+)),
     :position (tuple+ [(number+) (number+)]),
+    :hide-text? (optional+ (boolean+)),
     :on-change (fn+)}
    {:check-keys? true}))
 
@@ -44,7 +45,8 @@
         radius (or (:radius props) 3)
         color (or (:color props) (hslx 0 0 100))
         fill (or (:fill props) (hslx 0 0 60))
-        on-change (:on-change props)]
+        on-change (:on-change props)
+        hide-text? (or (:hide-text? props) false)]
     (let [position (:position props)]
       (container
        {:position position}
@@ -66,21 +68,22 @@
                        d!))))),
               :mouseup (fn [e d!] (d! cursor (assoc state :dragging? false))),
               :mouseupoutside (fn [e d!] (d! cursor (assoc state :dragging? false)))}})
-       (text
-        {:text (str
-                "("
-                (.toFixed (or (first position) 0) 1)
-                ", "
-                (.toFixed (or (peek position) 0) 1)
-                ")➤"
-                (str unit)),
-         :alpha 0.3,
-         :position [-20 -16],
-         :style {:fill color,
-                 :font-size 10,
-                 :line-height 10,
-                 :font-family "Menlo, monospace"}})
-       (if (some? (:title props))
+       (if-not hide-text?
+         (text
+          {:text (str
+                  "("
+                  (.toFixed (or (first position) 0) 1)
+                  ", "
+                  (.toFixed (or (peek position) 0) 1)
+                  ")➤"
+                  (str unit)),
+           :alpha 0.3,
+           :position [-20 -16],
+           :style {:fill color,
+                   :font-size 10,
+                   :line-height 10,
+                   :font-family "Menlo, monospace"}}))
+       (if (and (not hide-text?) (some? (:title props)))
          (text
           {:text (:title props),
            :alpha 0.3,
