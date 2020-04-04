@@ -80,7 +80,7 @@
  comp-points-demo
  (states)
  (let [cursor (:cursor states)
-       state (or (:data states) {:p1 [0 0], :p2 [0 0], :p3 [0 0], :p4 [0 0]})]
+       state (or (:data states) {:p1 [0 0], :p2 [0 20], :p3 [0 40], :p4 [0 60], :p5 [0 80]})]
    (container
     {:position [300 200]}
     (comp-drag-point
@@ -104,7 +104,12 @@
      (>> states :p4)
      {:position (:p4 state),
       :title "base",
-      :on-change (fn [position d!] (d! cursor (assoc state :p4 position)))}))))
+      :on-change (fn [position d!] (d! cursor (assoc state :p4 position)))})
+    (comp-drag-point
+     (>> states :p5)
+     {:position (:p5 state),
+      :hide-text? true,
+      :on-change (fn [position d!] (d! cursor (assoc state :p5 position)))}))))
 
 (defcomp
  comp-switch-demo
