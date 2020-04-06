@@ -2,7 +2,7 @@
 Phlox
 ----
 
-> Pixi.js DSL in ClojureScript, inspired by Virtual DOMs. Currently only a small subset of Pixi.js features is supported, good part is how swapping on code changes is available.
+> Pixi.js DSL in ClojureScript with hot code swapping, inspired by Virtual DOMs. Currently only a small subset of Pixi.js features is supported.
 
 Previews http://repo.quamolit.org/phlox/ .
 
@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.2.0-a5"]
+[quamolit/phlox "0.2.0"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -170,6 +170,8 @@ Draw graphics(use `phlox.core/g` for validations):
   }
 }
 ```
+
+Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for convenience.
 
 ### Components
 
