@@ -2,6 +2,8 @@
   :paths ["src" "macros"]
   :deps {
     mvc-works/lilac {:mvn/version "0.1.5-a2"}
+    respo/ui {:mvn/version "0.3.14"}
+    respo {:mvn/version "0.12.1"}
   }
   :aliases {
     :release {

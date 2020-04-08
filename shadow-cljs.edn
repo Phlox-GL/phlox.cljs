@@ -6,6 +6,7 @@
     [mvc-works/shell-page "0.1.10"]
     [cumulo/util "0.1.10"]
     [respo "0.12.1"]
+    [respo/ui "0.3.14"]
     [org.clojure/core.incubator "0.1.4"]
     [mvc-works/lilac "0.1.5"]
   ]
