@@ -8,7 +8,8 @@
             [phlox.comp.button :refer [comp-button]]
             [phlox.comp.drag-point :refer [comp-drag-point]]
             [phlox.comp.switch :refer [comp-switch]]
-            [phlox.app.comp.slider-demo :refer [comp-slider-demo]]))
+            [phlox.app.comp.slider-demo :refer [comp-slider-demo]]
+            [phlox.input :refer [request-text!]]))
 
 (defcomp
  comp-buttons
@@ -155,7 +156,19 @@
   (comp-tab-entry :slider "Slider" [10 350] (= :slider tab))
   (comp-tab-entry :buttons "Buttons" [10 400] (= :buttons tab))
   (comp-tab-entry :points "Points" [10 450] (= :points tab))
-  (comp-tab-entry :switch "Switch" [10 500] (= :switch tab))))
+  (comp-tab-entry :switch "Switch" [10 500] (= :switch tab))
+  (comp-tab-entry :input "Input" [10 550] (= :input tab))))
+
+(defcomp
+ comp-text-input
+ ()
+ (container
+  {}
+  (rect
+   {:position [200 10],
+    :size [40 20],
+    :fill (hslx 0 0 20),
+    :on {:click (fn [e d!] (request-text! e {} (fn [result] (println "got:" result))))}})))
 
 (defcomp
  comp-container
@@ -175,6 +188,7 @@
       :slider (comp-slider-demo (>> states :slider))
       :points (comp-points-demo (>> states :points))
       :switch (comp-switch-demo (>> states :switch))
+      :input (comp-text-input)
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))

@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.2.0"]
+[quamolit/phlox "0.2.1-a1"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -243,6 +243,14 @@ Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for 
 
 ```clojure
 (phlox.cursor/update-states store [cursor op-data])
+```
+
+### Text input
+
+To interact with text input:
+
+```clojure
+(phlox.input/request-text! e {} (fn [result] (println "got:" result)))
 ```
 
 ### Workflow
