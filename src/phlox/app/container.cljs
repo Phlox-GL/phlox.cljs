@@ -130,9 +130,9 @@
 
 (defcomp
  comp-tab-entry
- (tab-value tab-title position selected?)
+ (tab-value tab-title idx selected?)
  (container
-  {:position position}
+  {:position [10 (+ 50 (* idx 40))]}
   (rect
    {:position [0 0],
     :size [160 32],
@@ -141,23 +141,7 @@
   (text
    {:text tab-title,
     :style {:fill (hslx 200 90 100), :font-size 20, :font-family "Josefin Sans"},
-    :position [10 0]})))
-
-(defcomp
- comp-tabs
- (tab)
- (container
-  {}
-  (comp-tab-entry :drafts "Drafts" [10 100] (= :drafts tab))
-  (comp-tab-entry :grids "Grids" [10 150] (= :grids tab))
-  (comp-tab-entry :curves "Curves" [10 200] (= :curves tab))
-  (comp-tab-entry :gradients "Gradients" [10 250] (= :gradients tab))
-  (comp-tab-entry :keyboard "Keyboard" [10 300] (= :keyboard tab))
-  (comp-tab-entry :slider "Slider" [10 350] (= :slider tab))
-  (comp-tab-entry :buttons "Buttons" [10 400] (= :buttons tab))
-  (comp-tab-entry :points "Points" [10 450] (= :points tab))
-  (comp-tab-entry :switch "Switch" [10 500] (= :switch tab))
-  (comp-tab-entry :input "Input" [10 550] (= :input tab))))
+    :position [10 3]})))
 
 (defcomp
  comp-text-input
@@ -170,6 +154,19 @@
     :fill (hslx 0 0 20),
     :on {:click (fn [e d!] (request-text! e {} (fn [result] (println "got:" result))))}})))
 
+(def tabs
+  [[:drafts "Drafts"]
+   [:grids "Grids"]
+   [:curves "Curves"]
+   [:gradients "Gradients"]
+   [:keyboard "Keyboard"]
+   [:slider "Slider"]
+   [:buttons "Buttons"]
+   [:points "Points"]
+   [:switch "Switch"]
+   [:input "Input"]
+   [:messages "Messages"]])
+
 (defcomp
  comp-container
  (store)
@@ -177,7 +174,14 @@
  (let [cursor [], states (:states store)]
    (container
     {}
-    (comp-tabs (:tab store))
+    (create-list
+     :container
+     {}
+     (->> tabs
+          (map-indexed
+           (fn [idx info]
+             (let [[tab title] info]
+               [idx (comp-tab-entry tab title idx (= tab (:tab store)))])))))
     (case (:tab store)
       :drafts (comp-drafts (:x store))
       :grids (comp-grids)
