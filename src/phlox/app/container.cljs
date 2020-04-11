@@ -9,7 +9,9 @@
             [phlox.comp.drag-point :refer [comp-drag-point]]
             [phlox.comp.switch :refer [comp-switch]]
             [phlox.app.comp.slider-demo :refer [comp-slider-demo]]
-            [phlox.input :refer [request-text!]]))
+            [phlox.input :refer [request-text!]]
+            [phlox.comp.messages :refer [comp-messages]]
+            ["shortid" :as shortid]))
 
 (defcomp
  comp-buttons
@@ -78,6 +80,41 @@
               :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))))
 
 (defcomp
+ comp-messages-demo
+ (states)
+ (let [cursor (:cursor states), state (or (:data states) {:messages [], :bottom? false})]
+   (container
+    {}
+    (comp-button
+     {:text "Add message",
+      :position [400 200],
+      :on-click (fn [e d!]
+        (d!
+         cursor
+         (update
+          state
+          :messages
+          (fn [xs]
+            (conj
+             xs
+             {:id (.generate shortid), :text (str "Messages of. " (.generate shortid))})))))})
+    (comp-switch
+     {:value (:bottom? state),
+      :title "At bottom",
+      :position [400 280],
+      :on-change (fn [e d!] (d! cursor (update state :bottom? not)))})
+    (comp-messages
+     {:messages (:messages state),
+      :bottom? (:bottom? state),
+      :on-click (fn [message d!]
+        (d!
+         cursor
+         (update
+          state
+          :messages
+          (fn [xs] (->> xs (remove (fn [x] (= (:id x) (:id message)))) (vec))))))}))))
+
+(defcomp
  comp-points-demo
  (states)
  (let [cursor (:cursor states)
@@ -130,9 +167,9 @@
 
 (defcomp
  comp-tab-entry
- (tab-value tab-title position selected?)
+ (tab-value tab-title idx selected?)
  (container
-  {:position position}
+  {:position [10 (+ 50 (* idx 40))]}
   (rect
    {:position [0 0],
     :size [160 32],
@@ -141,23 +178,7 @@
   (text
    {:text tab-title,
     :style {:fill (hslx 200 90 100), :font-size 20, :font-family "Josefin Sans"},
-    :position [10 0]})))
-
-(defcomp
- comp-tabs
- (tab)
- (container
-  {}
-  (comp-tab-entry :drafts "Drafts" [10 100] (= :drafts tab))
-  (comp-tab-entry :grids "Grids" [10 150] (= :grids tab))
-  (comp-tab-entry :curves "Curves" [10 200] (= :curves tab))
-  (comp-tab-entry :gradients "Gradients" [10 250] (= :gradients tab))
-  (comp-tab-entry :keyboard "Keyboard" [10 300] (= :keyboard tab))
-  (comp-tab-entry :slider "Slider" [10 350] (= :slider tab))
-  (comp-tab-entry :buttons "Buttons" [10 400] (= :buttons tab))
-  (comp-tab-entry :points "Points" [10 450] (= :points tab))
-  (comp-tab-entry :switch "Switch" [10 500] (= :switch tab))
-  (comp-tab-entry :input "Input" [10 550] (= :input tab))))
+    :position [10 3]})))
 
 (defcomp
  comp-text-input
@@ -170,6 +191,19 @@
     :fill (hslx 0 0 20),
     :on {:click (fn [e d!] (request-text! e {} (fn [result] (println "got:" result))))}})))
 
+(def tabs
+  [[:drafts "Drafts"]
+   [:grids "Grids"]
+   [:curves "Curves"]
+   [:gradients "Gradients"]
+   [:keyboard "Keyboard"]
+   [:slider "Slider"]
+   [:buttons "Buttons"]
+   [:points "Points"]
+   [:switch "Switch"]
+   [:input "Input"]
+   [:messages "Messages"]])
+
 (defcomp
  comp-container
  (store)
@@ -177,7 +211,14 @@
  (let [cursor [], states (:states store)]
    (container
     {}
-    (comp-tabs (:tab store))
+    (create-list
+     :container
+     {}
+     (->> tabs
+          (map-indexed
+           (fn [idx info]
+             (let [[tab title] info]
+               [idx (comp-tab-entry tab title idx (= tab (:tab store)))])))))
     (case (:tab store)
       :drafts (comp-drafts (:x store))
       :grids (comp-grids)
@@ -189,6 +230,7 @@
       :points (comp-points-demo (>> states :points))
       :switch (comp-switch-demo (>> states :switch))
       :input (comp-text-input)
+      :messages (comp-messages-demo (>> states :messages))
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))
