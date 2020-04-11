@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.2.1-a1"]
+[quamolit/phlox "0.2.1-a2"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -181,6 +181,7 @@ Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for 
 (comp-button
  {:text "DEMO BUTTON",
   :position [100 0],
+  :align-right? false
   :on {:click (fn [e d!] (js/console.log "clicked" e d!))}})
 
 (comp-button
@@ -229,6 +230,18 @@ Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for 
   :position [100 20],
   :title "Custom title",
   :on-change (fn [value d!] (d! cursor (assoc state :value value)))})
+```
+
+`phlox.comp.messages/comp-messages` for rendering messages:
+
+```clojure
+(comp-messages
+ {:messages (:messages state),
+  :position [16 (- js/window.innerWidth 16)]
+  :color (hslx 0 0 50)
+  :fill (hslx 0 0 30)
+  :bottom? false
+  :on-click (fn [message d!])})
 ```
 
 ### Cursor and states

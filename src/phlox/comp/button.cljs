@@ -31,7 +31,8 @@
     :font-family (string+),
     :position (tuple+ [(number+) (number+)]),
     :on lilac-event-map,
-    :on-click (fn+)}
+    :on-click (fn+),
+    :align-right? (boolean+)}
    {:all-optional? true, :check-keys? true}))
 
 (defcomp
@@ -44,9 +45,10 @@
        fill (or (:fill props) (hslx 0 0 20))
        color (or (:color props) (hslx 0 0 100))
        position (:position props)
-       width (+ 16 (measure-text-width! button-text size font-family))]
+       width (+ 16 (measure-text-width! button-text size font-family))
+       align-right? (:align-right? props)]
    (container
-    {:position position}
+    {:position (if align-right? [(- (first position) width) (peek position)] position)}
     (rect
      {:fill fill,
       :size [width 32],

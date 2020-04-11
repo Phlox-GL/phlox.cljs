@@ -9,7 +9,9 @@
             [phlox.comp.drag-point :refer [comp-drag-point]]
             [phlox.comp.switch :refer [comp-switch]]
             [phlox.app.comp.slider-demo :refer [comp-slider-demo]]
-            [phlox.input :refer [request-text!]]))
+            [phlox.input :refer [request-text!]]
+            [phlox.comp.messages :refer [comp-messages]]
+            ["shortid" :as shortid]))
 
 (defcomp
  comp-buttons
@@ -76,6 +78,41 @@
               :size [10 10],
               :fill (hslx 200 80 80),
               :on {:mouseover (fn [e d!] (println "hover:" x y))}})]))))))
+
+(defcomp
+ comp-messages-demo
+ (states)
+ (let [cursor (:cursor states), state (or (:data states) {:messages [], :bottom? false})]
+   (container
+    {}
+    (comp-button
+     {:text "Add message",
+      :position [400 200],
+      :on-click (fn [e d!]
+        (d!
+         cursor
+         (update
+          state
+          :messages
+          (fn [xs]
+            (conj
+             xs
+             {:id (.generate shortid), :text (str "Messages of. " (.generate shortid))})))))})
+    (comp-switch
+     {:value (:bottom? state),
+      :title "At bottom",
+      :position [400 280],
+      :on-change (fn [e d!] (d! cursor (update state :bottom? not)))})
+    (comp-messages
+     {:messages (:messages state),
+      :bottom? (:bottom? state),
+      :on-click (fn [message d!]
+        (d!
+         cursor
+         (update
+          state
+          :messages
+          (fn [xs] (->> xs (remove (fn [x] (= (:id x) (:id message)))) (vec))))))}))))
 
 (defcomp
  comp-points-demo
@@ -193,6 +230,7 @@
       :points (comp-points-demo (>> states :points))
       :switch (comp-switch-demo (>> states :switch))
       :input (comp-text-input)
+      :messages (comp-messages-demo (>> states :messages))
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))
