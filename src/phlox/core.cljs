@@ -59,8 +59,10 @@
   (dev-check props lilac-container)
   (create-element :container props children))
 
-(defn create-list [tag props children]
-  {:name tag, :phlox-node :element, :props props, :children (remove-nil-values children)})
+(defn create-list
+  ([props children] (create-list :container props children))
+  ([tag props children]
+   {:name tag, :phlox-node :element, :props props, :children (remove-nil-values children)}))
 
 (def lilac-arc
   (record+
