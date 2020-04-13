@@ -629,9 +629,9 @@ isexe@^2.0.0:
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
 ismobilejs@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npm.taobao.org/ismobilejs/download/ismobilejs-1.0.3.tgz#69ec3faccd17dfeeadd471e70955d1e192a46eb6"
-  integrity sha1-aew/rM0X3+6t1HHnCVXR4ZKkbrY=
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/ismobilejs/download/ismobilejs-1.1.0.tgz?cache=0&sync_timestamp=1586676903469&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fismobilejs%2Fdownload%2Fismobilejs-1.1.0.tgz#d37ceeac14905d55063cdcae2955688c170f3d5e"
+  integrity sha1-03zurBSQXVUGPNyuKVVojBcPPV4=
 
 md5.js@^1.3.4:
   version "1.3.5"
@@ -667,7 +667,7 @@ minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
 
 nanoid@^2.1.0:
   version "2.1.11"
-  resolved "https://registry.npm.taobao.org/nanoid/download/nanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
+  resolved "https://registry.npm.taobao.org/nanoid/download/nanoid-2.1.11.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnanoid%2Fdownload%2Fnanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
   integrity sha1-7CS4p1jVkVYVMbQXagHjq08PAoA=
 
 node-libs-browser@^2.0.0:
@@ -906,10 +906,10 @@ shadow-cljs-jar@1.3.2:
   resolved "https://registry.npm.taobao.org/shadow-cljs-jar/download/shadow-cljs-jar-1.3.2.tgz#97273afe1747b6a2311917c1c88d9e243c81957b"
   integrity sha1-lyc6/hdHtqIxGRfByI2eJDyBlXs=
 
-shadow-cljs@^2.8.94:
-  version "2.8.94"
-  resolved "https://registry.npm.taobao.org/shadow-cljs/download/shadow-cljs-2.8.94.tgz#62896a2478439d7c46cb4912e7c14c26e027d22b"
-  integrity sha1-YolqJHhDnXxGy0kS58FMJuAn0is=
+shadow-cljs@^2.8.95:
+  version "2.8.95"
+  resolved "https://registry.npm.taobao.org/shadow-cljs/download/shadow-cljs-2.8.95.tgz#e7ce47ea2a12107c8242250f3d7c33fd5566d437"
+  integrity sha1-585H6ioSEHyCQiUPPXwz/VVm1Dc=
   dependencies:
     node-libs-browser "^2.0.0"
     readline-sync "^1.4.7"
