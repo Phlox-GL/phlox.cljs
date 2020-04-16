@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.2.1-a2"]
+[quamolit/phlox "0.2.1-a4"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -207,6 +207,8 @@ Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for 
   :color (hslx 200 90 30),
   :on-change (fn [value d!] (d! cursor (assoc state :c value)))})
 ```
+
+Also `comp-slider-point` is a minimal version for `comp-slider`, it does not accept `:title`s.
 
 `phlox.comp.drag-point/comp-dragging-point` provides a point for dragging:
 

@@ -8,7 +8,7 @@
             [phlox.comp.button :refer [comp-button]]
             [phlox.comp.drag-point :refer [comp-drag-point]]
             [phlox.comp.switch :refer [comp-switch]]
-            [phlox.app.comp.slider-demo :refer [comp-slider-demo]]
+            [phlox.app.comp.slider-demo :refer [comp-slider-demo comp-slider-point-demo]]
             [phlox.input :refer [request-text!]]
             [phlox.comp.messages :refer [comp-messages]]
             ["shortid" :as shortid]))
@@ -202,7 +202,8 @@
    [:points "Points"]
    [:switch "Switch"]
    [:input "Input"]
-   [:messages "Messages"]])
+   [:messages "Messages"]
+   [:slider-point "Slider Point"]])
 
 (defcomp
  comp-container
@@ -231,6 +232,7 @@
       :switch (comp-switch-demo (>> states :switch))
       :input (comp-text-input)
       :messages (comp-messages-demo (>> states :messages))
+      :slider-point (comp-slider-point-demo (>> states :slider-point))
       (text
        {:text "Unknown",
         :style {:fill (hslx 0 100 80), :font-size 12, :font-family "Helvetica"}})))))
