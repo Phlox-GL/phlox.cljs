@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.2.1-a4"]
+[quamolit/phlox "0.2.1-a5"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -265,7 +265,12 @@ Also `comp-slider-point` is a minimal version for `comp-slider`, it does not acc
 To interact with text input:
 
 ```clojure
-(phlox.input/request-text! e {} (fn [result] (println "got:" result)))
+(phlox.input/request-text! e
+  {:placeholder "text.."
+   :initial "demo"
+   :textarea? false
+   :style {}}
+  (fn [result] (println "got:" result)))
 ```
 
 ### Workflow

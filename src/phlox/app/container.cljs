@@ -11,7 +11,8 @@
             [phlox.app.comp.slider-demo :refer [comp-slider-demo comp-slider-point-demo]]
             [phlox.input :refer [request-text!]]
             [phlox.comp.messages :refer [comp-messages]]
-            ["shortid" :as shortid]))
+            ["shortid" :as shortid]
+            [respo-ui.core :as ui]))
 
 (defcomp
  comp-buttons
@@ -182,14 +183,37 @@
 
 (defcomp
  comp-text-input
- ()
- (container
-  {}
-  (rect
-   {:position [200 10],
-    :size [40 20],
-    :fill (hslx 0 0 20),
-    :on {:click (fn [e d!] (request-text! e {} (fn [result] (println "got:" result))))}})))
+ (states)
+ (let [cursor (:cursor states)
+       state (or (:data states) {:text "initial text", :long-text "long.."})]
+   (container
+    {}
+    (rect
+     {:position [240 110],
+      :size [80 24],
+      :fill (hslx 0 0 20),
+      :on {:click (fn [e d!]
+             (request-text!
+              e
+              {:initial (:text state), :style {:color "blue"}}
+              (fn [result] (d! cursor (assoc state :text result)))))}}
+     (text
+      {:text (:text state), :position [6 4], :style {:font-size 14, :fill (hslx 0 0 80)}}))
+    (rect
+     {:position [240 180],
+      :size [200 100],
+      :fill (hslx 0 0 20),
+      :on {:click (fn [e d!]
+             (request-text!
+              e
+              {:initial (:long-text state),
+               :style {:font-family ui/font-code},
+               :textarea? true}
+              (fn [result] (d! cursor (assoc state :long-text result)))))}}
+     (text
+      {:text (:long-text state),
+       :position [6 4],
+       :style {:font-size 14, :fill (hslx 0 0 80)}})))))
 
 (def tabs
   [[:drafts "Drafts"]
@@ -230,7 +254,7 @@
       :slider (comp-slider-demo (>> states :slider))
       :points (comp-points-demo (>> states :points))
       :switch (comp-switch-demo (>> states :switch))
-      :input (comp-text-input)
+      :input (comp-text-input (>> states :input))
       :messages (comp-messages-demo (>> states :messages))
       :slider-point (comp-slider-point-demo (>> states :slider-point))
       (text
