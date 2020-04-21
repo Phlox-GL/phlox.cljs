@@ -1,6 +1,7 @@
-{:version "0.2.1-a5"
- :group-id "quamolit"
- :artifact-id "phlox"
- :skip-tag true
- :description "Pixi.js DSL in ClojureScript."
+{:version "0.2.1",
+ :group-id "quamolit",
+ :artifact-id "phlox",
+ :skip-tag true,
+ :description "Pixi.js DSL in ClojureScript.",
  :scm-url "https://github.com/Quamolit/phlox"}
+
