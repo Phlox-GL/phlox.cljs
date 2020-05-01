@@ -56,10 +56,10 @@
     (rect
      {:size [120 24],
       :fill fill,
-      :on {:mousedown (fn [e d!]
+      :on {:pointerdown (fn [e d!]
              (let [x1 (-> e .-data .-global .-x)]
                (d! cursor {:dragging? true, :v0 value, :x0 x1}))),
-           :mousemove (fn [e d!]
+           :pointermove (fn [e d!]
              (when (:dragging? state)
                (let [x2 (-> e .-data .-global .-x)]
                  (if (fn? on-change)
@@ -70,8 +70,8 @@
                         ((fn [v] (if (some? (:min props)) (max (:min props) v) v))))
                     d!)
                    (js/console.log "[slider] missing :on-change listener"))))),
-           :mouseup (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false})),
-           :mouseupoutside (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false}))}}
+           :pointerup (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false})),
+           :pointerupoutside (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false}))}}
      (text
       {:text (str "◀ " (if (number? value) (.toFixed value (if round? 0 4)) "nil") " ▶"),
        :position [4 4],
@@ -113,10 +113,10 @@
      {:size [12 12],
       :fill fill,
       :radius 4,
-      :on {:mousedown (fn [e d!]
+      :on {:pointerdown (fn [e d!]
              (let [x1 (-> e .-data .-global .-x)]
                (d! cursor {:dragging? true, :v0 value, :x0 x1}))),
-           :mousemove (fn [e d!]
+           :pointermove (fn [e d!]
              (when (:dragging? state)
                (let [x2 (-> e .-data .-global .-x)]
                  (if (fn? on-change)
@@ -127,8 +127,8 @@
                         ((fn [v] (if (some? (:min props)) (max (:min props) v) v))))
                     d!)
                    (js/console.log "[slider] missing :on-change listener"))))),
-           :mouseup (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false})),
-           :mouseupoutside (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false}))}}
+           :pointerup (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false})),
+           :pointerupoutside (fn [e d!] (d! cursor {:v0 value, :x0 0, :dragging? false}))}}
      (text
       {:text (str (if (number? value) (.toFixed value (if round? 0 4)) "nil")),
        :position [16 1],

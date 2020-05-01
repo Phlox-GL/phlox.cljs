@@ -54,10 +54,10 @@
         {:radius radius,
          :position [0 0],
          :fill fill,
-         :on {:mousedown (fn [e d!]
+         :on {:pointerdown (fn [e d!]
                 (let [x (-> e .-data .-global .-x), y (-> e .-data .-global .-y)]
                   (d! cursor (merge state {:dragging? true, :x0 [x y], :p0 position})))),
-              :mousemove (fn [e d!]
+              :pointermove (fn [e d!]
                 (when (:dragging? state)
                   (let [x (-> e .-data .-global .-x), y (-> e .-data .-global .-y)]
                     (let [x0 (:x0 state)]
@@ -66,8 +66,8 @@
                         (:p0 state)
                         [(* unit (- x (first x0))) (* unit (- y (peek x0)))])
                        d!))))),
-              :mouseup (fn [e d!] (d! cursor (assoc state :dragging? false))),
-              :mouseupoutside (fn [e d!] (d! cursor (assoc state :dragging? false)))}})
+              :pointerup (fn [e d!] (d! cursor (assoc state :dragging? false))),
+              :pointerupoutside (fn [e d!] (d! cursor (assoc state :dragging? false)))}})
        (if-not hide-text?
          (text
           {:text (str

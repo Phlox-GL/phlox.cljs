@@ -45,7 +45,8 @@
                          (if bottom?
                            [(- js/window.innerWidth 16) (- js/window.innerHeight 16)]
                            [(- js/window.innerWidth 16) 16]))
-       on-click (or (:on-click options) (fn [x d!] (println "missing message handler:" x)))]
+       on-pointerdown (or (:on-pointerdown options)
+                          (fn [x d!] (println "missing message handler:" x)))]
    (create-list
     :container
     {:position base-position}
@@ -61,4 +62,4 @@
                :color (:color options),
                :fill (:fill options),
                :align-right? true,
-               :on-click (fn [e d!] (on-click message d!))})]))))))
+               :on-pointerdown (fn [e d!] (on-pointerdown message d!))})]))))))
