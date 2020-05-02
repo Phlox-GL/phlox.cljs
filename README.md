@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.3.0-a1"]
+[quamolit/phlox "0.3.0-a2"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -26,7 +26,7 @@ Previews http://repo.quamolit.org/phlox/ .
    {:position [800 40],
     :size [60 34],
     :fill (hslx 40 80 80),
-    :on {:pointerdown (fn [e d!] (d! :demo nil))}}
+    :on {:pointertap (fn [e d!] (d! :demo nil))}}
    (text
     {:text "Demo",
      :position [808 44],
@@ -44,7 +44,7 @@ Previews http://repo.quamolit.org/phlox/ .
   (render! (comp-container @*store) dispatch! {:swap? true}))
 ```
 
-Notice that Phlox uses `:pointerdown` instead of `:click` for touch screen support.
+Notice that Phlox uses `:pointertap` instead of `:click` for touch screen support.
 
 ### Global keyboard events
 
@@ -69,7 +69,7 @@ Add a container:
   :rotation 0
   :alpha 1
   :on {
-    :pointerdown (fn [])
+    :pointertap (fn [])
   }
   :on-keyboard {
     :down (fn [])
@@ -90,7 +90,7 @@ Draw a circle:
   }
   :fill 0x000001
   :on {
-    :pointerdown (fn [])
+    :pointertap (fn [])
   }
   :alpha 1
   :on-keyboard {
@@ -112,7 +112,7 @@ Draw a rectangle:
   }
   :fill 0x000001
   :on {
-    :pointerdown (fn [])
+    :pointertap (fn [])
   }
   :radius 1
   :rotation 1
@@ -165,7 +165,7 @@ Draw graphics(use `phlox.core/g` for validations):
   :rotation 0
   :alpha 1
   :on {
-    :pointerdown (fn [])
+    :pointertap (fn [])
   }
   :on-keyboard {
     :down (fn [])
@@ -184,15 +184,15 @@ Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for 
  {:text "DEMO BUTTON",
   :position [100 0],
   :align-right? false
-  :on {:pointerdown (fn [e d!] (js/console.log "pointerdown event" e d!))}})
+  :on {:pointertap (fn [e d!] (js/console.log "pointertap event" e d!))}})
 
 (comp-button
  {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)}))
 
 (comp-button
- {:text "Quick pointerdown",
+ {:text "Quick pointertap",
   :position [100 0],
-  :on-pointerdown (fn [e d!] (js/console.log "pointerdown event" e d!))})
+  :on-pointertap (fn [e d!] (js/console.log "pointertap event" e d!))})
 ```
 
 `phlox.comp.slider/comp-slider` provides a little slider bar of a number, changes on dragging:
@@ -245,7 +245,7 @@ Also `comp-slider-point` is a minimal version for `comp-slider`, it does not acc
   :color (hslx 0 0 50)
   :fill (hslx 0 0 30)
   :bottom? false
-  :on-pointerdown (fn [message d!])})
+  :on-pointertap (fn [message d!])})
 ```
 
 ### Cursor and states

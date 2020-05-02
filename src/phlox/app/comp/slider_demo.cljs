@@ -85,7 +85,6 @@
       {:value (:d state),
        :position [20 180],
        :on-change (fn [value d!] (d! cursor (assoc state :d value))),
-       :title "Round",
        :round? true})
      (comp-slider-point
       (>> states :e)

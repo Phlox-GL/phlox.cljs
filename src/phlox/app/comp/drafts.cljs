@@ -14,13 +14,13 @@
     :radius 40,
     :line-style {:width 4, :color (hslx 0 80 50), :alpha 1},
     :fill (hslx 160 80 70),
-    :on {:pointerdown (fn [event dispatch!] (dispatch! :add-x nil))}})
+    :on {:pointertap (fn [event dispatch!] (dispatch! :add-x nil))}})
   (rect
    {:position [40 40],
     :size [50 50],
     :line-style {:width 4, :color (hslx 0 80 50), :alpha 1},
     :fill (hslx 200 80 80),
-    :on {:pointerdown (fn [e dispatch!] (dispatch! :add-x nil))},
+    :on {:pointertap (fn [e dispatch!] (dispatch! :add-x nil))},
     :rotation (+ 1 (* 0.1 x)),
     :pivot [0 0]}
    (text
@@ -58,4 +58,4 @@
     :rotation 0.1,
     :pivot [0 100],
     :alpha 0.5,
-    :on {:pointerdown (fn [e dispatch!] (println "clicked"))}})))
+    :on {:pointertap (fn [e dispatch!] (println "clicked"))}})))

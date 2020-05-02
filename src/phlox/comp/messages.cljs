@@ -32,7 +32,7 @@
     :fill (optional+ (number+)),
     :position (optional+ lilac-point),
     :bottom? (optional+ (boolean+)),
-    :on-click (fn+)}
+    :on-pointertap (fn+)}
    {:check-keys? true}))
 
 (defcomp
@@ -45,8 +45,8 @@
                          (if bottom?
                            [(- js/window.innerWidth 16) (- js/window.innerHeight 16)]
                            [(- js/window.innerWidth 16) 16]))
-       on-pointerdown (or (:on-pointerdown options)
-                          (fn [x d!] (println "missing message handler:" x)))]
+       on-pointertap (or (:on-pointertap options)
+                         (fn [x d!] (println "missing message handler:" x)))]
    (create-list
     :container
     {:position base-position}
@@ -62,4 +62,4 @@
                :color (:color options),
                :fill (:fill options),
                :align-right? true,
-               :on-pointerdown (fn [e d!] (on-pointerdown message d!))})]))))))
+               :on-pointertap (fn [e d!] (on-pointertap message d!))})]))))))
