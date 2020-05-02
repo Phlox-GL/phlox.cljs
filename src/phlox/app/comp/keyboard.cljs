@@ -15,7 +15,7 @@
     {:position [0 0],
      :size [160 40],
      :fill (hslx 0 0 50),
-     :on {:pointerdown (fn [e d!] (d! :toggle-keyboard nil))}})
+     :on {:pointertap (fn [e d!] (d! :toggle-keyboard nil))}})
    (text
     {:text (str "Toggle: " on?),
      :position [4 8],

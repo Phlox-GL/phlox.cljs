@@ -41,7 +41,7 @@
       :fill (if value (hslx 0 0 92) (hslx 0 0 50)),
       :position [0 0],
       :radius 3,
-      :on {:pointerdown (fn [e d!] (when (fn? on-change) (on-change (not value) d!)))}})
+      :on {:pointertap (fn [e d!] (when (fn? on-change) (on-change (not value) d!)))}})
     (text
      {:text (if value "On" "Off"),
       :position (if value [8 2] [24 2]),

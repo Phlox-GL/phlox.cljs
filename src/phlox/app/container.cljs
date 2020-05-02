@@ -22,13 +22,13 @@
   (comp-button
    {:text "DEMO BUTTON",
     :position [100 0],
-    :on {:pointerdown (fn [e d!] (js/console.log "clicked" e d!))}})
+    :on {:pointertap (fn [e d!] (js/console.log "clicked" e d!))}})
   (comp-button
    {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)})
   (comp-button
-   {:text "Short hand pointerdown",
+   {:text "Short hand pointertap",
     :position [100 120],
-    :on-pointerdown (fn [e d!] (println "clicked"))})))
+    :on-pointertap (fn [e d!] (println "clicked"))})))
 
 (defcomp
  comp-curves
@@ -89,7 +89,7 @@
     (comp-button
      {:text "Add message",
       :position [400 200],
-      :on-pointerdown (fn [e d!]
+      :on-pointertap (fn [e d!]
         (d!
          cursor
          (update
@@ -107,7 +107,7 @@
     (comp-messages
      {:messages (:messages state),
       :bottom? (:bottom? state),
-      :on-pointerdown (fn [message d!]
+      :on-pointertap (fn [message d!]
         (d!
          cursor
          (update
@@ -175,7 +175,7 @@
    {:position [0 0],
     :size [160 32],
     :fill (if selected? (hslx 180 50 50) (hslx 180 50 30)),
-    :on {:pointerdown (fn [event dispatch!] (dispatch! :tab tab-value))}})
+    :on {:pointertap (fn [event dispatch!] (dispatch! :tab tab-value))}})
   (text
    {:text tab-title,
     :style {:fill (hslx 200 90 100), :font-size 20, :font-family "Josefin Sans"},
@@ -192,7 +192,7 @@
      {:position [240 110],
       :size [80 24],
       :fill (hslx 0 0 20),
-      :on {:pointerdown (fn [e d!]
+      :on {:pointertap (fn [e d!]
              (request-text!
               e
               {:initial (:text state), :style {:color "blue"}}
@@ -203,7 +203,7 @@
      {:position [240 180],
       :size [200 100],
       :fill (hslx 0 0 20),
-      :on {:pointerdown (fn [e d!]
+      :on {:pointertap (fn [e d!]
              (request-text!
               e
               {:initial (:long-text state),
