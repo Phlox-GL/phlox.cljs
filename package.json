@@ -1,6 +1,6 @@
 {
   "name": "phlox",
-  "version": "0.3.0-a1",
+  "version": "0.3.0-a2",
   "description": "a PIXI DSL in ClojureScript",
   "main": "index.js",
   "scripts": {
