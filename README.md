@@ -11,7 +11,7 @@ Previews http://repo.quamolit.org/phlox/ .
 [![Clojars Project](https://img.shields.io/clojars/v/quamolit/phlox.svg)](https://clojars.org/quamolit/phlox)
 
 ```edn
-[quamolit/phlox "0.2.1-a5"]
+[quamolit/phlox "0.3.0-a1"]
 ```
 
 `render!` to add canvas to `<body/>`:
@@ -43,6 +43,8 @@ Previews http://repo.quamolit.org/phlox/ .
 (defn reload! []
   (render! (comp-container @*store) dispatch! {:swap? true}))
 ```
+
+Notice that Phlox uses `:pointerdown` instead of `:click` for touch screen support.
 
 ### Global keyboard events
 
@@ -182,15 +184,15 @@ Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for 
  {:text "DEMO BUTTON",
   :position [100 0],
   :align-right? false
-  :on {:click (fn [e d!] (js/console.log "clicked" e d!))}})
+  :on {:pointerdown (fn [e d!] (js/console.log "pointerdown event" e d!))}})
 
 (comp-button
  {:text "Blue", :position [100 60], :color (hslx 0 80 70), :fill (hslx 200 80 40)}))
 
 (comp-button
- {:text "Quick click",
+ {:text "Quick pointerdown",
   :position [100 0],
-  :on-click (fn [e d!] (js/console.log "clicked" e d!))})
+  :on-pointerdown (fn [e d!] (js/console.log "pointerdown event" e d!))})
 ```
 
 `phlox.comp.slider/comp-slider` provides a little slider bar of a number, changes on dragging:
@@ -243,7 +245,7 @@ Also `comp-slider-point` is a minimal version for `comp-slider`, it does not acc
   :color (hslx 0 0 50)
   :fill (hslx 0 0 30)
   :bottom? false
-  :on-click (fn [message d!])})
+  :on-pointerdown (fn [message d!])})
 ```
 
 ### Cursor and states

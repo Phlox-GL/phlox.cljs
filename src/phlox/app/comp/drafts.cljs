@@ -14,13 +14,13 @@
     :radius 40,
     :line-style {:width 4, :color (hslx 0 80 50), :alpha 1},
     :fill (hslx 160 80 70),
-    :on {:mousedown (fn [event dispatch!] (dispatch! :add-x nil))}})
+    :on {:pointerdown (fn [event dispatch!] (dispatch! :add-x nil))}})
   (rect
    {:position [40 40],
     :size [50 50],
     :line-style {:width 4, :color (hslx 0 80 50), :alpha 1},
     :fill (hslx 200 80 80),
-    :on {:mousedown (fn [e dispatch!] (dispatch! :add-x nil))},
+    :on {:pointerdown (fn [e dispatch!] (dispatch! :add-x nil))},
     :rotation (+ 1 (* 0.1 x)),
     :pivot [0 0]}
    (text

@@ -31,7 +31,7 @@
     :font-family (string+),
     :position (tuple+ [(number+) (number+)]),
     :on lilac-event-map,
-    :on-click (fn+),
+    :on-pointerdown (fn+),
     :align-right? (boolean+)}
    {:all-optional? true, :check-keys? true}))
 
@@ -54,7 +54,7 @@
       :size [width 32],
       :on (cond
         (some? (:on props)) (:on props)
-        (some? (:on-click props)) {:click (:on-click props)}
+        (some? (:on-pointerdown props)) {:pointerdown (:on-pointerdown props)}
         :else (do))})
     (text
      {:text button-text,
