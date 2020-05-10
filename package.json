@@ -1,6 +1,6 @@
 {
   "name": "phlox",
-  "version": "0.3.0-a2",
+  "version": "0.3.0",
   "description": "a PIXI DSL in ClojureScript",
   "main": "index.js",
   "scripts": {
@@ -18,11 +18,11 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
-    "shadow-cljs": "^2.8.98"
+    "shadow-cljs": "^2.9.0"
   },
   "dependencies": {
     "fontfaceobserver": "^2.1.0",
-    "pixi.js": "^5.2.1",
+    "pixi.js": "^5.2.4",
     "shortid": "^2.2.15"
   }
 }
