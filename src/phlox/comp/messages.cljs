@@ -28,12 +28,12 @@
 (def lilac-messages
   (record+
    {:messages lilac-message-list,
-    :color (optional+ (number+)),
-    :fill (optional+ (number+)),
-    :position (optional+ lilac-point),
-    :bottom? (optional+ (boolean+)),
+    :color (number+),
+    :fill (number+),
+    :position lilac-point,
+    :bottom? (boolean+),
     :on-pointertap (fn+)}
-   {:check-keys? true}))
+   {:check-keys? true, :all-optional? true}))
 
 (defcomp
  comp-messages
