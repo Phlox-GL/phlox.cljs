@@ -31,6 +31,12 @@
        (into {})
        (clj->js)))
 
+(defn detect-func-in-map? [params]
+  (if (empty? params)
+    false
+    (let [p0 (first params)]
+      (if (and (map? p0) (some (fn [[k v]] (fn? v)) p0)) true (recur (rest params))))))
+
 (defn element? [x] (= :element (:phlox-node x)))
 
 (defn index-items [xs] (->> xs (map-indexed (fn [idx x] [idx x]))))
