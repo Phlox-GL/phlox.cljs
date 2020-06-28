@@ -2,8 +2,7 @@
 (ns phlox.core
   (:require ["pixi.js" :as PIXI]
             [phlox.render :refer [render-element update-element update-children]]
-            [phlox.util :refer [index-items remove-nil-values]]
-            [phlox.render.expand :refer [expand-tree]]
+            [phlox.util :refer [index-items remove-nil-values detect-func-in-map?]]
             ["./hue-to-rgb" :refer [hslToRgb]]
             [phlox.check
              :refer
@@ -30,7 +29,8 @@
               boolean+
               vector+
               or+]]
-            [phlox.keyboard :refer [handle-keyboard-events]])
+            [phlox.keyboard :refer [handle-keyboard-events]]
+            [caches.core :as caches])
   (:require-macros [phlox.core]))
 
 (defonce *app (atom nil))
@@ -45,6 +45,12 @@
   (let [parent-cursor (or (:cursor states) []), branch (get states k)]
     (assoc branch :cursor (conj parent-cursor k))))
 
+(defn call-comp-helper [f params]
+  (if (or (some fn? params))
+    (apply f params)
+    (let [xs (concat [f] params), v (caches/access-cache xs)]
+      (if (some? v) v (let [result (apply f params)] (caches/write-cache! xs result) result)))))
+
 (defn create-element [tag props children]
   {:name tag,
    :phlox-node :element,
@@ -54,6 +60,8 @@
 (defn circle [props & children]
   (dev-check props lilac-circle)
   (create-element :circle props children))
+
+(defn clear-phlox-caches! [] (caches/reset-caches!))
 
 (defn container [props & children]
   (dev-check props lilac-container)
@@ -126,7 +134,7 @@
    dispatch!
    options))
 
-(defn render! [app dispatch! options]
+(defn render! [expanded-app dispatch! options]
   (when (nil? @*app)
     (let [pixi-app (PIXI/Application.
                     (clj->js
@@ -144,8 +152,7 @@
        "resize"
        (fn [] (-> pixi-app .-renderer (.resize js/window.innerWidth js/window.innerHeight)))))
     (set! js/window._phloxTree @*app))
-  (let [expanded-app (expand-tree app)
-        wrap-dispatch (fn [op data]
+  (let [wrap-dispatch (fn [op data]
                         (if (vector? op) (dispatch! :states [op data]) (dispatch! op data)))]
     (comment js/console.log "render!" expanded-app)
     (if (nil? @*tree-element)
@@ -153,7 +160,8 @@
        (mount-app! expanded-app wrap-dispatch)
        (handle-keyboard-events *tree-element wrap-dispatch))
       (rerender-app! expanded-app wrap-dispatch options))
-    (reset! *tree-element expanded-app)))
+    (reset! *tree-element expanded-app))
+  (caches/new-loop!))
 
 (defn text [props & children]
   (dev-check props lilac-text)

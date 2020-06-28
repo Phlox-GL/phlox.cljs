@@ -1,7 +1,7 @@
 
 (ns phlox.app.main
   (:require ["pixi.js" :as PIXI]
-            [phlox.core :refer [render!]]
+            [phlox.core :refer [render! clear-phlox-caches!]]
             [phlox.app.container :refer [comp-container]]
             [phlox.app.schema :as schema]
             [phlox.app.config :refer [dev?]]
@@ -26,4 +26,5 @@
 
 (defn reload! []
   (println "Code updated")
+  (clear-phlox-caches!)
   (render! (comp-container @*store) dispatch! {:swap? true}))
