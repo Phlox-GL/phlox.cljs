@@ -20,7 +20,7 @@
               vector+
               or+
               is+]]
-            [phlox.math :refer [v-add]]))
+            [phlox.complex :as complex]))
 
 (def lilac-cursor (vector+ (any+ {:some? true})))
 
@@ -62,7 +62,7 @@
                   (let [x (-> e .-data .-global .-x), y (-> e .-data .-global .-y)]
                     (let [x0 (:x0 state)]
                       (on-change
-                       (v-add
+                       (complex/add
                         (:p0 state)
                         [(* unit (- x (first x0))) (* unit (- y (peek x0)))])
                        d!))))),
