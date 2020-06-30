@@ -212,7 +212,7 @@ Notice that Pixi.js takes colors in hex numbers. `phlox.core/hslx` is added for 
 
 Also `comp-slider-point` is a minimal version for `comp-slider`, it does not accept `:title`s.
 
-`phlox.comp.drag-point/comp-dragging-point` provides a point for dragging:
+`phlox.comp.drag-point/comp-drag-point` provides a point for dragging:
 
 ```clojure
 (comp-drag-point (>> states :p3)
