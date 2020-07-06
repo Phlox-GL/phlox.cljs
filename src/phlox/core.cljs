@@ -37,6 +37,8 @@
 
 (defonce *events-element (atom nil))
 
+(defonce *phlox-caches (caches/new-caches {}))
+
 (defonce *renderer (atom nil))
 
 (defonce *tree-element (atom nil))
@@ -48,8 +50,10 @@
 (defn call-comp-helper [f params]
   (if (or (some fn? params))
     (apply f params)
-    (let [xs (concat [f] params), v (caches/access-cache xs)]
-      (if (some? v) v (let [result (apply f params)] (caches/write-cache! xs result) result)))))
+    (let [xs (concat [f] params), v (caches/access-cache *phlox-caches xs)]
+      (if (some? v)
+        v
+        (let [result (apply f params)] (caches/write-cache! *phlox-caches xs result) result)))))
 
 (defn create-element [tag props children]
   {:name tag,
@@ -61,7 +65,7 @@
   (dev-check props lilac-circle)
   (create-element :circle props children))
 
-(defn clear-phlox-caches! [] (caches/reset-caches!))
+(defn clear-phlox-caches! [] (caches/reset-caches! *phlox-caches))
 
 (defn container [props & children]
   (dev-check props lilac-container)
@@ -161,7 +165,7 @@
        (handle-keyboard-events *tree-element wrap-dispatch))
       (rerender-app! expanded-app wrap-dispatch options))
     (reset! *tree-element expanded-app))
-  (caches/new-loop!))
+  (caches/new-loop! *phlox-caches))
 
 (defn text [props & children]
   (dev-check props lilac-text)
