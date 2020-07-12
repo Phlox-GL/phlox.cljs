@@ -37,8 +37,7 @@
 
 (defonce *events-element (atom nil))
 
-(defonce *phlox-caches
-  (atom (memof/new-states {:cold-duration 100, :trigger-loop 200, :elapse-loop 600})))
+(defonce *phlox-caches (atom (memof/new-states {:trigger-loop 200, :elapse-loop 600})))
 
 (defonce *renderer (atom nil))
 

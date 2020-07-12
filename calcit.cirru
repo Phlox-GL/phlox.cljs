@@ -14509,11 +14509,6 @@
                       |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1594053571185)
                         :data $ {}
                           |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1594053571580) (:text |{}) (:id |ZnEM2IFRc)
-                          |j $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1594488461962)
-                            :data $ {}
-                              |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1594488491344) (:text |:cold-duration) (:id |SK2OGAmeGJ)
-                              |j $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1594489715135) (:text |100) (:id |F27tsepxy)
-                            :id |-Id6j6pkst
                           |r $ {} (:type :expr) (:by |rJG4IHzWf) (:at 1594488497725)
                             :data $ {}
                               |T $ {} (:type :leaf) (:by |rJG4IHzWf) (:at 1594488499918) (:text |:trigger-loop) (:id |JJDwSAp0xleaf)
