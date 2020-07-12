@@ -4,14 +4,14 @@
     mvc-works/lilac {:mvn/version "0.1.6"}
     respo/ui {:mvn/version "0.3.15"}
     respo {:mvn/version "0.12.3"}
-    cumulo/caches {:mvn/version "0.1.1-a3"}
+    cumulo/memof {:mvn/version "0.2.0-a2"}
   }
   :aliases {
     :release {
       :extra-deps {
-        appliedscience/deps-library {:mvn/version "0.3.4"}
+        applied-science/deps-library {:mvn/version "0.4.0"}
       }
-      :main-opts ["-m" "deps-library.release"]
+      :main-opts ["-m" "applied-science.deps-library"]
     }
   }
 }

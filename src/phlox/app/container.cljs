@@ -73,8 +73,8 @@
   (create-list
    :container
    {:position [200 20]}
-   (->> (range 40)
-        (mapcat (fn [x] (->> (range 30) (map (fn [y] [x y])))))
+   (->> (range 60)
+        (mapcat (fn [x] (->> (range 40) (map (fn [y] [x y])))))
         (map
          (fn [[x y]]
            [(str x "+" y)
