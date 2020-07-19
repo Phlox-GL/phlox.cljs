@@ -923,10 +923,10 @@ shadow-cljs-jar@1.3.2:
   resolved "https://registry.npm.taobao.org/shadow-cljs-jar/download/shadow-cljs-jar-1.3.2.tgz#97273afe1747b6a2311917c1c88d9e243c81957b"
   integrity sha1-lyc6/hdHtqIxGRfByI2eJDyBlXs=
 
-shadow-cljs@^2.10.14:
-  version "2.10.14"
-  resolved "https://registry.npm.taobao.org/shadow-cljs/download/shadow-cljs-2.10.14.tgz#b2406619b09f2f2fd00b0b8cb0d125ff9b7c72a7"
-  integrity sha1-skBmGbCfLy/QCwuMsNEl/5t8cqc=
+shadow-cljs@^2.10.15:
+  version "2.10.15"
+  resolved "https://registry.npm.taobao.org/shadow-cljs/download/shadow-cljs-2.10.15.tgz#135de3a5583f773610ecfeb5127ad2f91d58bad0"
+  integrity sha1-E13jpVg/dzYQ7P61EnrS+R1YutA=
   dependencies:
     node-libs-browser "^2.0.0"
     readline-sync "^1.4.7"
