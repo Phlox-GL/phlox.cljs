@@ -1,10 +1,10 @@
 {
   :paths ["src" "macros"]
   :deps {
-    mvc-works/lilac {:mvn/version "0.1.6"}
-    respo/ui {:mvn/version "0.3.15"}
-    respo {:mvn/version "0.13.0"}
-    cumulo/memof {:mvn/version "0.2.0"}
+    mvc-works/lilac {:mvn/version "0.1.7"}
+    respo/ui {:mvn/version "0.3.16"}
+    respo {:mvn/version "0.13.4"}
+    cumulo/memof {:mvn/version "0.2.2"}
   }
   :aliases {
     :release {

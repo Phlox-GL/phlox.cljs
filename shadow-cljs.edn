@@ -5,11 +5,11 @@
     [mvc-works/hsl "0.1.2"]
     [mvc-works/shell-page "0.1.15"]
     [cumulo/util "0.1.12"]
-    [respo "0.13.0"]
-    [respo/ui "0.3.15"]
-    [cumulo/memof "0.2.0"]
+    [respo "0.13.4"]
+    [respo/ui "0.3.16"]
+    [cumulo/memof "0.2.2"]
     [org.clojure/core.incubator "0.1.4"]
-    [mvc-works/lilac "0.1.6"]
+    [mvc-works/lilac "0.1.7"]
   ]
   :open-file-command [
     "subl"
